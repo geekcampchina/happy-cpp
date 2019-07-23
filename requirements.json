@@ -1,0 +1,13 @@
+{
+    "library": [
+        "boost",
+        "gettext",
+        "gtest",
+        "pugixml",
+        "curl",
+        "openssl"
+    ]
+}
+
+
+
