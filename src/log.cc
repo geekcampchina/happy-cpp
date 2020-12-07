@@ -21,6 +21,7 @@
 #include "happycpp/log.h"
 #include <log4cplus/configurator.h>
 #include <log4cplus/helpers/loglog.h>
+#include <log4cplus/consoleappender.h>
 #include <log4cplus/helpers/fileinfo.h>
 #include <log4cplus/initializer.h>
 
@@ -33,6 +34,13 @@ namespace happycpp {
         HappyLogPtr HappyLog::_instance = nullptr;
 
         HappyLog::HappyLog() {
+            log4cplus::SharedAppenderPtr defaultAppend(new log4cplus::ConsoleAppender(false, true));
+            defaultAppend->setName(LOG4CPLUS_TEXT("Console"));
+
+            log4cplus::tstring pattern = LOG4CPLUS_TEXT("%d{%Y-%m-%d %H:%M:%S.%q} %-5i %-5p %c ---- %m%n");
+            defaultAppend->setLayout(std::unique_ptr<Layout>(new PatternLayout(pattern)) );
+            Logger::getRoot().addAppender(defaultAppend);
+
             _logger = Logger::getRoot();
         }
 
