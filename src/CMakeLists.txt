@@ -36,7 +36,8 @@ SET(SRC_LIST
         cmd.cc
         filesys.cc
         proc.cc
-        os.cc)
+        os.cc
+        logv2.cc)
 
 IF (MSVC)
     SET(SRC_LIST ${SRC_LIST} windows.cc)
