@@ -19,14 +19,14 @@
 // IN THE SOFTWARE.
 
 #include <gtest/gtest.h>
-#include <happycpp/algorithm/int.h>
+#include "happycpp/algorithm/int.h"
 
 namespace hhhint = happycpp::hcalgorithm::hcint;
 
 TEST(HCINT_UNITTEST, DecToHex) {
-  ASSERT_EQ("ff", hhhint::DecToHex(255));
+    ASSERT_EQ("ff", hhhint::DecToHex(255));
 }
 
 TEST(HCINT_UNITTEST, IsOddNum) {
-  ASSERT_TRUE(hhhint::IsOddNum(3));
+    ASSERT_TRUE(hhhint::IsOddNum(3));
 }

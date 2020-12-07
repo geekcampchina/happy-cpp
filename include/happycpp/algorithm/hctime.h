@@ -24,20 +24,20 @@
 #ifndef INCLUDE_HAPPYCPP_ALGORITHM_TIME_H_
 #define INCLUDE_HAPPYCPP_ALGORITHM_TIME_H_
 
-#include <happycpp/common.h>
+#include "happycpp/common.h"
 #include <string>
 #include <ctime>
 
 namespace happycpp {
 
-namespace hcalgorithm {
+    namespace hcalgorithm {
 
-namespace hctime {
+        namespace hctime {
 // 延迟指定的时间，单位:秒
-HAPPYCPP_SHARED_LIB_API void HappyWait(const time_t &sec);
+            HAPPYCPP_SHARED_LIB_API void HappyWait(const time_t &sec);
 
 // 延迟指定的时间，单位:毫秒
-HAPPYCPP_SHARED_LIB_API void HappySleep(const time_t &milli_sec);
+            HAPPYCPP_SHARED_LIB_API void HappySleep(const time_t &milli_sec);
 
 /*
  比较格式相同的日期字符串
@@ -45,8 +45,8 @@ HAPPYCPP_SHARED_LIB_API void HappySleep(const time_t &milli_sec);
  第一个日期和第二个日期相等，返回值等于0
  第一个日期比第二个日期晚，返回值大于0
  */
-HAPPYCPP_SHARED_LIB_API CmpResult CmpDate(const std::string &d1,
-                                          const std::string &d2);
+            HAPPYCPP_SHARED_LIB_API CmpResult CmpDate(const std::string &d1,
+                                                      const std::string &d2);
 
 /**
  * @brief 按照制定样式格式化时间
@@ -54,11 +54,11 @@ HAPPYCPP_SHARED_LIB_API CmpResult CmpDate(const std::string &d1,
  * @param format 样式
  * @return 字符串
  */
-std::string GetFormatTime(const time_t t, const std::string &format);
+            std::string GetFormatTime(time_t t, const std::string &format);
 
-} /* namespace hctime */
+        } /* namespace hctime */
 
-} /* namespace hcalgorithm */
+    } /* namespace hcalgorithm */
 
 } /* namespace happycpp */
 

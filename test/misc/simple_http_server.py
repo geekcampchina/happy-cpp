@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 
-from http.server import BaseHTTPRequestHandler
 import socketserver
+from http.server import BaseHTTPRequestHandler
+
 
 class ServerHandler(BaseHTTPRequestHandler):
     def do_HEAD(self):
@@ -13,6 +14,7 @@ class ServerHandler(BaseHTTPRequestHandler):
         self.send_header('ETag', '"57999a2b-2"')
         self.send_header('Accept-Ranges', 'bytes')
         self.end_headers()
+
 
 Handler = ServerHandler
 

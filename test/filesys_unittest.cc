@@ -19,60 +19,60 @@
 // IN THE SOFTWARE.
 
 #include <gtest/gtest.h>
-#include <happycpp/filesys.h>
-#include <happycpp/exception.h>
+#include "happycpp/filesys.h"
+#include "happycpp/exception.h"
 #include <cstdlib>
 
 namespace hhfilesys = happycpp::hcfilesys;
 
 TEST(HCFILESYS_UNITTEST, HappyCreateFile) {
-  ASSERT_TRUE(hhfilesys::HappyCreateFile("testFile"));
-  ASSERT_TRUE(bfs::remove("testFile"));
+    ASSERT_TRUE(hhfilesys::HappyCreateFile("testFile"));
+    ASSERT_TRUE(bfs::remove("testFile"));
 }
 
 TEST(HCFILESYS_UNITTEST, ReadFile1_and_WriteFile1) {
-  ASSERT_TRUE(hhfilesys::WriteFile("testFile", "1234567890"));
+    ASSERT_TRUE(hhfilesys::WriteFile("testFile", "1234567890"));
 
-  const std::string s = hhfilesys::ReadFile("testFile");
-  EXPECT_STREQ("1234567890", s.c_str());
+    const std::string s = hhfilesys::ReadFile("testFile");
+    EXPECT_STREQ("1234567890", s.c_str());
 
-  bfs::remove("testFile");
+    bfs::remove("testFile");
 }
 
 TEST(HCFILESYS_UNITTEST, ReadFile2_and_WriteFile2) {
-  std::vector<std::string> v1 { "1234567890", "abcdefg", "ABCDEFG" };
-  std::vector<std::string> v2;
+    std::vector<std::string> v1{"1234567890", "abcdefg", "ABCDEFG"};
+    std::vector<std::string> v2;
 
-  ASSERT_TRUE(hhfilesys::WriteFile("testFile", v1));
-  ASSERT_TRUE(hhfilesys::ReadFile("testFile", &v2));
-  EXPECT_EQ(3U, v2.size());
-  EXPECT_STREQ("1234567890", v2[0].c_str());
-  EXPECT_STREQ("abcdefg", v2[1].c_str());
-  EXPECT_STREQ("ABCDEFG", v2[2].c_str());
+    ASSERT_TRUE(hhfilesys::WriteFile("testFile", v1));
+    ASSERT_TRUE(hhfilesys::ReadFile("testFile", &v2));
+    EXPECT_EQ(3U, v2.size());
+    EXPECT_STREQ("1234567890", v2[0].c_str());
+    EXPECT_STREQ("abcdefg", v2[1].c_str());
+    EXPECT_STREQ("ABCDEFG", v2[2].c_str());
 
-  bfs::remove("testFile");
+    bfs::remove("testFile");
 }
 
 TEST(HCFILESYS_UNITTEST, GetFilesInDir) {
-  bfs::create_directories("test_dir" OsSeparator "sub");
-  hhfilesys::HappyCreateFile("test_dir" OsSeparator "f1.txt");
-  hhfilesys::HappyCreateFile("test_dir" OsSeparator "f2.txt");
+    bfs::create_directories("test_dir" OsSeparator "sub");
+    hhfilesys::HappyCreateFile("test_dir" OsSeparator "f1.txt");
+    hhfilesys::HappyCreateFile("test_dir" OsSeparator "f2.txt");
 
-  std::vector<FileStat> v;
+    std::vector<FileStat> v;
 
-  EXPECT_NO_THROW(hhfilesys::GetFilesInDir("test_dir", kAll, &v));
-  EXPECT_EQ(3U, v.size());
+    EXPECT_NO_THROW(hhfilesys::GetFilesInDir("test_dir", kAll, &v));
+    EXPECT_EQ(3U, v.size());
 
-  EXPECT_NO_THROW(hhfilesys::GetFilesInDir("test_dir", kFile, &v));
-  EXPECT_EQ(2U, v.size());
+    EXPECT_NO_THROW(hhfilesys::GetFilesInDir("test_dir", kFile, &v));
+    EXPECT_EQ(2U, v.size());
 
-  const bool f1 = (v[0].name == "f1.txt" || v[1].name == "f1.txt");
-  const bool f2 = (v[0].name == "f2.txt" || v[1].name == "f2.txt");
-  EXPECT_TRUE(f1 && f2);
+    const bool f1 = (v[0].name == "f1.txt" || v[1].name == "f1.txt");
+    const bool f2 = (v[0].name == "f2.txt" || v[1].name == "f2.txt");
+    EXPECT_TRUE(f1 && f2);
 
-  EXPECT_NO_THROW(hhfilesys::GetFilesInDir("test_dir", kDir, &v));
-  EXPECT_EQ(1U, v.size());
-  EXPECT_STREQ("sub", v[0].name.c_str());
+    EXPECT_NO_THROW(hhfilesys::GetFilesInDir("test_dir", kDir, &v));
+    EXPECT_EQ(1U, v.size());
+    EXPECT_STREQ("sub", v[0].name.c_str());
 
-  bfs::remove_all("test_dir");
+    bfs::remove_all("test_dir");
 }

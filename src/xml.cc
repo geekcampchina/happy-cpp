@@ -18,7 +18,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#include <happycpp/xml.h>
+#include "happycpp/xml.h"
 
 using pugi::xml_parse_result;
 using pugi::xpath_node_set;
@@ -26,115 +26,115 @@ using std::ostringstream;
 
 namespace happycpp {
 
-namespace hcxml {
+    namespace hcxml {
 
 /* 在源xml中查找指定的节点，返回匹配的节点数量
  * xpath表示指定的节点路径 */
-size_t SpecNodeSize(const std::string &xml, const std::string &xpath) {
-  pugi::xml_document doc;
-  pugi::xml_parse_result result = doc.load_string(xml.c_str());
+        size_t SpecNodeSize(const std::string &xml, const std::string &xpath) {
+            pugi::xml_document doc;
+            pugi::xml_parse_result result = doc.load_string(xml.c_str());
 
-  if (result) {
-    /* 未使用 select_single_node 是因为
-     * select_nodes可以返回匹配的节点数量，判断是否有匹配的结果 */
-    const xpath_node_set nodes = doc.select_nodes(xpath.c_str());
-    return nodes.size();
-  }
+            if (result) {
+                /* 未使用 select_single_node 是因为
+                 * select_nodes可以返回匹配的节点数量，判断是否有匹配的结果 */
+                const xpath_node_set nodes = doc.select_nodes(xpath.c_str());
+                return nodes.size();
+            }
 
-  return 0;
-}
+            return 0;
+        }
 
-std::string ToStr(pugi::xml_document *doc, const std::string &indent) {
-  ostringstream ss;
+        std::string ToStr(pugi::xml_document *doc, const std::string &indent) {
+            ostringstream ss;
 
-  if (doc) {
-    pugi::xml_node decl = doc->prepend_child(pugi::node_declaration);
-    decl.append_attribute("version") = "1.0";
-    decl.append_attribute("encoding") = "UTF-8";
+            if (doc) {
+                pugi::xml_node decl = doc->prepend_child(pugi::node_declaration);
+                decl.append_attribute("version") = "1.0";
+                decl.append_attribute("encoding") = "UTF-8";
 
-    doc->save(ss, indent.c_str());
-    return ss.str();
-  }
+                doc->save(ss, indent.c_str());
+                return ss.str();
+            }
 
-  return "";
-}
+            return "";
+        }
 
-std::string LoadFromFile(const std::string &f) {
-  pugi::xml_document doc;
-  pugi::xml_parse_result result = doc.load_file(f.c_str());
+        std::string LoadFromFile(const std::string &f) {
+            pugi::xml_document doc;
+            pugi::xml_parse_result result = doc.load_file(f.c_str());
 
-  if (result)
-    return ToStr(&doc);
+            if (result)
+                return ToStr(&doc);
 
-  return "";
-}
+            return "";
+        }
 
-std::string Format(const std::string &xml, const std::string &indent) {
-  pugi::xml_document doc;
-  pugi::xml_parse_result result = doc.load_string(xml.c_str());
+        std::string Format(const std::string &xml, const std::string &indent) {
+            pugi::xml_document doc;
+            pugi::xml_parse_result result = doc.load_string(xml.c_str());
 
-  if (result)
-    return ToStr(&doc, indent);
+            if (result)
+                return ToStr(&doc, indent);
 
-  return xml;
-}
+            return xml;
+        }
 
 /* 验证字符串是否是xml格式 */
-bool Validate(const std::string &xml) {
-  pugi::xml_document doc;
-  return doc.load_string(xml.c_str());
-}
+        bool Validate(const std::string &xml) {
+            pugi::xml_document doc;
+            return doc.load_string(xml.c_str());
+        }
 
-bool GetValue(const pugi::xml_node &src, const std::string &key,
-              std::string *value) {
-  if (key.empty())
-    return false;
+        bool GetValue(const pugi::xml_node &src, const std::string &key,
+                      std::string *value) {
+            if (key.empty())
+                return false;
 
-  const std::string xpath_query(key);
-  /* 未使用 select_single_node 是因为
-   * select_nodes可以返回匹配的节点数量，判断是否有匹配的结果 */
-  pugi::xpath_node_set nodes = src.select_nodes(xpath_query.c_str());
+            const std::string& xpath_query(key);
+            /* 未使用 select_single_node 是因为
+             * select_nodes可以返回匹配的节点数量，判断是否有匹配的结果 */
+            pugi::xpath_node_set nodes = src.select_nodes(xpath_query.c_str());
 
-  if (nodes.empty())
-    return false;
+            if (nodes.empty())
+                return false;
 
-  *value = move(std::string(nodes.first().node().child_value()));
-  return true;
-}
+            *value = std::string(nodes.first().node().child_value());
+            return true;
+        }
 
-bool GetValue(const std::string &src, const std::string &key,
-              std::string *value) {
-  if (src.empty() || key.empty())
-    return false;
+        bool GetValue(const std::string &src, const std::string &key,
+                      std::string *value) {
+            if (src.empty() || key.empty())
+                return false;
 
-  pugi::xml_document doc;
-  pugi::xml_parse_result result = doc.load_string(src.c_str());
+            pugi::xml_document doc;
+            pugi::xml_parse_result result = doc.load_string(src.c_str());
 
-  if (!result)
-    return false;
+            if (!result)
+                return false;
 
-  const std::string xpath_query("//" + key);
-  /* 未使用 select_single_node 是因为
-   * select_nodes可以返回匹配的节点数量，判断是否有匹配的结果 */
-  xpath_node_set nodes = doc.select_nodes(xpath_query.c_str());
+            const std::string xpath_query("//" + key);
+            /* 未使用 select_single_node 是因为
+             * select_nodes可以返回匹配的节点数量，判断是否有匹配的结果 */
+            xpath_node_set nodes = doc.select_nodes(xpath_query.c_str());
 
-  if (nodes.empty())
-    return false;
+            if (nodes.empty())
+                return false;
 
-  *value = move(std::string(nodes.first().node().child_value()));
+            *value = std::string(nodes.first().node().child_value());
 
-  return true;
-}
+            return true;
+        }
 
-std::string GetTxtValue(const pugi::xml_node &node, value_mode_t mode) {
-  const std::string v(node.text().as_string());
+        std::string GetTxtValue(const pugi::xml_node &node, value_mode_t mode) {
+            const std::string v(node.text().as_string());
 
-  if (mode == VM_STRICT && v.empty())
-    ThrowHappyException("Can not get the value of xml node.");
+            if (mode == VM_STRICT && v.empty())
+                ThrowHappyException("Can not get the value of xml node.");
 
-  return v;
-}
+            return v;
+        }
 
-} /* namespace hcxml */
+    } /* namespace hcxml */
 
 } /* namespace happycpp */

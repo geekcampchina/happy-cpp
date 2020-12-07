@@ -19,10 +19,10 @@
 // IN THE SOFTWARE.
 
 #include <gtest/gtest.h>
-#include <happycpp/happycpp.h>
-#include <happycpp/i18n.h>
-#include <happycpp/filesys.h>
-#include <happycpp/regex.h>
+#include "happycpp/happycpp.h"
+#include "happycpp/i18n.h"
+#include "happycpp/filesys.h"
+#include "happycpp/regex.h"
 #include <boost/filesystem.hpp>
 
 #ifndef _BINARY_DIR_

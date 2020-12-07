@@ -18,140 +18,144 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#include <happycpp/proc.h>
-#include <happycpp/filesys.h>
-#include <happycpp/exception.h>
+#include "happycpp/proc.h"
+#include "happycpp/filesys.h"
+#include "happycpp/exception.h"
+
 #ifdef PLATFORM_WIN32
 #include <comdef.h>
 #else
-#include <errno.h>
-#include <linux/limits.h>
+
+#include <climits>
 #include <sys/types.h>
-#include <signal.h>
 #include <unistd.h>
+
 #endif
+
 #include <cstdlib>
 
 using std::to_string;
 
 namespace happycpp {
 
-namespace hcproc {
+    namespace hcproc {
 
-HAPPYCPP_SHARED_LIB_API bool CurrentWorkDir(std::string *dir) {
-  dir->clear();
-
-#ifdef PLATFORM_WIN32
-  TCHAR t_buf[MAX_PATH];
-  LPTSTR lpt_str = t_buf;
-
-  if (GetCurrentDirectory(MAX_PATH, lpt_str))
-    *dir = move(std::string(lpt_str));
-#else
-  char *buffer = get_current_dir_name();
-
-  if (buffer != NULL) {
-    *dir = move(std::string(buffer));
-    free(buffer);
-  }
-#endif
-  return (dir->size() != 0);
-}
-
-HAPPYCPP_SHARED_LIB_API bool CurrentExePath(std::string *path) {
-  path->clear();
-#ifdef PLATFORM_WIN32
-  TCHAR sz_path[MAX_PATH];
-
-  if (GetModuleFileName(NULL, sz_path, MAX_PATH))
-    *path = move(std::string(sz_path));
-#else
-  char buffer[PATH_MAX];
-  ssize_t size = readlink("/proc/self/exe", buffer, PATH_MAX - 1);
-
-  if (size != -1) {
-    buffer[size] = '\0';
-    *path = move(std::string(buffer));
-  }
-#endif
-  return (path->size() != 0);
-}
-
-HAPPYCPP_SHARED_LIB_API bool CurrentExeDir(std::string *dir) {
-  if (CurrentExePath(dir)) {
-    *dir = bfs::path(*dir).parent_path().string();
-    return true;
-  }
-
-  return false;
-}
+        HAPPYCPP_SHARED_LIB_API bool CurrentWorkDir(std::string *dir) {
+            dir->clear();
 
 #ifdef PLATFORM_WIN32
-HAPPYCPP_SHARED_LIB_API bool LockProc(const std::string &proc) {
-  HANDLE hMutex = CreateMutex(NULL, false, proc.c_str());
+            TCHAR t_buf[MAX_PATH];
+            LPTSTR lpt_str = t_buf;
 
-  return !(GetLastError() == ERROR_ALREADY_EXISTS);
-}
-
-HAPPYCPP_SHARED_LIB_API bool UnLockProc(const std::string &proc) {
-  HANDLE hMutex = OpenMutex(MUTEX_ALL_ACCESS, false, proc.c_str());
-
-  if (hMutex == NULL) return false;
-
-  CloseHandle(hMutex);
-  return true;
-}
+            if (GetCurrentDirectory(MAX_PATH, lpt_str))
+              *dir = move(std::string(lpt_str));
 #else
-HAPPYCPP_SHARED_LIB_API bool LockProc(const std::string &proc, const pid_t pid,
-                                      const std::string &prefix) {
-  const std::string pid_file(prefix + "/" + proc + ".pid");
+            char *buffer = get_current_dir_name();
 
-  // 进程存在
-  if (bfs::exists(pid_file)) {
-    const std::string pid(hcfilesys::ReadFile(pid_file));
+            if (buffer != nullptr) {
+                *dir = std::string(buffer);
+                free(buffer);
+            }
+#endif
+            return (!dir->empty());
+        }
 
-    if (bfs::exists("/proc/" + pid))
-      return false;
-  }
+        HAPPYCPP_SHARED_LIB_API bool CurrentExePath(std::string *path) {
+            path->clear();
+#ifdef PLATFORM_WIN32
+            TCHAR sz_path[MAX_PATH];
 
-  try {
-    hcfilesys::WriteFile(pid_file, to_string(pid));
-  } catch (HappyException &e) {
-    return false;
-  }
+            if (GetModuleFileName(NULL, sz_path, MAX_PATH))
+              *path = move(std::string(sz_path));
+#else
+            char buffer[PATH_MAX];
+            ssize_t size = readlink("/proc/self/exe", buffer, PATH_MAX - 1);
 
-  return true;
-}
+            if (size != -1) {
+                buffer[size] = '\0';
+                *path = std::string(buffer);
+            }
+#endif
+            return (!path->empty());
+        }
 
-HAPPYCPP_SHARED_LIB_API bool UnLockProc(const std::string &proc,
-                                        const std::string &prefix) {
-  const std::string pid_file(prefix + "/" + proc + ".pid");
+        HAPPYCPP_SHARED_LIB_API bool CurrentExeDir(std::string *dir) {
+            if (CurrentExePath(dir)) {
+                *dir = bfs::path(*dir).parent_path().string();
+                return true;
+            }
 
-  if (bfs::exists(pid_file))
-    return bfs::remove(pid_file);
+            return false;
+        }
 
-  return false;
-}
+#ifdef PLATFORM_WIN32
+        HAPPYCPP_SHARED_LIB_API bool LockProc(const std::string &proc) {
+          HANDLE hMutex = CreateMutex(NULL, false, proc.c_str());
 
-HAPPYCPP_SHARED_LIB_API void CreateDaemon(const std::string &name,
-                                          const bool to_null) {
-  if (name.empty())
-    ThrowHappyException("Daemon name is empty.");
+          return !(GetLastError() == ERROR_ALREADY_EXISTS);
+        }
 
-  if (!hcproc::LockProc(name, getpid()))
-    ThrowHappyException(
-        "Another instance of " + name + " is already running");
+        HAPPYCPP_SHARED_LIB_API bool UnLockProc(const std::string &proc) {
+          HANDLE hMutex = OpenMutex(MUTEX_ALL_ACCESS, false, proc.c_str());
 
-  const int noclose(to_null ? 0 : 1);
+          if (hMutex == NULL) return false;
 
-  if (daemon(0, noclose) != 0) {
-    UnLockProc(name);
-    ThrowHappyException(
-        "Cannot run " + name + " in the background as system daemons.");
-  }
-}
+          CloseHandle(hMutex);
+          return true;
+        }
+#else
+
+        HAPPYCPP_SHARED_LIB_API bool LockProc(const std::string &proc, const pid_t pid,
+                                              const std::string &prefix) {
+            const std::string pid_file(prefix + "/" + proc + ".pid");
+
+            // 进程存在
+            if (bfs::exists(pid_file)) {
+                const std::string _pid(hcfilesys::ReadFile(pid_file));
+
+                if (bfs::exists("/proc/" + _pid))
+                    return false;
+            }
+
+            try {
+                hcfilesys::WriteFile(pid_file, to_string(pid));
+            } catch (HappyException &e) {
+                return false;
+            }
+
+            return true;
+        }
+
+        HAPPYCPP_SHARED_LIB_API bool UnLockProc(const std::string &proc,
+                                                const std::string &prefix) {
+            const std::string pid_file(prefix + "/" + proc + ".pid");
+
+            if (bfs::exists(pid_file))
+                return bfs::remove(pid_file);
+
+            return false;
+        }
+
+        HAPPYCPP_SHARED_LIB_API void CreateDaemon(const std::string &name,
+                                                  const bool to_null) {
+            if (name.empty())
+                ThrowHappyException("Daemon name is empty.");
+
+            if (!hcproc::LockProc(name, getpid()))
+                ThrowHappyException(
+                        "Another instance of " + name + " is already running");
+
+            const int noclose(to_null ? 0 : 1);
+
+            if (daemon(0, noclose) != 0) {
+                UnLockProc(name);
+                ThrowHappyException(
+                        "Cannot run " + name + " in the background as system daemons.");
+            }
+        }
+
 #endif
 
-} /* namespace hcproc */
+    } /* namespace hcproc */
 
 } /* namespace happycpp */

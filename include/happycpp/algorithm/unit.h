@@ -24,32 +24,32 @@
 #ifndef INCLUDE_HAPPYCPP_ALGORITHM_UNIT_H_
 #define INCLUDE_HAPPYCPP_ALGORITHM_UNIT_H_
 
-#include <happycpp/common.h>
+#include "happycpp/common.h"
 #include <string>
 #include <cmath>
 
 namespace happycpp {
 
-namespace hcalgorithm {
+    namespace hcalgorithm {
 
-namespace hcunit {
+        namespace hcunit {
 
 // 输入二进制词头枚举，输出类似 KiB、MiB、GiB、KB、MB、GB 等单位字符串
 // 输入国际单位制词头枚举，输出类似 KiB、MiB、GiB、KB、MB、GB 等单位字符串
-HAPPYCPP_SHARED_LIB_API std::string ToStr(const UnitType ut);
+            HAPPYCPP_SHARED_LIB_API std::string ToStr(UnitType ut);
 
-HAPPYCPP_SHARED_LIB_API byte_t ToByte(const UnitType ut);
+            HAPPYCPP_SHARED_LIB_API byte_t ToByte(UnitType ut);
 
 // 将指定进制单位值转换为 byte_t
-HAPPYCPP_SHARED_LIB_API byte_t ToByte(const UnitType ut, const double s);
+            HAPPYCPP_SHARED_LIB_API byte_t ToByte(UnitType ut, double s);
 
 // 将 byte_t 转换为指定进制单位值
-HAPPYCPP_SHARED_LIB_API double Convert(const UnitType ut, const byte_t b,
-                                       const uint32_t precision = 2);
+            HAPPYCPP_SHARED_LIB_API double Convert(UnitType ut, byte_t b,
+                                                   uint32_t precision = 2);
 
-} /* namespace hcunit */
+        } /* namespace hcunit */
 
-} /* namespace hcalgorithm */
+    } /* namespace hcalgorithm */
 
 } /* namespace happycpp */
 

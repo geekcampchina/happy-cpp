@@ -20,7 +20,7 @@
 // IN THE SOFTWARE.
 
 /** @file
- *  使用不支持 C++11 正则表达式的编译器时，使用 Boost 正则表达式库代替
+ *  使用不支持 C++11 正则表达式的编译器时，用Boost正则表达式库代替
  */
 
 #ifndef INCLUDE_HAPPYCPP_REGEX_H_

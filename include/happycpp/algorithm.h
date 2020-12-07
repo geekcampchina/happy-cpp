@@ -24,16 +24,16 @@
 #ifndef INCLUDE_HAPPYCPP_ALGORITHM_H_
 #define INCLUDE_HAPPYCPP_ALGORITHM_H_
 
-#include <happycpp/algorithm/array.h>
-#include <happycpp/algorithm/domain.h>
-#include <happycpp/algorithm/double.h>
-#include <happycpp/algorithm/int.h>
-#include <happycpp/algorithm/ip.h>
-#include <happycpp/algorithm/map.h>
-#include <happycpp/algorithm/random.h>
-#include <happycpp/algorithm/string.h>
-#include <happycpp/algorithm/time.h>
-#include <happycpp/algorithm/unit.h>
-#include <happycpp/algorithm/version.h>
+#include "happycpp/algorithm/array.h"
+#include "happycpp/algorithm/domain.h"
+#include "happycpp/algorithm/double.h"
+#include "happycpp/algorithm/int.h"
+#include "happycpp/algorithm/ip.h"
+#include "happycpp/algorithm/map.h"
+#include "happycpp/algorithm/random.h"
+#include "happycpp/algorithm/hcstring.h"
+#include "happycpp/algorithm/hctime.h"
+#include "happycpp/algorithm/unit.h"
+#include "happycpp/algorithm/version.h"
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_H_

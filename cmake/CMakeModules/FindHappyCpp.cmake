@@ -56,46 +56,45 @@
 #
 
 function(_happycpp_append_debugs _endvar _library)
-    if(${_library} AND ${_library}_DEBUG)
+    if (${_library} AND ${_library}_DEBUG)
         set(_output optimized ${${_library}} debug ${${_library}_DEBUG})
-    else()
+    else ()
         set(_output ${${_library}})
-    endif()
+    endif ()
     set(${_endvar} ${_output} PARENT_SCOPE)
 endfunction()
 
 function(_happycpp_find_library _name)
     find_library(${_name}
-        NAMES ${ARGN}
-        HINTS
+            NAMES ${ARGN}
+            HINTS
             ENV HAPPYCPP_ROOT
             ${HAPPYCPP_ROOT}
-        PATH_SUFFIXES ${_happycpp_libpath_suffixes}
-    )
+            PATH_SUFFIXES ${_happycpp_libpath_suffixes}
+            )
     mark_as_advanced(${_name})
 endfunction()
 
 
-
 set(_happycpp_libpath_suffixes lib)
 
-find_path(HAPPYCPP_INCLUDE_DIR 
-    NAMES happycpp/happycpp.h
-    HINTS $ENV{HAPPYCPP_ROOT} ${HAPPYCPP_ROOT}
-    PATH_SUFFIXES include
-)
+find_path(HAPPYCPP_INCLUDE_DIR
+        NAMES happycpp/happycpp.h
+        HINTS $ENV{HAPPYCPP_ROOT} ${HAPPYCPP_ROOT}
+        PATH_SUFFIXES include
+        )
 mark_as_advanced(HAPPYCPP_INCLUDE_DIR)
 
-_happycpp_find_library(HAPPYCPP_LIBRARY          happycpp)
-_happycpp_find_library(HAPPYCPP_LIBRARY_DEBUG    happycppD)
+_happycpp_find_library(HAPPYCPP_LIBRARY happycpp)
+_happycpp_find_library(HAPPYCPP_LIBRARY_DEBUG happycppD)
 
 include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(HappyCpp DEFAULT_MSG HAPPYCPP_LIBRARY HAPPYCPP_INCLUDE_DIR)
 
-if(HAPPYCPP_FOUND)
+if (HAPPYCPP_FOUND)
     set(HAPPYCPP_INCLUDE_DIRS ${HAPPYCPP_INCLUDE_DIR})
-    _happycpp_append_debugs(HAPPYCPP_LIBRARIES      HAPPYCPP_LIBRARY)
-    _happycpp_append_debugs(HAPPYCPP_PARTED_LIBRARIES      HAPPYCPP_PARTED_LIBRARY)
+    _happycpp_append_debugs(HAPPYCPP_LIBRARIES HAPPYCPP_LIBRARY)
+    _happycpp_append_debugs(HAPPYCPP_PARTED_LIBRARIES HAPPYCPP_PARTED_LIBRARY)
     set(HAPPYCPP_BOTH_LIBRARIES ${HAPPYCPP_LIBRARIES} ${HAPPYCPP_PARTED_LIBRARIES})
-endif()
+endif ()
 

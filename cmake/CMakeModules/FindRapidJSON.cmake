@@ -29,18 +29,18 @@
 #     include_directories(${RAPIDJSON_INCLUDE_DIRS})
 #
 
-find_path(RAPIDJSON_INCLUDE_DIR 
-    NAMES rapidjson/rapidjson.h rapidjson/document.h
-    HINTS $ENV{RAPIDJSON_ROOT} ${RAPIDJSON_ROOT}
-    PATH_SUFFIXES include
-)
+find_path(RAPIDJSON_INCLUDE_DIR
+        NAMES rapidjson/rapidjson.h rapidjson/document.h
+        HINTS $ENV{RAPIDJSON_ROOT} ${RAPIDJSON_ROOT}
+        PATH_SUFFIXES include
+        )
 mark_as_advanced(RAPIDJSON_INCLUDE_DIR)
 
 
 include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(RapidJSON DEFAULT_MSG RAPIDJSON_INCLUDE_DIR)
 
-if(RAPIDJSON_FOUND)
+if (RAPIDJSON_FOUND)
     set(RAPIDJSON_INCLUDE_DIRS ${RAPIDJSON_INCLUDE_DIR})
-endif()
+endif ()
 

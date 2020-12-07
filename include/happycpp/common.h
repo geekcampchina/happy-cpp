@@ -24,10 +24,10 @@
 #ifndef INCLUDE_HAPPYCPP_COMMON_H_
 #define INCLUDE_HAPPYCPP_COMMON_H_
 
-#include <assert.h>
-#include <happycpp/config_compiler.h>
-#include <happycpp/config_platform.h>
-#include <happycpp/type.h>
+#include <cassert>
+#include "happycpp/config_compiler.h"
+#include "happycpp/config_platform.h"
+#include "happycpp/type.h"
 #include <boost/filesystem.hpp>
 
 #ifdef PLATFORM_WIN32
@@ -52,7 +52,7 @@ namespace happycpp {
 #endif
 
 #ifdef PLATFORM_WIN32
-// End Of Line
+    // End Of Line
 #define EOL "\r\n"
 #else
 // End Of Line

@@ -56,45 +56,44 @@
 #
 
 function(_pugixml_append_debugs _endvar _library)
-    if(${_library} AND ${_library}_DEBUG)
+    if (${_library} AND ${_library}_DEBUG)
         set(_output optimized ${${_library}} debug ${${_library}_DEBUG})
-    else()
+    else ()
         set(_output ${${_library}})
-    endif()
+    endif ()
     set(${_endvar} ${_output} PARENT_SCOPE)
 endfunction()
 
 function(_pugixml_find_library _name)
     find_library(${_name}
-        NAMES ${ARGN}
-        HINTS
+            NAMES ${ARGN}
+            HINTS
             ENV PUGIXML_ROOT
             ${PUGIXML_ROOT}
-        PATH_SUFFIXES ${_pugixml_libpath_suffixes}
-    )
+            PATH_SUFFIXES ${_pugixml_libpath_suffixes}
+            )
     mark_as_advanced(${_name})
 endfunction()
 
 
-
 set(_pugixml_libpath_suffixes lib)
 
-find_path(PUGIXML_INCLUDE_DIR 
-    NAMES pugixml.hpp
-    HINTS $ENV{PUGIXML_ROOT} ${PUGIXML_ROOT}
-    PATH_SUFFIXES include
-)
+find_path(PUGIXML_INCLUDE_DIR
+        NAMES pugixml.hpp
+        HINTS $ENV{PUGIXML_ROOT} ${PUGIXML_ROOT}
+        PATH_SUFFIXES include
+        )
 mark_as_advanced(PUGIXML_INCLUDE_DIR)
 
-_pugixml_find_library(PUGIXML_LIBRARY          pugixml)
-_pugixml_find_library(PUGIXML_LIBRARY_DEBUG    pugixmlD)
+_pugixml_find_library(PUGIXML_LIBRARY pugixml)
+_pugixml_find_library(PUGIXML_LIBRARY_DEBUG pugixmlD)
 
 include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(Pugixml DEFAULT_MSG PUGIXML_LIBRARY PUGIXML_INCLUDE_DIR)
 
-if(PUGIXML_FOUND)
+if (PUGIXML_FOUND)
     set(PUGIXML_INCLUDE_DIRS ${PUGIXML_INCLUDE_DIR})
-    _pugixml_append_debugs(PUGIXML_LIBRARIES      PUGIXML_LIBRARY)
+    _pugixml_append_debugs(PUGIXML_LIBRARIES PUGIXML_LIBRARY)
     set(PUGIXML_BOTH_LIBRARIES ${PUGIXML_LIBRARIES})
-endif()
+endif ()
 

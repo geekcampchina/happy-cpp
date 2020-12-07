@@ -24,16 +24,16 @@
 #ifndef INCLUDE_HAPPYCPP_ALGORITHM_IP_H_
 #define INCLUDE_HAPPYCPP_ALGORITHM_IP_H_
 
-#include <happycpp/common.h>
+#include "happycpp/common.h"
 #include <string>
 
 namespace happycpp {
 
-namespace hcalgorithm {
+    namespace hcalgorithm {
 
-namespace hcip {
+        namespace hcip {
 
-HAPPYCPP_SHARED_LIB_API bool IsIpAddr(const std::string &ip);
+            HAPPYCPP_SHARED_LIB_API bool IsIpAddr(const std::string &ip);
 
 /*
 是否是保留的IP地址，包括私有地址、广播地址等等。
@@ -62,14 +62,14 @@ CIDR地址块       点分十进制                    用十进制写出的32�
 http://zh.wikipedia.org/wiki/IPv4
 http://en.wikipedia.org/wiki/Reserved_IP_addresses#Reserved_IPv4_addresses
 */
-bool IsReserveIpAddr(const std::string &ip);
+            bool IsReserveIpAddr(const std::string &ip);
 
 /* 验证ip/cidr，比如 125.65.110.0/24，cidr有效范围是8到32 */
-bool IsIpCidr(const std::string &s);
+            bool IsIpCidr(const std::string &s);
 
-} /* namespace hcip */
+        } /* namespace hcip */
 
-} /* namespace hcalgorithm */
+    } /* namespace hcalgorithm */
 
 } /* namespace happycpp */
 

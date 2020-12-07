@@ -27,7 +27,7 @@
 #ifndef INCLUDE_HAPPYCPP_FILESYS_H_
 #define INCLUDE_HAPPYCPP_FILESYS_H_
 
-#include <happycpp/common.h>
+#include "happycpp/common.h"
 #include <fstream>
 #include <list>
 #include <vector>
@@ -35,24 +35,24 @@
 
 namespace happycpp {
 
-namespace hcfilesys {
+    namespace hcfilesys {
 
-HAPPYCPP_SHARED_LIB_API bool HappyCreateFile(const std::string &file);
+        HAPPYCPP_SHARED_LIB_API bool HappyCreateFile(const std::string &file);
 
 // 读取文件，返回字符串
-HAPPYCPP_SHARED_LIB_API std::string ReadFile(const std::string &file);
+        HAPPYCPP_SHARED_LIB_API std::string ReadFile(const std::string &file);
 
 // 读取文件，每行内容为一个元素加入到列表，返回列表，
-HAPPYCPP_SHARED_LIB_API bool ReadFile(const std::string &file,
-                                      std::vector<std::string> *lines);
+        HAPPYCPP_SHARED_LIB_API bool ReadFile(const std::string &file,
+                                              std::vector<std::string> *lines);
 
-HAPPYCPP_SHARED_LIB_API bool WriteFile(const std::string &file,
-                                       const std::string &content,
-                                       const bool &append = false);
+        HAPPYCPP_SHARED_LIB_API bool WriteFile(const std::string &file,
+                                               const std::string &content,
+                                               const bool &append = false);
 
-HAPPYCPP_SHARED_LIB_API bool WriteFile(const std::string &file,
-                                       const std::vector<std::string> &lines,
-                                       const bool &append = false);
+        HAPPYCPP_SHARED_LIB_API bool WriteFile(const std::string &file,
+                                               const std::vector<std::string> &lines,
+                                               const bool &append = false);
 
 // 获取指定目录的文件或子目录列表(不会递归)
 // file_type:
@@ -62,12 +62,12 @@ HAPPYCPP_SHARED_LIB_API bool WriteFile(const std::string &file,
 //
 // max_num:
 //      防止因为超大数量的文件和目录，导致性能问题
-HAPPYCPP_SHARED_LIB_API void GetFilesInDir(const std::string &path,
-                                           const FileType type,
-                                           std::vector<FileStat> *v,
-                                           const uint32_t max_num = 10000);
+        HAPPYCPP_SHARED_LIB_API void GetFilesInDir(const std::string &path,
+                                                   FileType type,
+                                                   std::vector<FileStat> *v,
+                                                   uint32_t max_num = 10000);
 
-} /* namespace hcfilesys */
+    } /* namespace hcfilesys */
 
 } /* namespace happycpp */
 

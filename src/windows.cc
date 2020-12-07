@@ -18,17 +18,17 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#include <happycpp/windows.h>
+#include "happycpp/windows.h"
 
 #ifdef PLATFORM_WIN32
 
-#include <happycpp/algorithm/unit.h>
-#include <happycpp/algorithm/time.h>
-#include <happycpp/algorithm/double.h>
-#include <happycpp/filesys.h>
-#include <happycpp/i18n.h>
-#include <happycpp/cmd.h>
-#include <happycpp/log.h>
+#include "happycpp/algorithm/unit.h"
+#include "happycpp/algorithm/time.h"
+#include "happycpp/algorithm/double.h"
+#include "happycpp/filesys.h"
+#include "happycpp/i18n.h"
+#include "happycpp/cmd.h"
+#include "happycpp/log.h"
 #include <cstddef>
 // WinSock2.h 和 IPHlpApi.h 必须在 Windows.h 之前包含
 #include <WinSock2.h>

@@ -18,7 +18,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#include <happycpp/algorithm/int.h>
+#include "happycpp/algorithm/int.h"
 #include <sstream>
 
 using std::ostringstream;
@@ -27,24 +27,24 @@ using std::hex;
 
 namespace happycpp {
 
-namespace hcalgorithm {
+    namespace hcalgorithm {
 
-namespace hcint {
+        namespace hcint {
 
-HAPPYCPP_SHARED_LIB_API std::string DecToHex(const int32_t &n) {
-    std::stringstream ss;
-    ss << hex << n;
-    return ss.str();
-}
+            HAPPYCPP_SHARED_LIB_API std::string DecToHex(const int32_t &n) {
+                std::stringstream ss;
+                ss << hex << n;
+                return ss.str();
+            }
 
-HAPPYCPP_SHARED_LIB_API bool IsOddNum(const int32_t &n) {
-    // 奇数: true
-    // 偶数: false
-    return (n & 1) != 0;
-}
+            HAPPYCPP_SHARED_LIB_API bool IsOddNum(const int32_t &n) {
+                // 奇数: true
+                // 偶数: false
+                return (n & 1) != 0;
+            }
 
-} /* namespace hcint */
+        } /* namespace hcint */
 
-} /* namespace hcalgorithm */
+    } /* namespace hcalgorithm */
 
 } /* namespace happycpp */

@@ -24,12 +24,12 @@
 #ifndef INCLUDE_HAPPYCPP_WINDOWS_H_
 #define INCLUDE_HAPPYCPP_WINDOWS_H_
 
-#include <happycpp/config_platform.h>
+#include "happycpp/config_platform.h"
 
 #ifdef PLATFORM_WIN32
 
 #include <stdint.h>
-#include <happycpp/type.h>
+#include "happycpp/type.h"
 #include <string>
 #include <vector>
 #include <map>

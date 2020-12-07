@@ -19,21 +19,18 @@
 // IN THE SOFTWARE.
 
 #include <happycpp/exception.h>
-#include <happycpp/log.h>
 
 namespace happycpp {
 
-HappyException::HappyException(const std::string &msg, const std::string &file,
-                               int line) throw()
-    : msg_(msg) {
-  hclog::_PrintLog(LOG_ERROR, file.c_str(), line, "%s", msg_.c_str());
-}
+    HappyException::HappyException(const std::string &msg)
+            : _error(msg) {
+        hlog->error(msg);
+    }
 
-HappyException::~HappyException() throw() {
-}
+    HappyException::~HappyException() noexcept = default;
 
-const char* HappyException::what() const throw() {
-  return msg_.c_str();
-}
+    const char *HappyException::what() const noexcept {
+        return  _error.what();
+    }
 
 } /* namespace happycpp */

@@ -24,7 +24,7 @@
 #ifndef INCLUDE_HAPPYCPP_ALGORITHM_STRING_H_
 #define INCLUDE_HAPPYCPP_ALGORITHM_STRING_H_
 
-#include <happycpp/common.h>
+#include "happycpp/common.h"
 #include <map>
 #include <sstream>
 #include <vector>
@@ -32,52 +32,52 @@
 
 namespace happycpp {
 
-namespace hcalgorithm {
+    namespace hcalgorithm {
 
-namespace hcstring {
+        namespace hcstring {
 
 // 在字符串str中，查找子字符串sub
-HAPPYCPP_SHARED_LIB_API bool Find(const std::string &s,
-                                  const std::string &sub);
+            HAPPYCPP_SHARED_LIB_API bool Find(const std::string &s,
+                                              const std::string &sub);
 
 // 去除首位的空白字符
-HAPPYCPP_SHARED_LIB_API std::string Trim(const std::string &s,
-                                         const std::string &white_space = " ");
+            HAPPYCPP_SHARED_LIB_API std::string Trim(const std::string &s,
+                                                     const std::string &white_space = " ");
 
 // 将字符串中的大写字母转换为小写
-HAPPYCPP_SHARED_LIB_API std::string ToLower(const std::string &s);
+            HAPPYCPP_SHARED_LIB_API std::string ToLower(const std::string &s);
 
 // 将字符串中的小写字母转换为大写
-HAPPYCPP_SHARED_LIB_API std::string ToUpper(const std::string &s);
+            HAPPYCPP_SHARED_LIB_API std::string ToUpper(const std::string &s);
 
 // 替换字符串中所有指定的子字符串
-HAPPYCPP_SHARED_LIB_API std::string Replace(const std::string &s,
-                                            const std::string &old_sub,
-                                            const std::string &new_sub);
+            HAPPYCPP_SHARED_LIB_API std::string Replace(const std::string &s,
+                                                        const std::string &old_sub,
+                                                        const std::string &new_sub);
 
 // 删除字符串中指定的子字符串
-HAPPYCPP_SHARED_LIB_API std::string Erase(const std::string &s,
-                                          const std::string &sub);
+            HAPPYCPP_SHARED_LIB_API std::string Erase(const std::string &s,
+                                                      const std::string &sub);
 
 // 判断字符串是否是版本号码
-HAPPYCPP_SHARED_LIB_API bool IsVersion(const std::string &s);
+            HAPPYCPP_SHARED_LIB_API bool IsVersion(const std::string &s);
 
 // 判断字符串是否是全数字组成
-HAPPYCPP_SHARED_LIB_API bool IsDigit(const std::string &s);
+            HAPPYCPP_SHARED_LIB_API bool IsDigit(const std::string &s);
 
 // 判断字符串是否是字母和数字组成
-HAPPYCPP_SHARED_LIB_API bool IsAlnum(const std::string &s);
+            HAPPYCPP_SHARED_LIB_API bool IsAlnum(const std::string &s);
 
 // 判断字符串是否是字母组成
-HAPPYCPP_SHARED_LIB_API bool IsAlpha(const std::string &s);
+            HAPPYCPP_SHARED_LIB_API bool IsAlpha(const std::string &s);
 
 /* sep可以是多个分隔符，会按照多分隔符同时分隔 */
-bool Split(const std::string &s, std::vector<std::string> *result,
-           const std::string &sep = "\n");
+            bool Split(const std::string &s, std::vector<std::string> *result,
+                       const std::string &sep = "\n");
 
 // 列表转化为map，key=列表值，value=""
-HAPPYCPP_SHARED_LIB_API void ToMap(const std::vector<std::string> &v,
-                                   std::map<std::string, std::string> *m);
+            HAPPYCPP_SHARED_LIB_API void ToMap(const std::vector<std::string> &v,
+                                               std::map<std::string, std::string> *m);
 
 /*
  将字符串按分隔符分割，填充到map中
@@ -90,13 +90,13 @@ HAPPYCPP_SHARED_LIB_API void ToMap(const std::vector<std::string> &v,
  map[b]=""
  map[c]=""
  */
-HAPPYCPP_SHARED_LIB_API void ToMap(const std::string &s,
-                                   std::map<std::string, std::string> *m,
-                                   const std::string &sep = "\n");
+            HAPPYCPP_SHARED_LIB_API void ToMap(const std::string &s,
+                                               std::map<std::string, std::string> *m,
+                                               const std::string &sep = "\n");
 
-} /* namespace hcstring */
+        } /* namespace hcstring */
 
-} /* namespace hcalgorithm */
+    } /* namespace hcalgorithm */
 
 } /* namespace happycpp */
 

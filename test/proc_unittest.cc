@@ -19,59 +19,59 @@
 // IN THE SOFTWARE.
 
 #include <gtest/gtest.h>
-#include <happycpp/filesys.h>
-#include <happycpp/proc.h>
-#include <happycpp/algorithm/string.h>
+#include "happycpp/filesys.h"
+#include "happycpp/proc.h"
+#include "happycpp/algorithm/hcstring.h"
 
 namespace hhproc = happycpp::hcproc;
 namespace hhhstring = happycpp::hcalgorithm::hcstring;
 
 std::string format_path(const std::string &path) {
-  return hhhstring::Replace(path, "/", OsSeparator);
+    return hhhstring::Replace(path, "/", OsSeparator);
 }
 
 TEST(HCPROC_UNITTEST, current_work_dir) {
-  std::string expected("");
-  EXPECT_TRUE(hhproc::CurrentWorkDir(&expected));
+    std::string expected;
+    EXPECT_TRUE(hhproc::CurrentWorkDir(&expected));
 
 #ifdef CURRENT_WORK_DIR
-  const std::string actual(format_path(CURRENT_WORK_DIR));
-  EXPECT_STREQ(actual.c_str(), expected.c_str());
+    const std::string actual(format_path(CURRENT_WORK_DIR));
+    EXPECT_STREQ(actual.c_str(), expected.c_str());
 #endif
 }
 
 TEST(HCPROC_UNITTEST, CurrentExe_path) {
-  std::string expected("");
-  EXPECT_TRUE(hhproc::CurrentExePath(&expected));
+    std::string expected;
+    EXPECT_TRUE(hhproc::CurrentExePath(&expected));
 
 #ifdef CURRENT_EXE_PATH
-  const std::string actual(format_path(CURRENT_EXE_PATH));
-  EXPECT_STREQ(actual.c_str(), expected.c_str());
+    const std::string actual(format_path(CURRENT_EXE_PATH));
+    EXPECT_STREQ(actual.c_str(), expected.c_str());
 #endif
 }
 
 TEST(HCPROC_UNITTEST, CurrentExe_dir) {
-  std::string expected("");
-  EXPECT_TRUE(hhproc::CurrentExeDir(&expected));
+    std::string expected;
+    EXPECT_TRUE(hhproc::CurrentExeDir(&expected));
 
 #ifdef CURRENT_EXE_DIR
-  const std::string actual(format_path(CURRENT_EXE_DIR));
-  EXPECT_STREQ(actual.c_str(), expected.c_str());
+    const std::string actual(format_path(CURRENT_EXE_DIR));
+    EXPECT_STREQ(actual.c_str(), expected.c_str());
 #endif
 }
 
 TEST(HCPROC_UNITTEST, LockProc_and_UnLockProc) {
 #ifdef PLATFORM_WIN32
-  EXPECT_FALSE(hhproc::UnLockProc("test.lock"));
-  EXPECT_TRUE(hhproc::LockProc("test.lock"));
+    EXPECT_FALSE(hhproc::UnLockProc("test.lock"));
+    EXPECT_TRUE(hhproc::LockProc("test.lock"));
 
-  EXPECT_FALSE(hhproc::LockProc("test.lock"));
-  EXPECT_TRUE(hhproc::UnLockProc("test.lock"));
+    EXPECT_FALSE(hhproc::LockProc("test.lock"));
+    EXPECT_TRUE(hhproc::UnLockProc("test.lock"));
 #else
-  EXPECT_FALSE(hhproc::UnLockProc("test.lock", "/tmp"));
-  EXPECT_TRUE(hhproc::LockProc("test.lock", getppid(), "/tmp"));
+    EXPECT_FALSE(hhproc::UnLockProc("test.lock", "/tmp"));
+    EXPECT_TRUE(hhproc::LockProc("test.lock", getppid(), "/tmp"));
 
-  EXPECT_FALSE(hhproc::LockProc("test.lock", getppid(), "/tmp"));
-  EXPECT_TRUE(hhproc::UnLockProc("test.lock", "/tmp"));
+    EXPECT_FALSE(hhproc::LockProc("test.lock", getppid(), "/tmp"));
+    EXPECT_TRUE(hhproc::UnLockProc("test.lock", "/tmp"));
 #endif
 }

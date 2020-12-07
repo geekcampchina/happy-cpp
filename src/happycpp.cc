@@ -20,11 +20,15 @@
 
 #include <happycpp/common.h>
 #include <happycpp/happycpp.h>
+
 #ifdef PLATFORM_WIN32
 #include <Windows.h>
 #else
+
 #include <linux/limits.h>
+
 #endif
+
 #include <boost/filesystem.hpp>
 
 namespace bfs = boost::filesystem;

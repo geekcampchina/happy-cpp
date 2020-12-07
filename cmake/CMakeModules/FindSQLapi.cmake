@@ -57,45 +57,44 @@
 #
 
 function(_SQLapi_append_debugs _endvar _library)
-    if(${_library} AND ${_library}_DEBUG)
+    if (${_library} AND ${_library}_DEBUG)
         set(_output optimized ${${_library}} debug ${${_library}_DEBUG})
-    else()
+    else ()
         set(_output ${${_library}})
-    endif()
+    endif ()
     set(${_endvar} ${_output} PARENT_SCOPE)
 endfunction()
 
 function(_SQLapi_find_library _name)
     find_library(${_name}
-        NAMES ${ARGN}
-        HINTS
+            NAMES ${ARGN}
+            HINTS
             ENV SQLAPI_ROOT
             ${SQLAPI_ROOT}
-        PATH_SUFFIXES ${_SQLapi_libpath_suffixes}
-    )
+            PATH_SUFFIXES ${_SQLapi_libpath_suffixes}
+            )
     mark_as_advanced(${_name})
 endfunction()
 
 
-
 set(_SQLapi_libpath_suffixes lib)
 
-find_path(SQLAPI_INCLUDE_DIR 
-    NAMES sqlapi/SQLAPI.h
-    HINTS $ENV{SQLAPI_ROOT} ${SQLAPI_ROOT}
-    PATH_SUFFIXES include
-)
+find_path(SQLAPI_INCLUDE_DIR
+        NAMES sqlapi/SQLAPI.h
+        HINTS $ENV{SQLAPI_ROOT} ${SQLAPI_ROOT}
+        PATH_SUFFIXES include
+        )
 mark_as_advanced(SQLAPI_INCLUDE_DIR)
 
-_SQLapi_find_library(SQLAPI_LIBRARY          SQLapi)
-_SQLapi_find_library(SQLAPI_LIBRARY_DEBUG    SQLapiD)
+_SQLapi_find_library(SQLAPI_LIBRARY SQLapi)
+_SQLapi_find_library(SQLAPI_LIBRARY_DEBUG SQLapiD)
 
 include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(SQLapi DEFAULT_MSG SQLAPI_LIBRARY SQLAPI_INCLUDE_DIR)
 
-if(SQLAPI_FOUND)
+if (SQLAPI_FOUND)
     set(SQLAPI_INCLUDE_DIRS ${SQLAPI_INCLUDE_DIR})
-    _SQLapi_append_debugs(SQLAPI_LIBRARIES      SQLAPI_LIBRARY)
+    _SQLapi_append_debugs(SQLAPI_LIBRARIES SQLAPI_LIBRARY)
     set(SQLAPI_BOTH_LIBRARIES ${SQLAPI_LIBRARIES})
-endif()
+endif ()
 

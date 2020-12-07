@@ -24,20 +24,20 @@
 #ifndef INCLUDE_HAPPYCPP_ALGORITHM_RANDOM_H_
 #define INCLUDE_HAPPYCPP_ALGORITHM_RANDOM_H_
 
-#include <happycpp/common.h>
+#include "happycpp/common.h"
 #include <string>
 
 namespace happycpp {
 
-namespace hcalgorithm {
+    namespace hcalgorithm {
 
-namespace hcrandom {
+        namespace hcrandom {
 
 /* 获取随机数
  * 由于是根据时间(单位：纳秒)来生成，所以重复的几率非常小。
  * 来源：linux until 中uuid源代码：gen_uuid.c
  */
-HAPPYCPP_SHARED_LIB_API uint64_t GetRandom();
+            HAPPYCPP_SHARED_LIB_API uint64_t GetRandom();
 
 // 生成随机字符串
 // 默认生成不含空格的，由 ASCII 可见字符组成的字符串
@@ -45,12 +45,12 @@ HAPPYCPP_SHARED_LIB_API uint64_t GetRandom();
 // kAlpha: 字母
 // kDigit: 数字
 // kPrint: 可见字符(不包括空格)
-HAPPYCPP_SHARED_LIB_API std::string GenRandom(const size_t &size,
-                                              CharClassification = kPrint);
+            HAPPYCPP_SHARED_LIB_API std::string GenRandom(const size_t &size,
+                                                          CharClassification = kPrint);
 
-} /* namespace hcrandom */
+        } /* namespace hcrandom */
 
-} /* namespace hcalgorithm */
+    } /* namespace hcalgorithm */
 
 } /* namespace happycpp */
 

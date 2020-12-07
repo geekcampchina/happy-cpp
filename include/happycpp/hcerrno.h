@@ -24,16 +24,16 @@
 #ifndef INCLUDE_HAPPYCPP_ERRNO_H_
 #define INCLUDE_HAPPYCPP_ERRNO_H_
 
-#include <happycpp/common.h>
+#include "happycpp/common.h"
 #include <string>
 
 namespace happycpp {
 
-namespace hcerrno {
+    namespace hcerrno {
 
-HAPPYCPP_SHARED_LIB_API std::string ErrorToStr();
+        HAPPYCPP_SHARED_LIB_API std::string ErrorToStr();
 
-} /* namespace hcerrno */
+    } /* namespace hcerrno */
 
 } /* namespace happycpp */
 

@@ -56,44 +56,43 @@
 #
 
 function(_mysql_append_debugs _endvar _library)
-    if(${_library} AND ${_library}_DEBUG)
+    if (${_library} AND ${_library}_DEBUG)
         set(_output optimized ${${_library}} debug ${${_library}_DEBUG})
-    else()
+    else ()
         set(_output ${${_library}})
-    endif()
+    endif ()
     set(${_endvar} ${_output} PARENT_SCOPE)
 endfunction()
 
 function(_mysql_find_library _name)
     find_library(${_name}
-        NAMES ${ARGN}
-        HINTS
+            NAMES ${ARGN}
+            HINTS
             ENV MYSQL_ROOT
             ${MYSQL_ROOT}
-        PATH_SUFFIXES ${_mysql_libpath_suffixes}
-    )
+            PATH_SUFFIXES ${_mysql_libpath_suffixes}
+            )
     mark_as_advanced(${_name})
 endfunction()
 
 
-
 set(_mysql_libpath_suffixes lib lib64 lib64/mysql lib/mysql)
 
-find_path(MYSQL_INCLUDE_DIR 
-    NAMES mysql/mysql.h
-    HINTS $ENV{MYSQL_ROOT} ${MYSQL_ROOT}
-    PATH_SUFFIXES include
-)
+find_path(MYSQL_INCLUDE_DIR
+        NAMES mysql/mysql.h
+        HINTS $ENV{MYSQL_ROOT} ${MYSQL_ROOT}
+        PATH_SUFFIXES include
+        )
 mark_as_advanced(MYSQL_INCLUDE_DIR)
 
-_mysql_find_library(MYSQL_LIBRARY          mysqlclient)
+_mysql_find_library(MYSQL_LIBRARY mysqlclient)
 
 include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(MySQL DEFAULT_MSG MYSQL_LIBRARY MYSQL_INCLUDE_DIR)
 
-if(MYSQL_FOUND)
+if (MYSQL_FOUND)
     set(MYSQL_INCLUDE_DIRS ${MYSQL_INCLUDE_DIR})
-    _mysql_append_debugs(MYSQL_LIBRARIES      MYSQL_LIBRARY)
+    _mysql_append_debugs(MYSQL_LIBRARIES MYSQL_LIBRARY)
     set(MYSQL_BOTH_LIBRARIES ${MYSQL_LIBRARIES})
-endif()
+endif ()
 

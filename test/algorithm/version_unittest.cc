@@ -19,47 +19,47 @@
 // IN THE SOFTWARE.
 
 #include <gtest/gtest.h>
-#include <happycpp/algorithm/version.h>
+#include "happycpp/algorithm/version.h"
 
 namespace hhhversion = happycpp::hcalgorithm::hcversion;
 
 hhhversion::Version g_version("1.2.3");
 
 TEST(HCVERSION_UNITTEST, major) {
-  ASSERT_EQ(1U, g_version.major());
+    ASSERT_EQ(1U, g_version.major());
 }
 
 TEST(HCVERSION_UNITTEST, minor) {
-  ASSERT_EQ(2U, g_version.minor());
+    ASSERT_EQ(2U, g_version.minor());
 }
 
 TEST(HCVERSION_UNITTEST, revision) {
-  ASSERT_EQ(3U, g_version.revision());
+    ASSERT_EQ(3U, g_version.revision());
 }
 
 TEST(HCVERSION_UNITTEST, build) {
-  ASSERT_EQ(0U, g_version.build());
+    ASSERT_EQ(0U, g_version.build());
 }
 
 TEST(HCVERSION_UNITTEST, LT) {
-  ASSERT_TRUE(hhhversion::Version("1.2.0") < g_version);
+    ASSERT_TRUE(hhhversion::Version("1.2.0") < g_version);
 }
 
 TEST(HCVERSION_UNITTEST, LE) {
-  ASSERT_TRUE(hhhversion::Version("1.0.0") <= g_version);
-  ASSERT_TRUE(hhhversion::Version("1.2.0") <= g_version);
+    ASSERT_TRUE(hhhversion::Version("1.0.0") <= g_version);
+    ASSERT_TRUE(hhhversion::Version("1.2.0") <= g_version);
 }
 
 TEST(HCVERSION_UNITTEST, EQ) {
-  ASSERT_TRUE(hhhversion::Version("1.2.3") <= g_version);
-  ASSERT_TRUE(hhhversion::Version("1.2.3.0") <= g_version);
+    ASSERT_TRUE(hhhversion::Version("1.2.3") <= g_version);
+    ASSERT_TRUE(hhhversion::Version("1.2.3.0") <= g_version);
 }
 
 TEST(HCVERSION_UNITTEST, GT) {
-  ASSERT_TRUE(hhhversion::Version("1.2.3.1") > g_version);
+    ASSERT_TRUE(hhhversion::Version("1.2.3.1") > g_version);
 }
 
 TEST(HCVERSION_UNITTEST, GE) {
-  ASSERT_TRUE(hhhversion::Version("1.2.3.1") >= g_version);
-  ASSERT_TRUE(hhhversion::Version("1.2.3") >= g_version);
+    ASSERT_TRUE(hhhversion::Version("1.2.3.1") >= g_version);
+    ASSERT_TRUE(hhhversion::Version("1.2.3") >= g_version);
 }

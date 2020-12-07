@@ -19,56 +19,56 @@
 // IN THE SOFTWARE.
 
 #include <gtest/gtest.h>
-#include <happycpp/algorithm/map.h>
+#include "happycpp/algorithm/map.h"
 
 namespace hhhmap = happycpp::hcalgorithm::hcmap;
 
 TEST(HCMAP_UNITTEST, FindByValue) {
-  std::map<std::string, int> log_level_map {
-    { "trace", 0 },
-    { "debug", 1 },
-    { "info",  2 },
-    { "warn",  3 },
-    { "error", 4 },
-    { "fatal", 5 },
-    { "off",   6 }
-  };
+    std::map<std::string, int> log_level_map{
+            {"trace", 0},
+            {"debug", 1},
+            {"info",  2},
+            {"warn",  3},
+            {"error", 4},
+            {"fatal", 5},
+            {"off",   6}
+    };
 
-  std::map<std::string, int>::const_iterator it1 =
-      hhhmap::FindByValue(log_level_map, 4);
+    std::map<std::string, int>::const_iterator it1 =
+            hhhmap::FindByValue(log_level_map, 4);
 
-  ASSERT_EQ("error", it1->first);
-  ASSERT_EQ(4, it1->second);
+    ASSERT_EQ("error", it1->first);
+    ASSERT_EQ(4, it1->second);
 
-  std::map<std::string, int>::const_iterator it2 =
-      hhhmap::FindByValue(log_level_map, 10);
+    std::map<std::string, int>::const_iterator it2 =
+            hhhmap::FindByValue(log_level_map, 10);
 
-  ASSERT_EQ(log_level_map.end(), it2);
+    ASSERT_EQ(log_level_map.end(), it2);
 }
 
 
 TEST(HCMAP_UNITTEST, SwapKeyValue) {
-  std::map<std::string, int> log_level_map1 {
-    { "trace", 0 },
-    { "debug", 1 },
-    { "info",  2 },
-    { "warn",  3 },
-    { "error", 4 },
-    { "fatal", 5 },
-    { "off",   6 }
-  };
-  const size_t ele_size = log_level_map1.size();
+    std::map<std::string, int> log_level_map1{
+            {"trace", 0},
+            {"debug", 1},
+            {"info",  2},
+            {"warn",  3},
+            {"error", 4},
+            {"fatal", 5},
+            {"off",   6}
+    };
+    const size_t ele_size = log_level_map1.size();
 
-  std::map<int, std::string> log_level_map2;
-  hhhmap::SwapKeyValue(log_level_map1, &log_level_map2);
+    std::map<int, std::string> log_level_map2;
+    hhhmap::SwapKeyValue(log_level_map1, &log_level_map2);
 
-  ASSERT_EQ(ele_size, log_level_map2.size());
+    ASSERT_EQ(ele_size, log_level_map2.size());
 
-  for (auto it : log_level_map1) {
-    std::map<int, std::string>::const_iterator find_it =
-        hhhmap::FindByValue(log_level_map2, it.first);
+    for (auto it : log_level_map1) {
+        std::map<int, std::string>::const_iterator find_it =
+                hhhmap::FindByValue(log_level_map2, it.first);
 
-    ASSERT_NE(log_level_map2.end(), find_it);
-    ASSERT_EQ(it.first, find_it->second);
-  }
+        ASSERT_NE(log_level_map2.end(), find_it);
+        ASSERT_EQ(it.first, find_it->second);
+    }
 }

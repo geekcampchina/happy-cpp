@@ -33,7 +33,7 @@
  *  6. 如果使用zh_CN.utf-8，/usr/lib/locale/zh_CN.utf8/ 必须存在
  */
 
-#include <happycpp/config_platform.h>
+#include "happycpp/config_platform.h"
 
 #ifndef INCLUDE_HAPPYCPP_I18N_H_
 #define INCLUDE_HAPPYCPP_I18N_H_
@@ -47,25 +47,25 @@
 namespace happycpp {
 
 // 仅仅做类型转换, 转换中文内容有问题
-std::string WcsToMbs(const std::wstring &ws);
+    std::string WcsToMbs(const std::wstring &ws);
 
 // 仅仅做类型转换, 转换中文内容有问题
-std::wstring MbsToWcs(const std::string &s);
+    std::wstring MbsToWcs(const std::string &s);
 
 #ifdef PLATFORM_WIN32
-std::string AnsiToUtf8(const std::string &s);
-std::string Utf8ToAnsi(const std::string &s);
+    std::string AnsiToUtf8(const std::string &s);
+    std::string Utf8ToAnsi(const std::string &s);
 #endif
 
-std::string _gettext(const std::string &s);
+    std::string _gettext(const std::string &s);
 
 /* 设置当前语言、编码、域(mo名称)和
  * mo文件存放目录(比如, locale/zh_CN/LC_MESSAGES/domainname.mo)
  * 如果指定了空值、不存在或者不支持的locale，则使用系统变量定义的locale
  * locale 为空，则使用当前系统设置的locale值
  * dir_name 为空则使用默认值 locale，比如 locale/zh_CN/LC_MESSAGES/domainname.mo */
-void InitGettext(const std::string &locale, const std::string &domain_name,
-                 const std::string &dir_name);
+    void InitGettext(const std::string &locale, const std::string &domain_name,
+                     const std::string &dir_name);
 
 }/* namespace happycpp */
 

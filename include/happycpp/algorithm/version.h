@@ -27,138 +27,138 @@
 #include <cstdio>
 #include <string>
 #include <iostream>
-#include <happycpp/common.h>
+#include "happycpp/common.h"
 
 namespace happycpp {
 
-namespace hcalgorithm {
+    namespace hcalgorithm {
 
-namespace hcversion {
+        namespace hcversion {
 
-class Version {
- public:
-  Version(const std::string &version) {
-    SplitVersion(version);
-  }
+            class Version {
+            public:
+                explicit Version(const std::string &version) {
+                    SplitVersion(version);
+                }
 
-  ~Version() {}
+                ~Version() = default;
 
-  bool operator <(const Version& ver) {
-    if (major_ < ver.major_)
-      return true;
+                bool operator<(const Version &ver) const {
+                    if (major_ < ver.major_)
+                        return true;
 
-    if (minor_ < ver.minor_)
-      return true;
+                    if (minor_ < ver.minor_)
+                        return true;
 
-    if (revision_ < ver.revision_)
-      return true;
+                    if (revision_ < ver.revision_)
+                        return true;
 
-    if (build_ < ver.build_)
-      return true;
+                    if (build_ < ver.build_)
+                        return true;
 
-    return false;
-  }
+                    return false;
+                }
 
-  bool operator <=(const Version& ver) {
-    if (major_ <= ver.major_)
-      return true;
+                bool operator<=(const Version &ver) const {
+                    if (major_ <= ver.major_)
+                        return true;
 
-    if (minor_ <= ver.minor_)
-      return true;
+                    if (minor_ <= ver.minor_)
+                        return true;
 
-    if (revision_ <= ver.revision_)
-      return true;
+                    if (revision_ <= ver.revision_)
+                        return true;
 
-    if (build_ <= ver.build_)
-      return true;
+                    if (build_ <= ver.build_)
+                        return true;
 
-    return false;
-  }
+                    return false;
+                }
 
-  bool operator ==(const Version& ver) {
-    return major_ == ver.major_
-        && minor_ == ver.minor_
-        && revision_ == ver.revision_
-        && build_ == ver.build_;
-  }
+                bool operator==(const Version &ver) const {
+                    return major_ == ver.major_
+                           && minor_ == ver.minor_
+                           && revision_ == ver.revision_
+                           && build_ == ver.build_;
+                }
 
-  bool operator >(const Version& ver) {
-    if (major_ > ver.major_)
-      return true;
+                bool operator>(const Version &ver) const {
+                    if (major_ > ver.major_)
+                        return true;
 
-    if (minor_ > ver.minor_)
-      return true;
+                    if (minor_ > ver.minor_)
+                        return true;
 
-    if (revision_ > ver.revision_)
-      return true;
+                    if (revision_ > ver.revision_)
+                        return true;
 
-    if (build_ > ver.build_)
-      return true;
+                    if (build_ > ver.build_)
+                        return true;
 
-    return false;
-  }
+                    return false;
+                }
 
-  bool operator >=(const Version& ver) {
-    if (major_ >= ver.major_)
-      return true;
+                bool operator>=(const Version &ver) const {
+                    if (major_ >= ver.major_)
+                        return true;
 
-    if (minor_ >= ver.minor_)
-      return true;
+                    if (minor_ >= ver.minor_)
+                        return true;
 
-    if (revision_ >= ver.revision_)
-      return true;
+                    if (revision_ >= ver.revision_)
+                        return true;
 
-    if (build_ >= ver.build_)
-      return true;
+                    if (build_ >= ver.build_)
+                        return true;
 
-    return false;
-  }
+                    return false;
+                }
 
-  friend std::ostream& operator <<(std::ostream& stream, const Version& ver) {
-    stream << ver.major_ << '.'
-           << ver.minor_ << '.'
-           << ver.revision_ << '.'
-           << ver.build_;
-    return stream;
-  }
+                friend std::ostream &operator<<(std::ostream &stream, const Version &ver) {
+                    stream << ver.major_ << '.'
+                           << ver.minor_ << '.'
+                           << ver.revision_ << '.'
+                           << ver.build_;
+                    return stream;
+                }
 
-  uint32_t major() {
-    return major_;
-  }
+                uint32_t major() const {
+                    return major_;
+                }
 
-  uint32_t minor() {
-    return minor_;
-  }
+                uint32_t minor() const {
+                    return minor_;
+                }
 
-  uint32_t revision() {
-    return revision_;
-  }
+                uint32_t revision() const {
+                    return revision_;
+                }
 
-  uint32_t build() {
-    return build_;
-  }
+                uint32_t build() const {
+                    return build_;
+                }
 
- private:
-  void SplitVersion(const std::string& ver) {
-    std::sscanf(ver.c_str(), "%d.%d.%d.%d", &major_, &minor_, &revision_,
-                &build_);
+            private:
+                void SplitVersion(const std::string &ver) {
+                    std::sscanf(ver.c_str(), "%d.%d.%d.%d", &major_, &minor_, &revision_,
+                                &build_);
 
-    HAPPY_ASSERT(major_ >= 0);
-    HAPPY_ASSERT(minor_ >= 0);
-    HAPPY_ASSERT(revision_ >= 0);
-    HAPPY_ASSERT(build_ >= 0);
-  }
+                    HAPPY_ASSERT(major_ >= 0);
+                    HAPPY_ASSERT(minor_ >= 0);
+                    HAPPY_ASSERT(revision_ >= 0);
+                    HAPPY_ASSERT(build_ >= 0);
+                }
 
- private:
-  uint32_t major_;
-  uint32_t minor_;
-  uint32_t revision_;
-  uint32_t build_;
-};
+            private:
+                uint32_t major_{};
+                uint32_t minor_{};
+                uint32_t revision_{};
+                uint32_t build_{};
+            };
 
-} /* namespace hcversion */
+        } /* namespace hcversion */
 
-} /* namespace hcalgorithm */
+    } /* namespace hcalgorithm */
 
 } /* namespace happycpp */
 

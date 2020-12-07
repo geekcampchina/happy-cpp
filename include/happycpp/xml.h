@@ -24,8 +24,8 @@
 #ifndef INCLUDE_HAPPYCPP_XML_H_
 #define INCLUDE_HAPPYCPP_XML_H_
 
-#include <happycpp/algorithm.h>
-#include <happycpp/exception.h>
+#include "happycpp/algorithm.h"
+#include "happycpp/exception.h"
 #include <pugixml.hpp>
 #include <string>
 
@@ -35,31 +35,31 @@ using happycpp::hcalgorithm::hcstring::ToLower;
 
 namespace happycpp {
 
-namespace hcxml {
+    namespace hcxml {
 
-typedef enum {
-  VM_STRICT,  // 严格
-  VM_LOOSE  // 自由的
-} value_mode_t;
+        typedef enum {
+            VM_STRICT,  // 严格
+            VM_LOOSE  // 自由的
+        } value_mode_t;
 
 /* 在 XML 字符串中查找指定的节点，返回匹配的节点数量
  * xpath表示指定的节点路径 */
-HAPPYCPP_SHARED_LIB_API size_t SpecNodeSize(const std::string &xml,
-                                            const std::string &xpath);
+        HAPPYCPP_SHARED_LIB_API size_t SpecNodeSize(const std::string &xml,
+                                                    const std::string &xpath);
 
-HAPPYCPP_SHARED_LIB_API std::string LoadFromFile(const std::string &f);
+        HAPPYCPP_SHARED_LIB_API std::string LoadFromFile(const std::string &f);
 
 // 固定的文件头
 // <?xml version="1.0" encoding="UTF-8"?>
-HAPPYCPP_SHARED_LIB_API std::string ToStr(pugi::xml_document *doc,
-                                          const std::string &indent = "\t");
+        HAPPYCPP_SHARED_LIB_API std::string ToStr(pugi::xml_document *doc,
+                                                  const std::string &indent = "\t");
 
 /* 格式化 XML 字符串*/
-HAPPYCPP_SHARED_LIB_API std::string Format(const std::string &xml,
-                                           const std::string &indent = "\t");
+        HAPPYCPP_SHARED_LIB_API std::string Format(const std::string &xml,
+                                                   const std::string &indent = "\t");
 
 /* 验证字符串是否是xml格式 */
-HAPPYCPP_SHARED_LIB_API bool Validate(const std::string &xml);
+        HAPPYCPP_SHARED_LIB_API bool Validate(const std::string &xml);
 
 /* 获取xml中，找到的第一个节点的值。不考虑位置
  * 从匹配选择的当前节点选择文档中的节点，而不考虑它们的位置，也就是相对位置。
@@ -74,8 +74,8 @@ HAPPYCPP_SHARED_LIB_API bool Validate(const std::string &xml);
  * 2. 存在两个cmd，但获取的始终是第一个cmd
  * 3. 查找不存在的节点，xpath总是返回空，函数返回 false
  */
-bool GetValue(const std::string &src, const std::string &key,
-              std::string *value);
+        bool GetValue(const std::string &src, const std::string &key,
+                      std::string *value);
 
 /*
  选取此节点的所有子节点。
@@ -95,57 +95,62 @@ bool GetValue(const std::string &src, const std::string &key,
 
  选取第二个book节点，查找name，会返回Codebook2
  */
-bool GetValue(const pugi::xml_node &src, const std::string &key,
-              std::string *value);
+        bool GetValue(const pugi::xml_node &src, const std::string &key,
+                      std::string *value);
 
-template<class T> std::string GetValue(const T &src, const std::string &key,
-                                       value_mode_t mode = VM_STRICT) {
-  std::string value("");
-  const bool ret = GetValue(src, key, &value);
+        template<class T>
+        std::string GetValue(const T &src, const std::string &key,
+                             value_mode_t mode = VM_STRICT) {
+            std::string value;
+            const bool ret = GetValue(src, key, &value);
 
-  if (mode == VM_STRICT && ret)  // 严格模式，并且获取成功，直接返回值
-    return value;
-  else if (mode == VM_STRICT && !ret)  // 严格模式，并且获取失败，则抛出异常
-    ThrowHappyException("Node mismatched.");
-  else
-    return value;  // 非严格模式，直接返回值
-}
+            if (mode == VM_STRICT && ret)  // 严格模式，并且获取成功，直接返回值
+                return value;
+            else if (mode == VM_STRICT && !ret)  // 严格模式，并且获取失败，则抛出异常
+                ThrowHappyException("Node mismatched.");
+            else
+                return value;  // 非严格模式，直接返回值
+        }
 
-template<class T> bool GetValueAsBool(const T &src, const std::string &key,
-                                      value_mode_t mode = VM_STRICT) {
-  std::string value(GetValue(src, key, mode));
-  value = ToLower(value);
+        template<class T>
+        bool GetValueAsBool(const T &src, const std::string &key,
+                            value_mode_t mode = VM_STRICT) {
+            std::string value(GetValue(src, key, mode));
+            value = ToLower(value);
 
-  if (IsDigit(value))
-    return (value != "0");
-  else if (IsAlpha(value))
-    return (value == "true");
-  else
-    return false;
-}
+            if (IsDigit(value))
+                return (value != "0");
+            else if (IsAlpha(value))
+                return (value == "true");
+            else
+                return false;
+        }
 
-template<class T> int32_t GetValueAsInt32(const T &src, const std::string &key,
-                                          value_mode_t mode = VM_STRICT) {
-  const std::string value(GetValue(src, key, mode));
-  return stoi(value);
-}
+        template<class T>
+        int32_t GetValueAsInt32(const T &src, const std::string &key,
+                                value_mode_t mode = VM_STRICT) {
+            const std::string value(GetValue(src, key, mode));
+            return stoi(value);
+        }
 
-template<class T> int64_t GetValueAsInt64(const T &src, const std::string &key,
-                                          value_mode_t mode = VM_STRICT) {
-  const std::string value(GetValue(src, key, mode));
-  return stol(value);
-}
+        template<class T>
+        int64_t GetValueAsInt64(const T &src, const std::string &key,
+                                value_mode_t mode = VM_STRICT) {
+            const std::string value(GetValue(src, key, mode));
+            return stol(value);
+        }
 
-template<class T> double GetValueAsDouble(const T &src, const std::string &key,
-                                          value_mode_t mode = VM_STRICT) {
-  const std::string value(GetValue(src, key, mode));
-  return stod(value);
-}
+        template<class T>
+        double GetValueAsDouble(const T &src, const std::string &key,
+                                value_mode_t mode = VM_STRICT) {
+            const std::string value(GetValue(src, key, mode));
+            return stod(value);
+        }
 
-std::string GetTxtValue(const pugi::xml_node &node,
-                        value_mode_t mode = VM_STRICT);
+        std::string GetTxtValue(const pugi::xml_node &node,
+                                value_mode_t mode = VM_STRICT);
 
-} /* namespace hcxml */
+    } /* namespace hcxml */
 
 } /* namespace happycpp */
 

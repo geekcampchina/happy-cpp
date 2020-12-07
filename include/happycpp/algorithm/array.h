@@ -24,54 +24,54 @@
 #ifndef INCLUDE_HAPPYCPP_ALGORITHM_ARRAY_H_
 #define INCLUDE_HAPPYCPP_ALGORITHM_ARRAY_H_
 
-#include <happycpp/common.h>
+#include "happycpp/common.h"
 #include <vector>
 #include <list>
 #include <algorithm>
 
 namespace happycpp {
 
-namespace hcalgorithm {
+    namespace hcalgorithm {
 
-namespace hcarray {
+        namespace hcarray {
 
-template<class T>
-inline bool Exists(const std::vector<T> &v, const T &e) {
-  return (std::find(v.begin(), v.end(), e) != v.end());
-}
+            template<class T>
+            inline bool Exists(const std::vector<T> &v, const T &e) {
+                return (std::find(v.begin(), v.end(), e) != v.end());
+            }
 
 // 检查数组中是否存在指定元素
-template<class T>
-inline bool Find(std::vector<T> *v, const T &e,
-                 typename std::vector<T>::iterator *it) {
-  typename std::vector<T>::iterator _it = std::find(v->begin(), v->end(), e);
+            template<class T>
+            inline bool Find(std::vector<T> *v, const T &e,
+                             typename std::vector<T>::iterator *it) {
+                typename std::vector<T>::iterator _it = std::find(v->begin(), v->end(), e);
 
-  if (_it == v->end())
-    return false;
+                if (_it == v->end())
+                    return false;
 
-  *it = _it;
-  return true;
-}
+                *it = _it;
+                return true;
+            }
 
 // 删除数组中所有重复的元素
-template<class T>
-inline void Unique(std::vector<T> *v) {
-  if (v->empty())
-    return;
+            template<class T>
+            inline void Unique(std::vector<T> *v) {
+                if (v->empty())
+                    return;
 
-  // 去重之前必须排序
-  std::sort(v->begin(), v->end());
+                // 去重之前必须排序
+                std::sort(v->begin(), v->end());
 
-  // 获取重复元素位置
-  typename std::vector<T>::iterator it = std::unique(v->begin(), v->end());
+                // 获取重复元素位置
+                typename std::vector<T>::iterator it = std::unique(v->begin(), v->end());
 
-  if (it != v->end())
-    v->erase(it, v->end());
-}
+                if (it != v->end())
+                    v->erase(it, v->end());
+            }
 
-} /* namespace hcarray */
+        } /* namespace hcarray */
 
-} /* namespace hcalgorithm */
+    } /* namespace hcalgorithm */
 
 } /* namespace happycpp */
 

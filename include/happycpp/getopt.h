@@ -1,6 +1,9 @@
 ﻿#include <happycpp/config_platform.h>
+
 #ifdef PLATFORM_LINUX
+
 #include <unistd.h>  // for getopt, getopt_long
+
 #else
 #ifndef __GETOPT_H__
 /**
@@ -252,9 +255,9 @@ extern "C" {
     int i, ambiguous, match;
 
 #define IDENTICAL_INTERPRETATION(_x, _y)                                \
-	(long_options[(_x)].has_arg == long_options[(_y)].has_arg &&    \
-	 long_options[(_x)].flag == long_options[(_y)].flag &&          \
-	 long_options[(_x)].val == long_options[(_y)].val)
+    (long_options[(_x)].has_arg == long_options[(_y)].has_arg &&    \
+     long_options[(_x)].flag == long_options[(_y)].flag &&          \
+     long_options[(_x)].val == long_options[(_y)].val)
 
     current_argv = place;
     match = -1;

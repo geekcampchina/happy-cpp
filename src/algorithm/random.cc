@@ -18,58 +18,57 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#include <happycpp/algorithm/random.h>
-#include <happycpp/algorithm/string.h>
+#include "happycpp/algorithm/random.h"
 #include <cctype>
 #include <random>
 
 namespace happycpp {
 
-namespace hcalgorithm {
+    namespace hcalgorithm {
 
-namespace hcrandom {
-HAPPYCPP_SHARED_LIB_API uint64_t GetRandom() {
-  std::random_device rd;
-  return rd();
-}
+        namespace hcrandom {
+            HAPPYCPP_SHARED_LIB_API uint64_t GetRandom() {
+                std::random_device rd;
+                return rd();
+            }
 
-HAPPYCPP_SHARED_LIB_API std::string GenRandom(const size_t &size,
-                                              CharClassification cc) {
-  std::string str("");
-  size_t len = 0;
+            HAPPYCPP_SHARED_LIB_API std::string GenRandom(const size_t &size,
+                                                          CharClassification cc) {
+                std::string str;
+                size_t len = 0;
 
-  do {
-    int c = GetRandom() % 126;
-    bool ret_val = false;
+                do {
+                    int c = GetRandom() % 126;
+                    bool ret_val = false;
 
-    switch (cc) {
-      case kAlnum:
-        ret_val = std::isalnum(c);
-        break;
-      case kAlpha:
-        ret_val = std::isalpha(c);
-        break;
-      case kDigit:
-        ret_val = std::isdigit(c);
-        break;
-      case kPrint:
-        ret_val = (!std::isspace(c) && std::isprint(c));
-        break;
-      default:
-        break;
-    }
+                    switch (cc) {
+                        case kAlnum:
+                            ret_val = std::isalnum(c);
+                            break;
+                        case kAlpha:
+                            ret_val = std::isalpha(c);
+                            break;
+                        case kDigit:
+                            ret_val = std::isdigit(c);
+                            break;
+                        case kPrint:
+                            ret_val = (!std::isspace(c) && std::isprint(c));
+                            break;
+                        default:
+                            break;
+                    }
 
-    if (ret_val) {
-      str.push_back(c);
-      ++len;
-    }
-  } while (len < size);
+                    if (ret_val) {
+                        str.push_back(c);
+                        ++len;
+                    }
+                } while (len < size);
 
-  return str;
-}
+                return str;
+            }
 
-} /* namespace hcrandom */
+        } /* namespace hcrandom */
 
-} /* namespace hcalgorithm */
+    } /* namespace hcalgorithm */
 
 } /* namespace happycpp */

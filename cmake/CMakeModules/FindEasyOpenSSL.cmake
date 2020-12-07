@@ -56,45 +56,44 @@
 #
 
 function(_easyopenssl_append_debugs _endvar _library)
-    if(${_library} AND ${_library}_DEBUG)
+    if (${_library} AND ${_library}_DEBUG)
         set(_output optimized ${${_library}} debug ${${_library}_DEBUG})
-    else()
+    else ()
         set(_output ${${_library}})
-    endif()
+    endif ()
     set(${_endvar} ${_output} PARENT_SCOPE)
 endfunction()
 
 function(_easyopenssl_find_library _name)
     find_library(${_name}
-        NAMES ${ARGN}
-        HINTS
+            NAMES ${ARGN}
+            HINTS
             ENV EASYOPENSSL_ROOT
             ${EASYOPENSSL_ROOT}
-        PATH_SUFFIXES ${_easyopenssl_libpath_suffixes}
-    )
+            PATH_SUFFIXES ${_easyopenssl_libpath_suffixes}
+            )
     mark_as_advanced(${_name})
 endfunction()
 
 
-
 set(_easyopenssl_libpath_suffixes lib)
 
-find_path(EASYOPENSSL_INCLUDE_DIR 
-    NAMES easyopenssl/config.hxx easyopenssl/appender.h easyopenssl/loglevel.h
-    HINTS $ENV{EASYOPENSSL_ROOT} ${EASYOPENSSL_ROOT}
-    PATH_SUFFIXES include
-)
+find_path(EASYOPENSSL_INCLUDE_DIR
+        NAMES easyopenssl/config.hxx easyopenssl/appender.h easyopenssl/loglevel.h
+        HINTS $ENV{EASYOPENSSL_ROOT} ${EASYOPENSSL_ROOT}
+        PATH_SUFFIXES include
+        )
 mark_as_advanced(EASYOPENSSL_INCLUDE_DIR)
 
-_easyopenssl_find_library(EASYOPENSSL_LIBRARY          easyopenssl)
-_easyopenssl_find_library(EASYOPENSSL_LIBRARY_DEBUG    easyopensslD)
+_easyopenssl_find_library(EASYOPENSSL_LIBRARY easyopenssl)
+_easyopenssl_find_library(EASYOPENSSL_LIBRARY_DEBUG easyopensslD)
 
 include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(EasyOpenSSL DEFAULT_MSG EASYOPENSSL_LIBRARY EASYOPENSSL_INCLUDE_DIR)
 
-if(EASYOPENSSL_FOUND)
+if (EASYOPENSSL_FOUND)
     set(EASYOPENSSL_INCLUDE_DIRS ${EASYOPENSSL_INCLUDE_DIR})
-    _easyopenssl_append_debugs(EASYOPENSSL_LIBRARIES      EASYOPENSSL_LIBRARY)
+    _easyopenssl_append_debugs(EASYOPENSSL_LIBRARIES EASYOPENSSL_LIBRARY)
     set(EASYOPENSSL_BOTH_LIBRARIES ${EASYOPENSSL_LIBRARIES})
-endif()
+endif ()
 

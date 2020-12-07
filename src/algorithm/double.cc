@@ -18,40 +18,39 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#include <happycpp/algorithm/double.h>
+#include "happycpp/algorithm/double.h"
 #include <cmath>
-#include <sstream>
 
 using std::stringstream;
 
 namespace happycpp {
 
-namespace hcalgorithm {
+    namespace hcalgorithm {
 
-namespace hcdouble {
+        namespace hcdouble {
 
-HAPPYCPP_SHARED_LIB_API double Round(const double &d,
-                                     const int32_t &precision) {
-  double i = 0.0;
-  double y = 0.0;
+            HAPPYCPP_SHARED_LIB_API double Round(const double &d,
+                                                 const int32_t &precision) {
+                double i;
+                double y;
 
-  if (d == 0)
-    return d;
+                if (d == 0)
+                    return d;
 
-  i = d * pow(10.00, static_cast<double>(precision));
+                i = d * pow(10.00, static_cast<double>(precision));
 
-  if (d > 0)
-    i = static_cast<int64_t>(i + 0.5);
-  else if (d < 0)
-    i = static_cast<int64_t>(i - 0.5);
+                if (d > 0)
+                    i = static_cast<int64_t>(i + 0.5);
+                else if (d < 0)
+                    i = static_cast<int64_t>(i - 0.5);
 
-  y = i * pow(10.00, -precision);
+                y = i * pow(10.00, -precision);
 
-  return y;
-}
+                return y;
+            }
 
-} /* namespace hcdouble */
+        } /* namespace hcdouble */
 
-} /* namespace hcalgorithm */
+    } /* namespace hcalgorithm */
 
 } /* namespace happycpp */

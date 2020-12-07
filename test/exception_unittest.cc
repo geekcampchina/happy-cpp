@@ -19,14 +19,14 @@
 // IN THE SOFTWARE.
 
 #include <gtest/gtest.h>
-#include <happycpp/exception.h>
+#include "happycpp/exception.h"
 
 TEST(HAPPYCPP_UNITTEST, HappyException) {
-  EXPECT_THROW(ThrowHappyException("test message."), happycpp::HappyException);
+    EXPECT_THROW(ThrowHappyException("test message."), happycpp::HappyException);
 
-  try {
-    ThrowHappyException("test message.");
-  } catch (happycpp::HappyException &e) {
-    EXPECT_STREQ("test message.", e.what());
-  }
+    try {
+        ThrowHappyException("test message.");
+    } catch (happycpp::HappyException &e) {
+        EXPECT_STREQ("test message.", e.what());
+    }
 }

@@ -19,9 +19,9 @@
 // IN THE SOFTWARE.
 
 #include <gtest/gtest.h>
-#include <happycpp/algorithm/random.h>
-#include <happycpp/algorithm/array.h>
-#include <happycpp/algorithm/time.h>
+#include "happycpp/algorithm/random.h"
+#include "happycpp/algorithm/array.h"
+#include "happycpp/algorithm/hctime.h"
 
 namespace hhharray = happycpp::hcalgorithm::hcarray;
 namespace hhhtime = happycpp::hcalgorithm::hctime;
@@ -31,65 +31,65 @@ bool CheckCharClassification(const std::string &s,
                              CharClassification cc = kPrint);
 
 bool CheckCharClassification(const std::string &s, CharClassification cc) {
-  bool ret = true;
+    bool ret = true;
 
-  for (uint32_t i = 0; i < s.size(); ++i) {
-    char c = s[i];
+    for (uint32_t i = 0; i < s.size(); ++i) {
+        char c = s[i];
 
-    switch (cc) {
-      case kAlnum:
-        ret = isalnum(c);
-        break;
-      case kAlpha:
-        ret = isalpha(c);
-        break;
-      case kDigit:
-        ret = isdigit(c);
-        break;
-      case kPrint:
-        ret = (!isspace(c) && isprint(c));
-        break;
-      default:
-        break;
+        switch (cc) {
+            case kAlnum:
+                ret = isalnum(c);
+                break;
+            case kAlpha:
+                ret = isalpha(c);
+                break;
+            case kDigit:
+                ret = isdigit(c);
+                break;
+            case kPrint:
+                ret = (!isspace(c) && isprint(c));
+                break;
+            default:
+                break;
+        }
+
+        if (!ret)
+            return false;
     }
 
-    if (!ret)
-      return false;
-  }
-
-  return true;
+    return true;
 }
 
 TEST(HCRANDOM_UNITTEST, GetRandom_int64) {
-  std::vector<int64_t> v;
+    std::vector<int64_t> v;
 
-  for (int64_t i = 0; i < 100; ++i) {
-    hhhtime::HappySleep(1);
-    v.push_back(hhhrandom::GetRandom());
-  }
+    for (int64_t i = 0; i < 100; ++i) {
+        hhhtime::HappySleep(1);
+        v.push_back(hhhrandom::GetRandom());
+    }
 
-  hhharray::Unique(&v);
-  const size_t v_unique_size = v.size();
-  const double ratio = v_unique_size / 100.0;
+    hhharray::Unique(&v);
+    const size_t v_unique_size = v.size();
+    const double ratio = v_unique_size / 100.0;
 
-  // ratio >= 90%
-  EXPECT_GE(ratio, 0.90);
+    // ratio >= 90%
+    EXPECT_GE(ratio, 0.90);
 }
 
 TEST(HCRANDOM_UNITTEST, GetRandom_str) {
-  const std::string s1(hhhrandom::GenRandom(11, kAlnum));
-  EXPECT_EQ(11U, s1.size());
-  EXPECT_TRUE(CheckCharClassification(s1, kAlnum));
+    const std::string s1(hhhrandom::GenRandom(11, kAlnum));
+    EXPECT_EQ(11U, s1.size());
+    EXPECT_TRUE(CheckCharClassification(s1, kAlnum));
 
-  const std::string s2(hhhrandom::GenRandom(12, kAlpha));
-  EXPECT_EQ(12U, s2.size());
-  EXPECT_TRUE(CheckCharClassification(s2, kAlpha));
+    const std::string s2(hhhrandom::GenRandom(12, kAlpha));
+    EXPECT_EQ(12U, s2.size());
+    EXPECT_TRUE(CheckCharClassification(s2, kAlpha));
 
-  const std::string s3(hhhrandom::GenRandom(13, kDigit));
-  EXPECT_EQ(13U, s3.size());
-  EXPECT_TRUE(CheckCharClassification(s3, kDigit));
+    const std::string s3(hhhrandom::GenRandom(13, kDigit));
+    EXPECT_EQ(13U, s3.size());
+    EXPECT_TRUE(CheckCharClassification(s3, kDigit));
 
-  const std::string s4(hhhrandom::GenRandom(14, kPrint));
-  EXPECT_EQ(14U, s4.size());
-  EXPECT_TRUE(CheckCharClassification(s4, kPrint));
+    const std::string s4(hhhrandom::GenRandom(14, kPrint));
+    EXPECT_EQ(14U, s4.size());
+    EXPECT_TRUE(CheckCharClassification(s4, kPrint));
 }

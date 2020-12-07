@@ -24,13 +24,13 @@
 #ifndef INCLUDE_HAPPYCPP_ALGORITHM_DOUBLE_H_
 #define INCLUDE_HAPPYCPP_ALGORITHM_DOUBLE_H_
 
-#include <happycpp/common.h>
+#include "happycpp/common.h"
 
 namespace happycpp {
 
-namespace hcalgorithm {
+    namespace hcalgorithm {
 
-namespace hcdouble {
+        namespace hcdouble {
 
 /*
  四舍五入浮点数
@@ -41,12 +41,12 @@ namespace hcdouble {
  传入4.9999，返回5
  传入4.9778，精度2，返回4.98
  */
-HAPPYCPP_SHARED_LIB_API double Round(const double &d,
-                                     const int32_t &precision);
+            HAPPYCPP_SHARED_LIB_API double Round(const double &d,
+                                                 const int32_t &precision);
 
-} /* namespace hcdouble */
+        } /* namespace hcdouble */
 
-} /* namespace hcalgorithm */
+    } /* namespace hcalgorithm */
 
 } /* namespace happycpp */
 

@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
 
-PROJECT(HappyCpp CXX)
+PROJECT(happy-cpp CXX)
 
 IF (MSVC)
     SET(BUILD_MODE STATIC)
@@ -34,7 +34,7 @@ ELSE ()
             "如果值为 ON，HAPPYCPP 将构建为共享库, 反之为静态库。")
 ENDIF ()
 
-# 所有使用 HappyCpp 静态库的项目都必须定义 HAPPYCPP_STATICLIB 宏
+# 所有使用 happy-cpp 静态库的项目都必须定义 HAPPYCPP_STATICLIB 宏
 IF (NOT HAPPYCPP_SHAREDLIB)
     ADD_DEFINITIONS("-DHAPPYCPP_STATICLIB")
 ENDIF ()
@@ -56,21 +56,6 @@ IF (MSVC)
 ENDIF ()
 
 ENABLE_TESTING()
-
-# CMAKE_INSTALL_PREFIX 只能在主 CMake 配置中生效，不能在包含的其它目录设置
-# 设置安装路径
-# 在 64 位系统上，32 位程序会安装到 C:/Program Files (x86)
-# 在 64 位系统上，64 位程序会安装到 C:/Program Files
-# 在 32 位系统上，程序会安装到 C:/Program Files
-IF (MSVC)
-    string(REPLACE
-            "HappyCpp"
-            "Geek Camp China"
-            NEW_INSTALL_PREFIX
-            ${CMAKE_INSTALL_PREFIX})
-    SET(CMAKE_INSTALL_PREFIX ${NEW_INSTALL_PREFIX})
-    message("CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}")
-ENDIF ()
 
 INSTALL(DIRECTORY include/happycpp DESTINATION include)
 

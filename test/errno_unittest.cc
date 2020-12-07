@@ -19,9 +19,9 @@
 // IN THE SOFTWARE.
 
 #include <gtest/gtest.h>
-#include <happycpp/filesys.h>
-#include <happycpp/errno.h>
-#include <happycpp/exception.h>
+#include "happycpp/filesys.h"
+#include "happycpp/hcerrno.h"
+#include "happycpp/exception.h"
 #include <iostream>
 
 #ifdef PLATFORM_WIN32
@@ -30,23 +30,25 @@
 #include <Windows.h>
 #endif
 #else
+
 #include <errno.h>
+
 #endif
 
 TEST(HCERRNO_UNITTEST, ErrorToStr) {
 #ifdef PLATFORM_WIN32
-  SetLastError(0);
-  EXPECT_STREQ("", happycpp::hcerrno::ErrorToStr().c_str());
+    SetLastError(0);
+    EXPECT_STREQ("", happycpp::hcerrno::ErrorToStr().c_str());
 
-  std::ifstream ifs("test_+abc.txt");
-  EXPECT_STREQ("The system cannot find the file specified(errno: 2)",
-               happycpp::hcerrno::ErrorToStr().c_str());
+    std::ifstream ifs("test_+abc.txt");
+    EXPECT_STREQ("The system cannot find the file specified(errno: 2)",
+                 happycpp::hcerrno::ErrorToStr().c_str());
 #else
-  errno = 0;
-  EXPECT_STREQ("", happycpp::hcerrno::ErrorToStr().c_str());
+    errno = 0;
+    EXPECT_STREQ("", happycpp::hcerrno::ErrorToStr().c_str());
 
-  std::ifstream ifs("test_+abc.txt");
-  EXPECT_STREQ("No such file or directory(errno: 2)",
-               happycpp::hcerrno::ErrorToStr().c_str());
+    std::ifstream ifs("test_+abc.txt");
+    EXPECT_STREQ("No such file or directory(errno: 2)",
+                 happycpp::hcerrno::ErrorToStr().c_str());
 #endif
 }

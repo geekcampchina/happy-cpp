@@ -24,28 +24,28 @@
 #ifndef INCLUDE_HAPPYCPP_CMD_H_
 #define INCLUDE_HAPPYCPP_CMD_H_
 
-#include <happycpp/common.h>
+#include "happycpp/common.h"
 #include <string>
 
 namespace happycpp {
 
-namespace hccmd {
+    namespace hccmd {
 
 // 执行系统命令，屏蔽标准输出，根据命令退出代码返回布尔值
-HAPPYCPP_SHARED_LIB_API bool GetExitStatusOfCmd(const std::string &cmd);
+        HAPPYCPP_SHARED_LIB_API bool GetExitStatusOfCmd(const std::string &cmd);
 
 // 执行系统命令，返回命令执行结果字符串
-HAPPYCPP_SHARED_LIB_API std::string GetOutputOfCmd(const std::string &cmd);
+        HAPPYCPP_SHARED_LIB_API std::string GetOutputOfCmd(const std::string &cmd);
 
 #ifdef PLATFORM_WIN32
-// 使用非阻塞的子进程执行命令
-HAPPYCPP_SHARED_LIB_API void ExecuteCmdWithSubProc(
-    const std::string &cmd, const uint32_t &delay_secs = 0);
+        // 使用非阻塞的子进程执行命令
+        HAPPYCPP_SHARED_LIB_API void ExecuteCmdWithSubProc(
+            const std::string &cmd, const uint32_t &delay_secs = 0);
 #else
 // Linux 直接使用 sleep + & 即可达到同样的效果。比如，sleep 2 && ls /tmp &
 #endif
 
-} /* namespace hccmd */
+    } /* namespace hccmd */
 
 } /* namespace happycpp */
 

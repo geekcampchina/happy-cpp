@@ -57,45 +57,44 @@
 #
 
 function(_intl_append_debugs _endvar _library)
-    if(${_library} AND ${_library}_DEBUG)
+    if (${_library} AND ${_library}_DEBUG)
         set(_output optimized ${${_library}} debug ${${_library}_DEBUG})
-    else()
+    else ()
         set(_output ${${_library}})
-    endif()
+    endif ()
 
     set(${_endvar} ${_output} PARENT_SCOPE)
 endfunction()
 
 function(_intl_find_library _name)
     find_library(${_name}
-        NAMES ${ARGN}
-        HINTS
+            NAMES ${ARGN}
+            HINTS
             ENV INTL_ROOT
             ${INTL_ROOT}
-        PATH_SUFFIXES ${_intl_libpath_suffixes}
-    )
+            PATH_SUFFIXES ${_intl_libpath_suffixes}
+            )
     mark_as_advanced(${_name})
 endfunction()
-
 
 
 set(_intl_libpath_suffixes lib)
 
 find_path(INTL_INCLUDE_DIR libintl.h
-    HINTS $ENV{INTL_ROOT} ${INTL_ROOT}
-    PATH_SUFFIXES include
-)
+        HINTS $ENV{INTL_ROOT} ${INTL_ROOT}
+        PATH_SUFFIXES include
+        )
 mark_as_advanced(INTL_INCLUDE_DIR)
 
-_intl_find_library(INTL_LIBRARY          libintl)
-_intl_find_library(INTL_LIBRARY_DEBUG    libintlD)
+_intl_find_library(INTL_LIBRARY libintl)
+_intl_find_library(INTL_LIBRARY_DEBUG libintlD)
 
 include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(Intl DEFAULT_MSG INTL_INCLUDE_DIR)
 
-if(INTL_FOUND)
+if (INTL_FOUND)
     set(INTL_INCLUDE_DIRS ${INTL_INCLUDE_DIR})
-    _intl_append_debugs(INTL_LIBRARIES      INTL_LIBRARY)
+    _intl_append_debugs(INTL_LIBRARIES INTL_LIBRARY)
     set(INTL_BOTH_LIBRARIES ${INTL_LIBRARIES})
-endif()
+endif ()
 

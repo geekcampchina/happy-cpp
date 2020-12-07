@@ -35,7 +35,9 @@ typedef intptr_t ssize_t;
 #define _SSIZE_T_DEFINED
 #endif
 #else
+
 #include <sys/types.h>
+
 #endif
 
 typedef uint64_t byte_t;
@@ -52,40 +54,40 @@ typedef double pb_t;
 
 // 文件类型
 typedef enum {
-  kFile,
-  kDir,
-  kAll
+    kFile,
+    kDir,
+    kAll
 } FileType;
 
 // 比较结果
 typedef enum {
-  kLess = -1,
-  kEqual,  // 0
-  kGreater  // 1
+    kLess = -1,
+    kEqual,  // 0
+    kGreater  // 1
 } CmpResult;
 
 typedef enum {
-  kStreamFile,
-  kStreamStdout,
-  kStreamStderr
+    kStreamFile,
+    kStreamStdout,
+    kStreamStderr
 } LogOutputStream;
 
 typedef enum {
-  LOG_TRACE,
-  LOG_DEBUG,
-  LOG_INFO,
-  LOG_WARN,
-  LOG_ERROR,
-  LOG_FATAL,
-  LOG_OFF
+    LOG_TRACE,
+    LOG_DEBUG,
+    LOG_INFO,
+    LOG_WARN,
+    LOG_ERROR,
+    LOG_FATAL,
+    LOG_OFF
 } LogLevelNumber;
 
 typedef struct {
-  uint32_t level;
-  LogOutputStream output_to;
-  size_t max_byte;  // 0 为不限制大小
-  std::string path;
-  std::string default_dir;  // 默认日志目录
+    uint32_t level;
+    LogOutputStream output_to;
+    size_t max_byte;  // 0 为不限制大小
+    std::string path;
+    std::string default_dir;  // 默认日志目录
 } LogConfig;
 
 /*
@@ -115,40 +117,40 @@ typedef struct {
 // 二进制乘数词头枚举，不支持EiB、ZiB和YiB
 // 国际单位制词头枚举，不支持EB、ZB和YB
 typedef enum {
-  kUnitByte = 0,  // byte
-  // 二进制乘数词头 {
-  kUnitKiB,  // kibibyte,
-  kUnitMiB,  // mebibyte,
-  kUnitGiB,  // gibibyte,
-  kUnitTiB,  // tebibyte,
-  kUnitPiB,  // pebibyte,
-  // }
-  // 国际单位制词头 {
-  kUnitKB,  // kilobyte,
-  kUnitMB,  // megabyte,
-  kUnitGB,  // gigabyte,
-  kUnitTB,  // terabyte,
-  kUnitPB,  // petabyte,
-  // }
+    kUnitByte = 0,  // byte
+    // 二进制乘数词头 {
+    kUnitKiB,  // kibibyte,
+    kUnitMiB,  // mebibyte,
+    kUnitGiB,  // gibibyte,
+    kUnitTiB,  // tebibyte,
+    kUnitPiB,  // pebibyte,
+    // }
+    // 国际单位制词头 {
+    kUnitKB,  // kilobyte,
+    kUnitMB,  // megabyte,
+    kUnitGB,  // gigabyte,
+    kUnitTB,  // terabyte,
+    kUnitPB,  // petabyte,
+    // }
 } UnitType;
 
 typedef enum {
-  kAlnum,  // 字母以及数字
-  kAlpha,  // 字母
-  kDigit,  // 数字
-  kPrint  // 可见字符
+    kAlnum,  // 字母以及数字
+    kAlpha,  // 字母
+    kDigit,  // 数字
+    kPrint  // 可见字符
 } CharClassification;
 
 // 文件或者目录状态
 typedef struct {
-  FileType type;  // 文件类型： 文件、目录 或 所有(文件和目录)
-  std::string name;  // 文件名
-  std::string ext;  // 文件扩展名，小写
-  std::string path;  // 文件全路径
-  byte_t bytes;  // 文件大小，单位字节(byte)。如果是目录，则为0
-  time_t atime;  // 文件访问时间，秒
-  time_t ctime;  // 文件状态修改时间，秒
-  time_t mtime;  // 文件修改时间，秒
+    FileType type;  // 文件类型： 文件、目录 或 所有(文件和目录)
+    std::string name;  // 文件名
+    std::string ext;  // 文件扩展名，小写
+    std::string path;  // 文件全路径
+    byte_t bytes;  // 文件大小，单位字节(byte)。如果是目录，则为0
+    time_t atime;  // 文件访问时间，秒
+    time_t ctime;  // 文件状态修改时间，秒
+    time_t mtime;  // 文件修改时间，秒
 } FileStat;
 
 #endif  // INCLUDE_HAPPYCPP_TYPE_H_

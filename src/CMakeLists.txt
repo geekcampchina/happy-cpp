@@ -22,22 +22,21 @@ SET(SRC_LIST
         i18n.cc
         xml.cc
         http.cc
-        errno.cc
+        hcerrno.cc
         exception.cc
         algorithm/domain.cc
         algorithm/double.cc
         algorithm/int.cc
         algorithm/ip.cc
         algorithm/random.cc
-        algorithm/string.cc
-        algorithm/time.cc
+        algorithm/hcstring.cc
+        algorithm/hctime.cc
         algorithm/unit.cc
-        log.cc
         cmd.cc
         filesys.cc
         proc.cc
         os.cc
-        happylog.cc)
+        log.cc)
 
 IF (MSVC)
     SET(SRC_LIST ${SRC_LIST} windows.cc)

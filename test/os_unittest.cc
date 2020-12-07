@@ -19,7 +19,8 @@
 // IN THE SOFTWARE.
 
 #include <gtest/gtest.h>
-#include <happycpp/os.h>
+#include "happycpp/os.h"
+
 #ifdef PLATFORM_WIN32
 #include <Windows.h>
 #endif
@@ -342,137 +343,138 @@ TEST(HCOS_UNITTEST, GetOsInfo_2012R2) {
 #endif
 
 TEST(HCOS_UNITTEST, CentOS5) {
-  const std::string centos5_redhat_release("CentOS release 5.11 (Final)");
+    const std::string centos5_redhat_release("CentOS release 5.11 (Final)");
 
-  hhos::OsIdentification osi;
-  ASSERT_TRUE(_GetOsInfo(centos5_redhat_release.c_str(), &osi));
-  ASSERT_EQ(hhos::kCentOS, osi.id);
-  ASSERT_EQ(hhos::kCentOS5, osi.version);
-  ASSERT_EQ(5U, osi.major_version);
-  ASSERT_EQ(11U, osi.minor_version);
-  ASSERT_EQ("", osi.build_id);
-  ASSERT_EQ("final", osi.code_id);
-  ASSERT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
-  ASSERT_EQ(centos5_redhat_release, osi.pretty_name);
+    hhos::OsIdentification osi;
+    ASSERT_TRUE(_GetOsInfo(centos5_redhat_release.c_str(), &osi));
+    ASSERT_EQ(hhos::kCentOS, osi.id);
+    ASSERT_EQ(hhos::kCentOS5, osi.version);
+    ASSERT_EQ(5U, osi.major_version);
+    ASSERT_EQ(11U, osi.minor_version);
+    ASSERT_EQ("", osi.build_id);
+    ASSERT_EQ("final", osi.code_id);
+    ASSERT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
+    ASSERT_EQ(centos5_redhat_release, osi.pretty_name);
 }
 
 TEST(HCOS_UNITTEST, CentOS6) {
-  const std::string centos6_redhat_release("CentOS release 6.7 (Final)");
+    const std::string centos6_redhat_release("CentOS release 6.7 (Final)");
 
-  hhos::OsIdentification osi;
-  ASSERT_TRUE(_GetOsInfo(centos6_redhat_release.c_str(), &osi));
-  ASSERT_EQ(hhos::kCentOS, osi.id);
-  ASSERT_EQ(hhos::kCentOS6, osi.version);
-  ASSERT_EQ(6U, osi.major_version);
-  ASSERT_EQ(7U, osi.minor_version);
-  ASSERT_EQ("", osi.build_id);
-  ASSERT_EQ("final", osi.code_id);
-  ASSERT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
-  ASSERT_EQ(centos6_redhat_release, osi.pretty_name);
+    hhos::OsIdentification osi;
+    ASSERT_TRUE(_GetOsInfo(centos6_redhat_release.c_str(), &osi));
+    ASSERT_EQ(hhos::kCentOS, osi.id);
+    ASSERT_EQ(hhos::kCentOS6, osi.version);
+    ASSERT_EQ(6U, osi.major_version);
+    ASSERT_EQ(7U, osi.minor_version);
+    ASSERT_EQ("", osi.build_id);
+    ASSERT_EQ("final", osi.code_id);
+    ASSERT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
+    ASSERT_EQ(centos6_redhat_release, osi.pretty_name);
 }
 
 TEST(HCOS_UNITTEST, CentOS7) {
-  const std::string centos7_redhat_release(
-      "CentOS Linux release 7.2.1511 (Core)");
+    const std::string centos7_redhat_release(
+            "CentOS Linux release 7.2.1511 (Core)");
 
-  hhos::OsIdentification osi;
-  ASSERT_TRUE(_GetOsInfo(centos7_redhat_release.c_str(), &osi));
-  ASSERT_EQ(hhos::kCentOS, osi.id);
-  ASSERT_EQ(hhos::kCentOS7, osi.version);
-  ASSERT_EQ(7U, osi.major_version);
-  ASSERT_EQ(2U, osi.minor_version);
-  ASSERT_EQ("1511", osi.build_id);
-  ASSERT_EQ("core", osi.code_id);
-  ASSERT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
-  ASSERT_EQ(centos7_redhat_release, osi.pretty_name);
+    hhos::OsIdentification osi;
+    ASSERT_TRUE(_GetOsInfo(centos7_redhat_release.c_str(), &osi));
+    ASSERT_EQ(hhos::kCentOS, osi.id);
+    ASSERT_EQ(hhos::kCentOS7, osi.version);
+    ASSERT_EQ(7U, osi.major_version);
+    ASSERT_EQ(2U, osi.minor_version);
+    ASSERT_EQ("1511", osi.build_id);
+    ASSERT_EQ("core", osi.code_id);
+    ASSERT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
+    ASSERT_EQ(centos7_redhat_release, osi.pretty_name);
 }
 
 TEST(HCOS_UNITTEST, CentOS6_LSB) {
-  const std::string lsb_release(
-      "LSB_VERSION=base-4.0-amd64"
-      ":base-4.0-noarch:core-4.0-amd64"
-      ":core-4.0-noarch:graphics-4.0-amd64"
-      ":graphics-4.0-noarch"
-      ":printing-4.0-amd64"
-      ":printing-4.0-noarch");
+    const std::string lsb_release(
+            "LSB_VERSION=base-4.0-amd64"
+            ":base-4.0-noarch:core-4.0-amd64"
+            ":core-4.0-noarch:graphics-4.0-amd64"
+            ":graphics-4.0-noarch"
+            ":printing-4.0-amd64"
+            ":printing-4.0-noarch");
 
-  hhos::OsIdentification osi;
-  ASSERT_FALSE(_GetOsInfo(lsb_release.c_str(), &osi));
+    hhos::OsIdentification osi;
+    ASSERT_FALSE(_GetOsInfo(lsb_release.c_str(), &osi));
 }
 
 TEST(HCOS_UNITTEST, Ubuntu_12_04) {
-  const std::string lsb_release(
-      "DISTRIB_ID=Ubuntu\n"
-      "DISTRIB_RELEASE=12.04\n"
-      "DISTRIB_CODENAME=precise\n"
-      "DISTRIB_DESCRIPTION=\"Ubuntu 12.04 LTS\"");
+    const std::string lsb_release(
+            "DISTRIB_ID=Ubuntu\n"
+            "DISTRIB_RELEASE=12.04\n"
+            "DISTRIB_CODENAME=precise\n"
+            "DISTRIB_DESCRIPTION=\"Ubuntu 12.04 LTS\"");
 
-  hhos::OsIdentification osi;
-  ASSERT_TRUE(_GetOsInfo(lsb_release.c_str(), &osi));
+    hhos::OsIdentification osi;
+    ASSERT_TRUE(_GetOsInfo(lsb_release.c_str(), &osi));
 
-  ASSERT_EQ(hhos::kUbuntu, osi.id);
-  ASSERT_EQ(hhos::kUbuntu12_04, osi.version);
-  EXPECT_EQ(12U, osi.major_version);
-  EXPECT_EQ(4U, osi.minor_version);
-  EXPECT_EQ("", osi.build_id);
-  EXPECT_EQ("precise", osi.code_id);
-  EXPECT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
-  EXPECT_EQ("Ubuntu 12.04 LTS", osi.pretty_name);
+    ASSERT_EQ(hhos::kUbuntu, osi.id);
+    ASSERT_EQ(hhos::kUbuntu12_04, osi.version);
+    EXPECT_EQ(12U, osi.major_version);
+    EXPECT_EQ(4U, osi.minor_version);
+    EXPECT_EQ("", osi.build_id);
+    EXPECT_EQ("precise", osi.code_id);
+    EXPECT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
+    EXPECT_EQ("Ubuntu 12.04 LTS", osi.pretty_name);
 }
 
 TEST(HCOS_UNITTEST, CentOS7_OS) {
-  const std::string centos7_os_release(
-      "NAME=\"CentOS Linux\"\n"
-      "VERSION=\"7 (Core)\"\n"
-      "ID=\"centos\"\n"
-      "ID_LIKE=\"rhel fedora\"\n"
-      "VERSION_ID=\"7\"\n"
-      "PRETTY_NAME=\"CentOS Linux 7 (Core)\"\n"
-      "ANSI_COLOR=\"0;31\"\n"
-      "CPE_NAME=\"cpe:/o:centos:centos:7\"\n"
-      "HOME_URL=\"https://www.centos.org/\"\n"
-      "BUG_REPORT_URL=\"https://bugs.centos.org/\"\n"
-      "\n"
-      "CENTOS_MANTISBT_PROJECT=\"CentOS-7\"\n"
-      "CENTOS_MANTISBT_PROJECT_VERSION=\"7\"\n"
-      "REDHAT_SUPPORT_PRODUCT=\"centos\"\n"
-      "REDHAT_SUPPORT_PRODUCT_VERSION=\"7\"");
+    const std::string centos7_os_release(
+            "NAME=\"CentOS Linux\"\n"
+            "VERSION=\"7 (Core)\"\n"
+            "ID=\"centos\"\n"
+            "ID_LIKE=\"rhel fedora\"\n"
+            "VERSION_ID=\"7\"\n"
+            "PRETTY_NAME=\"CentOS Linux 7 (Core)\"\n"
+            "ANSI_COLOR=\"0;31\"\n"
+            "CPE_NAME=\"cpe:/o:centos:centos:7\"\n"
+            "HOME_URL=\"https://www.centos.org/\"\n"
+            "BUG_REPORT_URL=\"https://bugs.centos.org/\"\n"
+            "\n"
+            "CENTOS_MANTISBT_PROJECT=\"CentOS-7\"\n"
+            "CENTOS_MANTISBT_PROJECT_VERSION=\"7\"\n"
+            "REDHAT_SUPPORT_PRODUCT=\"centos\"\n"
+            "REDHAT_SUPPORT_PRODUCT_VERSION=\"7\"");
 
-  hhos::OsIdentification osi;
-  ASSERT_TRUE(_GetOsInfo(centos7_os_release.c_str(), &osi));
+    hhos::OsIdentification osi;
+    ASSERT_TRUE(_GetOsInfo(centos7_os_release.c_str(), &osi));
 
-  ASSERT_EQ(hhos::kCentOS, osi.id);
-  ASSERT_EQ(hhos::kCentOS7, osi.version);
-  ASSERT_EQ(7U, osi.major_version);
-  ASSERT_EQ(0U, osi.minor_version);
-  ASSERT_EQ("", osi.build_id);
-  ASSERT_EQ("", osi.code_id);
-  ASSERT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
-  ASSERT_EQ("CentOS Linux 7 (Core)", osi.pretty_name);
+    ASSERT_EQ(hhos::kCentOS, osi.id);
+    ASSERT_EQ(hhos::kCentOS7, osi.version);
+    ASSERT_EQ(7U, osi.major_version);
+    ASSERT_EQ(0U, osi.minor_version);
+    ASSERT_EQ("", osi.build_id);
+    ASSERT_EQ("", osi.code_id);
+    ASSERT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
+    ASSERT_EQ("CentOS Linux 7 (Core)", osi.pretty_name);
 }
 
 
 TEST(HCOS_UNITTEST, Ubuntu_14_04) {
-  const std::string ubuntu_os_release(
-      "NAME=\"Ubuntu\"\n"
-      "VERSION=\"14.04.4 LTS, Trusty Tahr\"\n"
-      "ID=ubuntu\n"
-      "ID_LIKE=debian\n"
-      "PRETTY_NAME=\"Ubuntu 14.04.4 LTS\"\n"
-      "VERSION_ID=\"14.04\"\n"
-      "HOME_URL=\"http://www.ubuntu.com/\"\n"
-      "SUPPORT_URL=\"http://help.ubuntu.com/\"\n"
-      "BUG_REPORT_URL=\"http://bugs.launchpad.net/ubuntu/\"");
-  hhos::OsIdentification osi;
-  ASSERT_TRUE(_GetOsInfo(ubuntu_os_release.c_str(), &osi));
+    const std::string ubuntu_os_release(
+            "NAME=\"Ubuntu\"\n"
+            "VERSION=\"14.04.4 LTS, Trusty Tahr\"\n"
+            "ID=ubuntu\n"
+            "ID_LIKE=debian\n"
+            "PRETTY_NAME=\"Ubuntu 14.04.4 LTS\"\n"
+            "VERSION_ID=\"14.04\"\n"
+            "HOME_URL=\"http://www.ubuntu.com/\"\n"
+            "SUPPORT_URL=\"http://help.ubuntu.com/\"\n"
+            "BUG_REPORT_URL=\"http://bugs.launchpad.net/ubuntu/\"");
+    hhos::OsIdentification osi;
+    ASSERT_TRUE(_GetOsInfo(ubuntu_os_release.c_str(), &osi));
 
-  ASSERT_EQ(hhos::kUbuntu, osi.id);
-  ASSERT_EQ(hhos::kUbuntu14_04, osi.version);
-  ASSERT_EQ(14U, osi.major_version);
-  ASSERT_EQ(04U, osi.minor_version);
-  ASSERT_EQ("", osi.build_id);
-  ASSERT_EQ("", osi.code_id);
-  ASSERT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
-  ASSERT_EQ("Ubuntu 14.04.4 LTS", osi.pretty_name);
+    ASSERT_EQ(hhos::kUbuntu, osi.id);
+    ASSERT_EQ(hhos::kUbuntu14_04, osi.version);
+    ASSERT_EQ(14U, osi.major_version);
+    ASSERT_EQ(04U, osi.minor_version);
+    ASSERT_EQ("", osi.build_id);
+    ASSERT_EQ("", osi.code_id);
+    ASSERT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
+    ASSERT_EQ("Ubuntu 14.04.4 LTS", osi.pretty_name);
 }
+
 #endif

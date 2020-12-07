@@ -19,9 +19,9 @@
 // IN THE SOFTWARE.
 
 #include <gtest/gtest.h>
-#include <happycpp/cmd.h>
-#include <happycpp/filesys.h>
-#include <happycpp/algorithm/time.h>
+#include "happycpp/cmd.h"
+#include "happycpp/filesys.h"
+#include "happycpp/algorithm/hctime.h"
 
 namespace hhcmd = happycpp::hccmd;
 
@@ -30,29 +30,29 @@ namespace hhtime = happycpp::hcalgorithm::hctime;
 #endif
 
 TEST(HCCMD_UNITTEST, GetExitStatusOfCmd) {
-  std::string cmd("");
-  bool ret = false;
+    std::string cmd("");
+    bool ret = false;
 
-  if (bfs::exists("cmdtest")) {
+    if (bfs::exists("cmdtest")) {
+        cmd = "rmdir cmdtest";
+        ret = hhcmd::GetExitStatusOfCmd(cmd);
+        EXPECT_TRUE(ret);
+    }
+
+    cmd = "mkdir cmdtest";
+    ret = hhcmd::GetExitStatusOfCmd(cmd);
+    EXPECT_TRUE(ret);
+
     cmd = "rmdir cmdtest";
     ret = hhcmd::GetExitStatusOfCmd(cmd);
     EXPECT_TRUE(ret);
-  }
-
-  cmd = "mkdir cmdtest";
-  ret = hhcmd::GetExitStatusOfCmd(cmd);
-  EXPECT_TRUE(ret);
-
-  cmd = "rmdir cmdtest";
-  ret = hhcmd::GetExitStatusOfCmd(cmd);
-  EXPECT_TRUE(ret);
 }
 
 TEST(HCCMD_UNITTEST, GetOutputOfCmd) {
-  std::string cmd("echo testing");
-  std::string ret(hhcmd::GetOutputOfCmd(cmd));
-  const std::string expected("testing");
-  EXPECT_STREQ(expected.c_str(), ret.c_str());
+    std::string cmd("echo testing");
+    std::string ret(hhcmd::GetOutputOfCmd(cmd));
+    const std::string expected("testing");
+    EXPECT_STREQ(expected.c_str(), ret.c_str());
 }
 
 #ifdef PLATFORM_WIN32

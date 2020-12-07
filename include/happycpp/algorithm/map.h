@@ -30,27 +30,27 @@
 
 namespace happycpp {
 
-namespace hcalgorithm {
+    namespace hcalgorithm {
 
-namespace hcmap {
+        namespace hcmap {
 
-template<class T, class V>
-typename T::const_iterator FindByValue(const T &m, const V &value) {
-  typename T::const_iterator it = std::find_if(
-      m.begin(), m.end(), boost::bind(&T::value_type::second, _1) == value);
+            template<class T, class V>
+            typename T::const_iterator FindByValue(const T &m, const V &value) {
+                typename T::const_iterator it = std::find_if(
+                        m.begin(), m.end(), boost::bind(&T::value_type::second, _1) == value);
 
-  return it;
-}
+                return it;
+            }
 
-template<class T1, class T2>
-void SwapKeyValue(const T1 &m1, T2 *m2) {
-  for (typename T1::const_iterator it = m1.begin(); it != m1.end(); ++it)
-    (*m2)[it->second] = it->first;
-}
+            template<class T1, class T2>
+            void SwapKeyValue(const T1 &m1, T2 *m2) {
+                for (typename T1::const_iterator it = m1.begin(); it != m1.end(); ++it)
+                    (*m2)[it->second] = it->first;
+            }
 
-} /* namespace hcmap */
+        } /* namespace hcmap */
 
-} /* namespace hcalgorithm */
+    } /* namespace hcalgorithm */
 
 } /* namespace happycpp */
 

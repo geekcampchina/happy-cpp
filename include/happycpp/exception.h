@@ -24,31 +24,31 @@
 #ifndef INCLUDE_HAPPYCPP_EXCEPTION_H_
 #define INCLUDE_HAPPYCPP_EXCEPTION_H_
 
-//TODO 合并到 libceng中，每个业务错误，都对应一个异常类
-
-#include <happycpp/common.h>
+#include "happycpp/common.h"
+#include "happycpp/log.h"
 #include <exception>
 #include <stdexcept>
 #include <string>
 
 namespace happycpp {
 
-class HAPPYCPP_SHARED_LIB_API HappyException : public std::exception {
- private:
-  std::string msg_;
+    class HAPPYCPP_SHARED_LIB_API HappyException : public std::exception {
+    private:
+        happycpp::log::HappyLogPtr hlog = happycpp::log::HappyLog::getInstance();
+        std::runtime_error _error;
 
- public:
-  // explicit 只对构造函数起作用，用来抑制隐式转换。
-  explicit HappyException(const std::string &msg, const std::string &file,
-                          int line) throw();
-  virtual ~HappyException() throw();
+    public:
+        // explicit 只对构造函数起作用，用来抑制隐式转换。
+        explicit HappyException(const std::string &msg);
 
-  virtual const char* what() const throw();
-};
+        ~HappyException() noexcept override;
+
+        const char *what() const noexcept override;
+    };
 
 } /* namespace happycpp */
 
 #define ThrowHappyException(msg) \
-  throw happycpp::HappyException(msg, __FILE__, __LINE__)
+  throw happycpp::HappyException(msg)
 
 #endif  // INCLUDE_HAPPYCPP_EXCEPTION_H_
