@@ -35,6 +35,16 @@ namespace fs = boost::filesystem;
 
 namespace happycpp {
     namespace log {
+        /*
+         * 示例代码：
+        #include "happycpp/happylog.h"
+
+        using namespace happycpp::log;
+
+        fs::path p = fs::current_path() / DEFAULT_LOG_PROFILE_NAME;
+        HappyLogPtr hlog = HappyLog::getInstance(p);
+        hlog->info("test message......");
+         */
         class HappyLog {
         private:
             log4cplus::Logger _logger;
