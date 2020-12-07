@@ -1,9 +1,9 @@
 FUNCTION(ADD_UNITTEST unittest_name src_files)
-  ADD_EXECUTABLE(${unittest_name} ${src_files})
-  TARGET_LINK_LIBRARIES(${unittest_name} ${GTEST_BOTH_LIBRARIES} 
-                        happycpp ${DEP_LIBS})
+    ADD_EXECUTABLE(${unittest_name} ${src_files})
+    TARGET_LINK_LIBRARIES(${unittest_name} ${GTEST_BOTH_LIBRARIES}
+            happycpp ${DEP_LIBS})
 
-  ADD_TEST(NAME ${unittest_name} COMMAND ${unittest_name})
+    ADD_TEST(NAME ${unittest_name} COMMAND ${unittest_name})
 ENDFUNCTION(ADD_UNITTEST)
 
 ADD_DEFINITIONS(-D_BINARY_DIR_="${CMAKE_BINARY_DIR}")
