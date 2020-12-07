@@ -33,13 +33,15 @@ namespace happycpp {
     namespace log {
         HappyLogPtr HappyLog::_instance = nullptr;
 
-        HappyLog::HappyLog() {
+        HappyLog::HappyLog(log4cplus::LogLevel level) {
             log4cplus::SharedAppenderPtr defaultAppend(new log4cplus::ConsoleAppender(false, true));
+
             defaultAppend->setName(LOG4CPLUS_TEXT("Console"));
 
             log4cplus::tstring pattern = LOG4CPLUS_TEXT("%d{%Y-%m-%d %H:%M:%S.%q} %-5i %-5p %c ---- %m%n");
             defaultAppend->setLayout(std::unique_ptr<Layout>(new PatternLayout(pattern)) );
             Logger::getRoot().addAppender(defaultAppend);
+            Logger::getRoot().setLogLevel(level);
 
             _logger = Logger::getRoot();
         }
@@ -49,9 +51,9 @@ namespace happycpp {
             _logger = Logger::getRoot();
         }
 
-        HappyLogPtr HappyLog::getInstance() {
+        HappyLogPtr HappyLog::getInstance(log4cplus::LogLevel level) {
             if (_instance == nullptr) {
-                shared_ptr<HappyLog> tmpInstance(new HappyLog());
+                shared_ptr<HappyLog> tmpInstance(new HappyLog(level));
 
                 _instance = tmpInstance;
             }

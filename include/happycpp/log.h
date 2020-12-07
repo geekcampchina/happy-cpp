@@ -27,6 +27,7 @@
 #include "happycpp/common.h"
 #include "log4cplus/logger.h"
 #include "log4cplus/loggingmacros.h"
+#include "log4cplus/loglevel.h"
 #include <boost/filesystem.hpp>
 
 #define DEFAULT_LOG_PROFILE_NAME "log4cplus.properties"
@@ -49,7 +50,7 @@ namespace happycpp {
             static std::shared_ptr<HappyLog> _instance;
 
         public:
-            static std::shared_ptr<HappyLog> getInstance();
+            static std::shared_ptr<HappyLog> getInstance(log4cplus::LogLevel level = log4cplus::INFO_LOG_LEVEL);
 
             static std::shared_ptr<HappyLog> getInstance(const std::string &profile);
 
@@ -86,11 +87,10 @@ namespace happycpp {
             void debug(const std::string &s);
 
             void trace(const std::string &s);
-
         protected:
             explicit HappyLog(const std::string &profile);
 
-            explicit HappyLog();
+            explicit HappyLog(log4cplus::LogLevel level = log4cplus::INFO_LOG_LEVEL);
         };
 
         typedef std::shared_ptr<HappyLog> HappyLogPtr;
