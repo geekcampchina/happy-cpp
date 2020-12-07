@@ -37,7 +37,7 @@ SET(SRC_LIST
         filesys.cc
         proc.cc
         os.cc
-        logv2.cc)
+        happylog.cc)
 
 IF (MSVC)
     SET(SRC_LIST ${SRC_LIST} windows.cc)
