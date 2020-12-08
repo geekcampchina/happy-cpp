@@ -36,61 +36,61 @@ namespace happycpp {
 
         namespace hcstring {
 
-// 在字符串str中，查找子字符串sub
-            HAPPYCPP_SHARED_LIB_API bool Find(const std::string &s,
+            // 在字符串str中，查找子字符串sub
+            HAPPYCPP_SHARED_LIB_API bool find(const std::string &s,
                                               const std::string &sub);
 
-// 去除首位的空白字符
-            HAPPYCPP_SHARED_LIB_API std::string Trim(const std::string &s,
+            // 去除首位的空白字符
+            HAPPYCPP_SHARED_LIB_API std::string trim(const std::string &s,
                                                      const std::string &white_space = " ");
 
-// 将字符串中的大写字母转换为小写
-            HAPPYCPP_SHARED_LIB_API std::string ToLower(const std::string &s);
+            // 将字符串中的大写字母转换为小写
+            HAPPYCPP_SHARED_LIB_API std::string toLower(const std::string &s);
 
-// 将字符串中的小写字母转换为大写
-            HAPPYCPP_SHARED_LIB_API std::string ToUpper(const std::string &s);
+            // 将字符串中的小写字母转换为大写
+            HAPPYCPP_SHARED_LIB_API std::string toUpper(const std::string &s);
 
-// 替换字符串中所有指定的子字符串
-            HAPPYCPP_SHARED_LIB_API std::string Replace(const std::string &s,
+            // 替换字符串中所有指定的子字符串
+            HAPPYCPP_SHARED_LIB_API std::string replace(const std::string &s,
                                                         const std::string &old_sub,
                                                         const std::string &new_sub);
 
-// 删除字符串中指定的子字符串
-            HAPPYCPP_SHARED_LIB_API std::string Erase(const std::string &s,
+            // 删除字符串中指定的子字符串
+            HAPPYCPP_SHARED_LIB_API std::string erase(const std::string &s,
                                                       const std::string &sub);
 
-// 判断字符串是否是版本号码
-            HAPPYCPP_SHARED_LIB_API bool IsVersion(const std::string &s);
+            // 判断字符串是否是版本号码
+            HAPPYCPP_SHARED_LIB_API bool isVersion(const std::string &s);
 
-// 判断字符串是否是全数字组成
-            HAPPYCPP_SHARED_LIB_API bool IsDigit(const std::string &s);
+            // 判断字符串是否是全数字组成
+            HAPPYCPP_SHARED_LIB_API bool isDigit(const std::string &s);
 
-// 判断字符串是否是字母和数字组成
-            HAPPYCPP_SHARED_LIB_API bool IsAlnum(const std::string &s);
+            // 判断字符串是否是字母和数字组成
+            HAPPYCPP_SHARED_LIB_API bool isAlnum(const std::string &s);
 
-// 判断字符串是否是字母组成
-            HAPPYCPP_SHARED_LIB_API bool IsAlpha(const std::string &s);
+            // 判断字符串是否是字母组成
+            HAPPYCPP_SHARED_LIB_API bool isAlpha(const std::string &s);
 
-/* sep可以是多个分隔符，会按照多分隔符同时分隔 */
-            bool Split(const std::string &s, std::vector<std::string> *result,
+            /* sep可以是多个分隔符，会按照多分隔符同时分隔 */
+            bool split(const std::string &s, std::vector<std::string> *result,
                        const std::string &sep = "\n");
 
-// 列表转化为map，key=列表值，value=""
-            HAPPYCPP_SHARED_LIB_API void ToMap(const std::vector<std::string> &v,
+            // 列表转化为map，key=列表值，value=""
+            HAPPYCPP_SHARED_LIB_API void toMap(const std::vector<std::string> &v,
                                                std::map<std::string, std::string> *m);
 
-/*
- 将字符串按分隔符分割，填充到map中
- 比如，以\n分割
- a\n
- b\n
- c\n
+            /*
+             将字符串按分隔符分割，填充到map中
+             比如，以\n分割
+             a\n
+             b\n
+             c\n
 
- map[a]=""
- map[b]=""
- map[c]=""
- */
-            HAPPYCPP_SHARED_LIB_API void ToMap(const std::string &s,
+             map[a]=""
+             map[b]=""
+             map[c]=""
+             */
+            HAPPYCPP_SHARED_LIB_API void toMap(const std::string &s,
                                                std::map<std::string, std::string> *m,
                                                const std::string &sep = "\n");
 

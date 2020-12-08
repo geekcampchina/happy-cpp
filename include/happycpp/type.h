@@ -66,30 +66,6 @@ typedef enum {
     kGreater  // 1
 } CmpResult;
 
-typedef enum {
-    kStreamFile,
-    kStreamStdout,
-    kStreamStderr
-} LogOutputStream;
-
-typedef enum {
-    LOG_TRACE,
-    LOG_DEBUG,
-    LOG_INFO,
-    LOG_WARN,
-    LOG_ERROR,
-    LOG_FATAL,
-    LOG_OFF
-} LogLevelNumber;
-
-typedef struct {
-    uint32_t level;
-    LogOutputStream output_to;
-    size_t max_byte;  // 0 为不限制大小
-    std::string path;
-    std::string default_dir;  // 默认日志目录
-} LogConfig;
-
 /*
  ----------字节的次方单位----------
  十进制前缀(SI)标准：

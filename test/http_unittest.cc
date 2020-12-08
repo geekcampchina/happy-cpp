@@ -49,7 +49,7 @@ TEST(HCHTTP_UNITTEST, parse_http_msg_request) {
     ASSERT_NE(nullptr, hm);
     ASSERT_EQ(hhhttp::HTTP_MSG_REQUEST, hm->type());
     ASSERT_EQ(hhhttp::HTTP_METHOD_POST, hm->method());
-    ASSERT_EQ("/index?arg=test", hm->request_url());
+    ASSERT_EQ("/index?arg=test", hm->requestUrl());
     ASSERT_EQ("/index", hm->url());
     ASSERT_EQ("arg=test", hm->args());
     ASSERT_EQ("HTTP/1.0", hm->version());
@@ -81,7 +81,7 @@ TEST(HCHTTP_UNITTEST, parse_http_msg_response) {
     ASSERT_EQ(hhhttp::HTTP_MSG_RESPONSE, hm->type());
     ASSERT_EQ("HTTP/1.1", hm->version());
     ASSERT_EQ(416U, hm->status());
-    ASSERT_EQ("Requested Range Not Satisfiable", hm->reason_phrase());
+    ASSERT_EQ("Requested Range Not Satisfiable", hm->reasonPhrase());
 
     ASSERT_EQ("nginx/1.8.0", hm->header(hhhttp::HTTP_MRESF_SERVER));
     ASSERT_EQ("Sat, 26 Dec 2015 03:36:50 GMT",
@@ -96,13 +96,13 @@ TEST(HCHTTP_UNITTEST, parse_http_msg_response) {
 
 TEST(HCHTTP_UNITTEST, get_header_info) {
     hhhttp::HttpResponseMsgPtr hm =
-            hhhttp::get_header_info("http://127.0.0.1:8887");
+            hhhttp::getHeaderInfo("http://127.0.0.1:8887");
 
     ASSERT_EQ(1, hm.use_count());
     ASSERT_EQ(hhhttp::HTTP_MSG_RESPONSE, hm->type());
     ASSERT_EQ("HTTP/1.0", hm->version());
     ASSERT_EQ(200U, hm->status());
-    EXPECT_EQ("OK", hm->reason_phrase());
+    EXPECT_EQ("OK", hm->reasonPhrase());
     EXPECT_EQ("text/plain", hm->header(hhhttp::HTTP_MCOMF_CONTENT_TYPE));
     EXPECT_EQ("100", hm->header(hhhttp::HTTP_MCOMF_CONTENT_LENGTH));
 }

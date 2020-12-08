@@ -40,7 +40,7 @@ namespace happycpp {
 
     namespace hcproc {
 
-        HAPPYCPP_SHARED_LIB_API bool CurrentWorkDir(std::string *dir) {
+        HAPPYCPP_SHARED_LIB_API bool currentWorkDir(std::string *dir) {
             dir->clear();
 
 #ifdef PLATFORM_WIN32
@@ -60,7 +60,7 @@ namespace happycpp {
             return (!dir->empty());
         }
 
-        HAPPYCPP_SHARED_LIB_API bool CurrentExePath(std::string *path) {
+        HAPPYCPP_SHARED_LIB_API bool currentExePath(std::string *path) {
             path->clear();
 #ifdef PLATFORM_WIN32
             TCHAR sz_path[MAX_PATH];
@@ -79,8 +79,8 @@ namespace happycpp {
             return (!path->empty());
         }
 
-        HAPPYCPP_SHARED_LIB_API bool CurrentExeDir(std::string *dir) {
-            if (CurrentExePath(dir)) {
+        HAPPYCPP_SHARED_LIB_API bool currentExeDir(std::string *dir) {
+            if (currentExePath(dir)) {
                 *dir = bfs::path(*dir).parent_path().string();
                 return true;
             }
@@ -105,20 +105,20 @@ namespace happycpp {
         }
 #else
 
-        HAPPYCPP_SHARED_LIB_API bool LockProc(const std::string &proc, const pid_t pid,
+        HAPPYCPP_SHARED_LIB_API bool lockProc(const std::string &proc, pid_t pid,
                                               const std::string &prefix) {
             const std::string pid_file(prefix + "/" + proc + ".pid");
 
             // 进程存在
             if (bfs::exists(pid_file)) {
-                const std::string _pid(hcfilesys::ReadFile(pid_file));
+                const std::string _pid(hcfilesys::readFile(pid_file));
 
                 if (bfs::exists("/proc/" + _pid))
                     return false;
             }
 
             try {
-                hcfilesys::WriteFile(pid_file, to_string(pid));
+                hcfilesys::writeFile(pid_file, to_string(pid));
             } catch (HappyException &e) {
                 return false;
             }
@@ -126,7 +126,7 @@ namespace happycpp {
             return true;
         }
 
-        HAPPYCPP_SHARED_LIB_API bool UnLockProc(const std::string &proc,
+        HAPPYCPP_SHARED_LIB_API bool unLockProc(const std::string &proc,
                                                 const std::string &prefix) {
             const std::string pid_file(prefix + "/" + proc + ".pid");
 
@@ -136,19 +136,19 @@ namespace happycpp {
             return false;
         }
 
-        HAPPYCPP_SHARED_LIB_API void CreateDaemon(const std::string &name,
+        HAPPYCPP_SHARED_LIB_API void createDaemon(const std::string &name,
                                                   const bool to_null) {
             if (name.empty())
                 ThrowHappyException("Daemon name is empty.");
 
-            if (!hcproc::LockProc(name, getpid()))
+            if (!hcproc::lockProc(name, getpid()))
                 ThrowHappyException(
                         "Another instance of " + name + " is already running");
 
             const int noclose(to_null ? 0 : 1);
 
             if (daemon(0, noclose) != 0) {
-                UnLockProc(name);
+                unLockProc(name);
                 ThrowHappyException(
                         "Cannot run " + name + " in the background as system daemons.");
             }

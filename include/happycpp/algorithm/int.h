@@ -33,11 +33,11 @@ namespace happycpp {
 
         namespace hcint {
 
-// 十进制数字转换为对应的十六进制字符串
-            HAPPYCPP_SHARED_LIB_API std::string DecToHex(const int32_t &n);
+            // 十进制数字转换为对应的十六进制字符串
+            HAPPYCPP_SHARED_LIB_API std::string decToHex(const int32_t &n);
 
-// 奇数
-            HAPPYCPP_SHARED_LIB_API bool IsOddNum(const int32_t &n);
+            // 判断奇数
+            HAPPYCPP_SHARED_LIB_API bool isOddNum(const int32_t &n);
 
         } /* namespace hcint */
 

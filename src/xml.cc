@@ -28,9 +28,9 @@ namespace happycpp {
 
     namespace hcxml {
 
-/* 在源xml中查找指定的节点，返回匹配的节点数量
- * xpath表示指定的节点路径 */
-        size_t SpecNodeSize(const std::string &xml, const std::string &xpath) {
+        /* 在源xml中查找指定的节点，返回匹配的节点数量
+         * xpath表示指定的节点路径 */
+        size_t specNodeSize(const std::string &xml, const std::string &xpath) {
             pugi::xml_document doc;
             pugi::xml_parse_result result = doc.load_string(xml.c_str());
 
@@ -44,7 +44,7 @@ namespace happycpp {
             return 0;
         }
 
-        std::string ToStr(pugi::xml_document *doc, const std::string &indent) {
+        std::string toStr(pugi::xml_document *doc, const std::string &indent) {
             ostringstream ss;
 
             if (doc) {
@@ -59,33 +59,33 @@ namespace happycpp {
             return "";
         }
 
-        std::string LoadFromFile(const std::string &f) {
+        std::string loadFromFile(const std::string &f) {
             pugi::xml_document doc;
             pugi::xml_parse_result result = doc.load_file(f.c_str());
 
             if (result)
-                return ToStr(&doc);
+                return toStr(&doc);
 
             return "";
         }
 
-        std::string Format(const std::string &xml, const std::string &indent) {
+        std::string format(const std::string &xml, const std::string &indent) {
             pugi::xml_document doc;
             pugi::xml_parse_result result = doc.load_string(xml.c_str());
 
             if (result)
-                return ToStr(&doc, indent);
+                return toStr(&doc, indent);
 
             return xml;
         }
 
-/* 验证字符串是否是xml格式 */
-        bool Validate(const std::string &xml) {
+        /* 验证字符串是否是xml格式 */
+        bool validate(const std::string &xml) {
             pugi::xml_document doc;
             return doc.load_string(xml.c_str());
         }
 
-        bool GetValue(const pugi::xml_node &src, const std::string &key,
+        bool getValue(const pugi::xml_node &src, const std::string &key,
                       std::string *value) {
             if (key.empty())
                 return false;
@@ -102,7 +102,7 @@ namespace happycpp {
             return true;
         }
 
-        bool GetValue(const std::string &src, const std::string &key,
+        bool getValue(const std::string &src, const std::string &key,
                       std::string *value) {
             if (src.empty() || key.empty())
                 return false;
@@ -126,7 +126,7 @@ namespace happycpp {
             return true;
         }
 
-        std::string GetTxtValue(const pugi::xml_node &node, value_mode_t mode) {
+        std::string getTxtValue(const pugi::xml_node &node, value_mode_t mode) {
             const std::string v(node.text().as_string());
 
             if (mode == VM_STRICT && v.empty())

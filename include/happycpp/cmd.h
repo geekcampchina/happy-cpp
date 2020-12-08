@@ -31,11 +31,11 @@ namespace happycpp {
 
     namespace hccmd {
 
-// 执行系统命令，屏蔽标准输出，根据命令退出代码返回布尔值
-        HAPPYCPP_SHARED_LIB_API bool GetExitStatusOfCmd(const std::string &cmd);
+        // 执行系统命令，屏蔽标准输出，根据命令退出代码返回布尔值
+        HAPPYCPP_SHARED_LIB_API bool getExitStatusOfCmd(const std::string &cmd);
 
-// 执行系统命令，返回命令执行结果字符串
-        HAPPYCPP_SHARED_LIB_API std::string GetOutputOfCmd(const std::string &cmd);
+        // 执行系统命令，返回命令执行结果字符串
+        HAPPYCPP_SHARED_LIB_API std::string getOutputOfCmd(const std::string &cmd);
 
 #ifdef PLATFORM_WIN32
         // 使用非阻塞的子进程执行命令

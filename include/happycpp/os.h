@@ -32,7 +32,7 @@ namespace happycpp {
 
     namespace hcos {
 
-// 操作系统发行版类型列表
+        // 操作系统发行版类型列表
         enum OsIdType {
 #ifdef PLATFORM_WIN32
             kWindowsWorkStation,
@@ -44,7 +44,7 @@ namespace happycpp {
 #endif
         };
 
-// Linux 发行版
+        // Linux 发行版
         enum OsVersion {
 #ifdef PLATFORM_WIN32
             kWindowsXP,
@@ -89,7 +89,7 @@ namespace happycpp {
         };
 #endif
 
-// 操作系统身份证
+        // 操作系统身份证
         struct OsIdentification {
             uint32_t id;
             uint32_t version;
@@ -116,17 +116,17 @@ namespace happycpp {
         std::string GetWindowsVariantDesc(const uint32_t e);
 #else
 
-// 仅内部和单元测试使用
-// info 为 nullptr 表示从文件读取
-        bool _GetOsInfo(const char *info, OsIdentification *osi);
+        // 仅内部和单元测试使用
+        // info 为 nullptr 表示从文件读取
+        bool _getOsInfo(const char *info, OsIdentification *osi);
 
 #endif
 
-        std::string GetOsVersionDesc(uint32_t e);
+        std::string getOsVersionDesc(uint32_t e);
 
-        std::string GetOsIdDesc(uint32_t e);
+        std::string getOsIdDesc(uint32_t e);
 
-        bool GetOsInfo(OsIdentification *osi);
+        bool getOsInfo(OsIdentification *osi);
 
     } /* namespace hcos */
 

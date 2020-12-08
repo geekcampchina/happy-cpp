@@ -41,7 +41,7 @@ namespace happycpp {
 
     namespace hcerrno {
 
-        HAPPYCPP_SHARED_LIB_API std::string ErrorToStr() {
+        HAPPYCPP_SHARED_LIB_API std::string errorToStr() {
 #ifdef PLATFORM_WIN32
             std::string msg("");
             LPVOID lp_msg_buf = NULL;

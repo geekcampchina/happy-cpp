@@ -27,44 +27,44 @@ namespace hhharray = happycpp::hcalgorithm::hcarray;
 TEST(HCARRAY_UNITTEST, Exists) {
     std::vector<std::string> v1{"abc", "def", "ghi"};
 
-    EXPECT_TRUE(hhharray::Exists(v1, std::string("def")));
+    EXPECT_TRUE(hhharray::exists(v1, std::string("def")));
 
     std::vector<int> v2{123, 456, 789};
 
-    EXPECT_TRUE(hhharray::Exists(v2, 789));
+    EXPECT_TRUE(hhharray::exists(v2, 789));
 
     std::vector<double> v3{123.0, 456.0, 789.0};
 
-    EXPECT_TRUE(hhharray::Exists(v3, static_cast<double>(789.0)));
+    EXPECT_TRUE(hhharray::exists(v3, static_cast<double>(789.0)));
 
     std::vector<uint64_t> v4{123, 456, 789};
 
-    EXPECT_TRUE(hhharray::Exists(v4, static_cast<uint64_t>(789)));
+    EXPECT_TRUE(hhharray::exists(v4, static_cast<uint64_t>(789)));
 }
 
 TEST(HCARRAY_UNITTEST, Find) {
     std::vector<std::string>::iterator it1;
     std::vector<std::string> v1{"abc", "def", "ghi"};
 
-    EXPECT_TRUE(hhharray::Find(&v1, std::string("def"), &it1));
+    EXPECT_TRUE(hhharray::find(&v1, std::string("def"), &it1));
     EXPECT_STREQ("def", (*it1).c_str());
 
     std::vector<int>::iterator it2;
     std::vector<int> v2{111, 222, 333};
 
-    EXPECT_TRUE(hhharray::Find(&v2, 333, &it2));
+    EXPECT_TRUE(hhharray::find(&v2, 333, &it2));
     EXPECT_EQ(333, *it2);
 
     std::vector<double>::iterator it3;
     std::vector<double> v3{111.0, 222.0, 333.0};
 
-    EXPECT_TRUE(hhharray::Find(&v3, static_cast<double>(333.0), &it3));
+    EXPECT_TRUE(hhharray::find(&v3, static_cast<double>(333.0), &it3));
     EXPECT_EQ(333.0, *it3);
 
     std::vector<uint64_t>::iterator it4;
     std::vector<uint64_t> v4{111, 222, 333};
 
-    EXPECT_TRUE(hhharray::Find(&v4, static_cast<uint64_t>(333), &it4));
+    EXPECT_TRUE(hhharray::find(&v4, static_cast<uint64_t>(333), &it4));
     EXPECT_EQ(333U, *it4);
 }
 
@@ -72,7 +72,7 @@ TEST(HCARRAY_UNITTEST, Unique) {
     std::vector<int> v1{1, 2, 3, 1, 5, 3, 4, 6, 4, 7};
     std::vector<int> v2{1, 2, 3, 4, 5, 6, 7};
 
-    hhharray::Unique(&v1);
+    hhharray::unique(&v1);
 
     EXPECT_TRUE(v1 == v2);
 }

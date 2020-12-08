@@ -35,13 +35,13 @@ TEST(HCMAP_UNITTEST, FindByValue) {
     };
 
     std::map<std::string, int>::const_iterator it1 =
-            hhhmap::FindByValue(log_level_map, 4);
+            hhhmap::findByValue(log_level_map, 4);
 
     ASSERT_EQ("error", it1->first);
     ASSERT_EQ(4, it1->second);
 
     std::map<std::string, int>::const_iterator it2 =
-            hhhmap::FindByValue(log_level_map, 10);
+            hhhmap::findByValue(log_level_map, 10);
 
     ASSERT_EQ(log_level_map.end(), it2);
 }
@@ -60,13 +60,13 @@ TEST(HCMAP_UNITTEST, SwapKeyValue) {
     const size_t ele_size = log_level_map1.size();
 
     std::map<int, std::string> log_level_map2;
-    hhhmap::SwapKeyValue(log_level_map1, &log_level_map2);
+    hhhmap::swapKeyValue(log_level_map1, &log_level_map2);
 
     ASSERT_EQ(ele_size, log_level_map2.size());
 
     for (auto it : log_level_map1) {
         std::map<int, std::string>::const_iterator find_it =
-                hhhmap::FindByValue(log_level_map2, it.first);
+                hhhmap::findByValue(log_level_map2, it.first);
 
         ASSERT_NE(log_level_map2.end(), find_it);
         ASSERT_EQ(it.first, find_it->second);

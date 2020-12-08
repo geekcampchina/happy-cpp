@@ -41,13 +41,13 @@
 #endif
 
 using std::to_string;
-using happycpp::hcalgorithm::hcstring::Trim;
+using happycpp::hcalgorithm::hcstring::trim;
 
 namespace happycpp {
 
     namespace hccmd {
 
-        HAPPYCPP_SHARED_LIB_API bool GetExitStatusOfCmd(const std::string &cmd) {
+        HAPPYCPP_SHARED_LIB_API bool getExitStatusOfCmd(const std::string &cmd) {
             happycpp::log::HappyLogPtr hlog = happycpp::log::HappyLog::getInstance();
             hlog->trace("cmd=" + cmd + EOL);
 
@@ -63,7 +63,7 @@ namespace happycpp {
             return ret;
         }
 
-        HAPPYCPP_SHARED_LIB_API std::string GetOutputOfCmd(const std::string &cmd) {
+        HAPPYCPP_SHARED_LIB_API std::string getOutputOfCmd(const std::string &cmd) {
             happycpp::log::HappyLogPtr hlog = happycpp::log::HappyLog::getInstance();
             hlog->trace("cmd=" + cmd + EOL);
 
@@ -81,7 +81,7 @@ namespace happycpp {
                 pclose(stream);
             }
 
-            ret = Trim(ret, " \r\n");
+            ret = trim(ret, " \r\n");
             hlog->trace("ret=" + cmd + EOL);
 
             return ret;

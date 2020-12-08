@@ -38,16 +38,16 @@
 #include <cstring>
 #include <fstream>
 
-using happycpp::hcalgorithm::hcarray::Exists;
-using happycpp::hcalgorithm::hcdouble::Round;
-using happycpp::hcalgorithm::hcstring::Find;
-using happycpp::hcalgorithm::hcstring::Replace;
-using happycpp::hcalgorithm::hcstring::Split;
-using happycpp::hcalgorithm::hcstring::ToLower;
-using happycpp::hcalgorithm::hcstring::Trim;
-using happycpp::hcalgorithm::hctime::HappySleep;
-using happycpp::hccmd::GetExitStatusOfCmd;
-using happycpp::hccmd::GetOutputOfCmd;
+using happycpp::hcalgorithm::hcarray::exists;
+using happycpp::hcalgorithm::hcdouble::round;
+using happycpp::hcalgorithm::hcstring::find;
+using happycpp::hcalgorithm::hcstring::replace;
+using happycpp::hcalgorithm::hcstring::split;
+using happycpp::hcalgorithm::hcstring::toLower;
+using happycpp::hcalgorithm::hcstring::trim;
+using happycpp::hcalgorithm::hctime::happySleep;
+using happycpp::hccmd::getExitStatusOfCmd;
+using happycpp::hccmd::getOutputOfCmd;
 
 using std::ifstream;
 using std::to_string;
@@ -56,32 +56,32 @@ namespace happycpp {
 
     namespace hclinux {
 
-// 判断是否是超级用户运行程序
-        bool IsRunSuperUser() {
+        // 判断是否是超级用户运行程序
+        bool isRunSuperUser() {
             return getuid() == 0;
         }
 
-        OSType GetOsName() {
+        OSType getOsName() {
             // Ubuntu 12.04.4 LTS \n \l
             // CentOS release 6.5 (Final)
             // Red Hat Enterprise Linux Server release 6.4 (Santiago)
             // Debian GNU/Linux 7.0 \n \l
             const std::string cmd("head -n 1 /etc/issue");
-            const std::string issue_desc(ToLower(GetOutputOfCmd(cmd)));
+            const std::string issue_desc(toLower(getOutputOfCmd(cmd)));
 
-            if (Find(issue_desc, "ubuntu"))
+            if (find(issue_desc, "ubuntu"))
                 return OS_Ubuntu;
-            else if (Find(issue_desc, "debian"))
+            else if (find(issue_desc, "debian"))
                 return OS_Debian;
-            else if (Find(issue_desc, "red hat"))
+            else if (find(issue_desc, "red hat"))
                 return OS_RedHat;
-            else if (Find(issue_desc, "centos"))
+            else if (find(issue_desc, "centos"))
                 return OS_CentOS;
             else
                 return OS_Unknown;
         }
 
-        std::string GetOsName(const OSType &os) {
+        std::string getOsName(const OSType &os) {
             static std::map<OSType, std::string> os_name_map;
             os_name_map[OS_Ubuntu] = "Ubuntu";
             os_name_map[OS_Debian] = "Debian";
@@ -105,15 +105,15 @@ namespace happycpp {
             Iface::~Iface() {
             }
 
-// 验证Iface信息
-            bool Iface::Verify() {
+            // 验证Iface信息
+            bool Iface::verify() {
                 // 必要的信息，不能为空
                 const bool ret = !(name_.empty() || ip_addr_.empty() || netmask_.empty());
 
                 return ret;
             }
 
-/*获取网卡信息，并将信息填充到IfaceList*/
+            /*获取网卡信息，并将信息填充到IfaceList*/
             class IfaceFiller {
             public:
                 explicit IfaceFiller(IfaceList *ifaceList);
@@ -121,25 +121,25 @@ namespace happycpp {
                 ~IfaceFiller();
 
             private:
-                void GetIfaceNum();
+                void getIfaceNum();
 
-                void CreateSocket(int32_t *sock);
+                void createSocket(int32_t *sock);
 
-                const int32_t GetIfaceList(struct ifconf *ifconf);
+                const int32_t getIfaceList(struct ifconf *ifconf);
 
-                const std::string FormatMac(unsigned char *mac_p);
+                const std::string formatMac(unsigned char *mac_p);
 
-                const std::string GetMac(char *name);
+                const std::string getMac(char *name);
 
-                std::string GetGateway();
+                std::string getGateway();
 
-                std::string GetNetmask(char *name);
+                std::string getNetmask(char *name);
 
-                const std::string GetIpAddr(const ifreq &i);
+                const std::string getIpAddr(const ifreq &i);
 
-                void GetDns(Iface *iface);
+                void getDns(Iface *iface);
 
-                void Fill(IfaceList *ifaceList);
+                void fill(IfaceList *ifaceList);
 
             private:
                 int32_t ifaces_num_;
@@ -153,23 +153,23 @@ namespace happycpp {
             size_t IfaceFiller::kMacSize_ = 6;
 
             IfaceFiller::IfaceFiller(IfaceList *ifaceList) {
-                Fill(ifaceList);
+                fill(ifaceList);
             }
 
             IfaceFiller::~IfaceFiller() {
             }
 
-            void IfaceFiller::Fill(IfaceList *ifaceList) {
+            void IfaceFiller::fill(IfaceList *ifaceList) {
                 Iface iface;
 
                 memset(&ifconf_, 0, sizeof(ifconf));
                 ifconf_.ifc_buf = reinterpret_cast<char *>(ifreqs_);
                 ifconf_.ifc_len = sizeof(ifreqs_);
-                GetIfaceList(&ifconf_);
-                GetIfaceNum();
+                getIfaceList(&ifconf_);
+                getIfaceNum();
 
-                const std::string gateway = GetGateway();
-                GetDns(&iface);
+                const std::string gateway = getGateway();
+                getDns(&iface);
 
                 // 临时保存网卡名称列表
                 std::vector<std::string> tmp_names;
@@ -180,38 +180,38 @@ namespace happycpp {
                     iface.name_ = ifreqs_[i].ifr_name;
 
                     // 网卡已经存在，则使用网卡别名，比如eth0:0
-                    if (Exists(tmp_names, iface.name_))
-                        iface.name_ = NewAliasForIfaceX(iface.name_);
+                    if (exists(tmp_names, iface.name_))
+                        iface.name_ = newAliasForIfaceX(iface.name_);
 
-                    iface.ip_addr_ = GetIpAddr(ifreqs_[i]);
-                    iface.netmask_ = GetNetmask(ifreqs_[i].ifr_name);
-                    iface.mac_ = GetMac(ifreqs_[i].ifr_name);
+                    iface.ip_addr_ = getIpAddr(ifreqs_[i]);
+                    iface.netmask_ = getNetmask(ifreqs_[i].ifr_name);
+                    iface.mac_ = getMac(ifreqs_[i].ifr_name);
                     iface.gateway_ = gateway;
 
                     // 名称、IP地址以及掩码不能为空，mac和网关可以为空
-                    if (iface.Verify()) {
+                    if (iface.verify()) {
                         ifaceList->push_back(iface);
                         tmp_names.push_back(iface.name_);
                     }
                 }
             }
 
-            void IfaceFiller::GetIfaceNum() {
+            void IfaceFiller::getIfaceNum() {
                 /*网卡数量不记录本地loop设备*/
                 ifaces_num_ = (ifconf_.ifc_len / sizeof(struct ifreq)) - kLoopIfaces_;
             }
 
-            void IfaceFiller::CreateSocket(int32_t *sock) {
+            void IfaceFiller::createSocket(int32_t *sock) {
                 /*只处理IPv4，忽略其它*/
                 *sock = socket(AF_INET, SOCK_DGRAM, 0);
 
                 HAPPY_ASSERT(*sock >= 0);
             }
 
-            const int32_t IfaceFiller::GetIfaceList(struct ifconf *ifconf) {
+            const int32_t IfaceFiller::getIfaceList(struct ifconf *ifconf) {
                 int32_t sock, rval;
 
-                CreateSocket(&sock);
+                createSocket(&sock);
                 rval = ioctl(sock, SIOCGIFCONF, reinterpret_cast<char *>(ifconf));
 
                 HAPPY_ASSERT(rval >= 0);
@@ -220,7 +220,7 @@ namespace happycpp {
                 return rval;
             }
 
-            const std::string IfaceFiller::FormatMac(unsigned char *mac_p) {
+            const std::string IfaceFiller::formatMac(unsigned char *mac_p) {
                 char macBlock[10];
                 std::string mac;
                 const size_t hex_num_size = sizeof(char) * 2 + 1;
@@ -237,12 +237,12 @@ namespace happycpp {
                 return mac;
             }
 
-            const std::string IfaceFiller::GetMac(char *name) {
+            const std::string IfaceFiller::getMac(char *name) {
                 struct ifreq ifr{};
                 int32_t sock;
                 unsigned char mac[kMacSize_];
 
-                CreateSocket(&sock);
+                createSocket(&sock);
 
                 ifr.ifr_addr.sa_family = AF_INET;
                 strncpy(ifr.ifr_name, name, IFNAMSIZ - 1);
@@ -252,10 +252,10 @@ namespace happycpp {
                 memcpy(mac, ifr.ifr_hwaddr.sa_data, kMacSize_);
 
                 close(sock);
-                return (FormatMac(mac));
+                return (formatMac(mac));
             }
 
-            const std::string IfaceFiller::GetIpAddr(const ifreq &i) {
+            const std::string IfaceFiller::getIpAddr(const ifreq &i) {
                 auto *sin = (struct sockaddr_in *) &i.ifr_addr;
                 char *ret = inet_ntoa(sin->sin_addr);
                 std::string ip;
@@ -267,12 +267,12 @@ namespace happycpp {
                 return ip;
             }
 
-            std::string IfaceFiller::GetNetmask(char *name) {
+            std::string IfaceFiller::getNetmask(char *name) {
                 struct ifreq ifr{};
                 int32_t sock;
                 std::string netmask;
 
-                CreateSocket(&sock);
+                createSocket(&sock);
 
                 ifr.ifr_addr.sa_family = AF_INET;
                 strncpy(ifr.ifr_name, name, IFNAMSIZ - 1);
@@ -291,7 +291,7 @@ namespace happycpp {
                 return netmask;
             }
 
-            std::string IfaceFiller::GetGateway() {
+            std::string IfaceFiller::getGateway() {
                 ifstream ihcfilesys;
                 ihcfilesys.open("/proc/net/route", ifstream::binary);
                 char gateway[16] = "0.0.0.0";
@@ -317,7 +317,7 @@ namespace happycpp {
                 return std::string(gateway);
             }
 
-            void IfaceFiller::GetDns(Iface *iface) {
+            void IfaceFiller::getDns(Iface *iface) {
                 const int32_t ret_v = res_init();
                 if (ret_v != 0)
                     return;
@@ -351,7 +351,7 @@ namespace happycpp {
             IfaceFinder::~IfaceFinder() {
             }
 
-            const bool IfaceFinder::GetIface(const IfaceListIt &it,
+            const bool IfaceFinder::getIface(const IfaceListIt &ifaceListIt,
                                              const IFACE_FIELD &findField,
                                              const std::string &keyword,
                                              Iface *iface) {
@@ -359,33 +359,33 @@ namespace happycpp {
 
                 switch (findField) {
                     case IFACE_GATEWAY:
-                        value = (*it).gateway_;
+                        value = (*ifaceListIt).gateway_;
                         break;
                     case IFACE_IPADDR:
-                        value = (*it).ip_addr_;
+                        value = (*ifaceListIt).ip_addr_;
                         break;
                     case IFACE_MAC:
-                        value = (*it).mac_;
+                        value = (*ifaceListIt).mac_;
                         break;
                     case IFACE_NAME:
-                        value = (*it).name_;
+                        value = (*ifaceListIt).name_;
                         break;
                     case IFACE_NETMASK:
-                        value = (*it).netmask_;
+                        value = (*ifaceListIt).netmask_;
                         break;
                     default:
                         break;
                 }
 
                 if (value == keyword) {
-                    *iface = (*it);
+                    *iface = (*ifaceListIt);
                     return true;
                 }
 
                 return false;
             }
 
-            std::string IfaceFinder::GetIfaceFieldValue(const IFACE_FIELD &field,
+            std::string IfaceFinder::getIfaceFieldValue(const IFACE_FIELD &field,
                                                         const Iface &iface) {
                 std::string value;
 
@@ -411,7 +411,7 @@ namespace happycpp {
                 return value;
             }
 
-            std::string IfaceFinder::FindByName(const std::string &ifaceName) {
+            std::string IfaceFinder::findByName(const std::string &ifaceName) {
                 Iface iface;
                 IfaceListIt it;
 
@@ -422,36 +422,36 @@ namespace happycpp {
                     }
                 }
 
-                return GetIfaceFieldValue(IFACE_IPADDR, iface);
+                return getIfaceFieldValue(IFACE_IPADDR, iface);
             }
 
-            std::string IfaceFinder::Find(const IFACE_FIELD &findField,
-                                                const IFACE_FIELD &field,
-                                                const std::string &keyword) {
+            std::string IfaceFinder::find(const IFACE_FIELD &findField,
+                                          const IFACE_FIELD &field,
+                                          const std::string &keyword) {
                 Iface iface;
                 IfaceListIt it;
 
                 for (it = ifaceList.begin(); it < ifaceList.end(); it++) {
-                    if (GetIface(it, findField, keyword, &iface)) {
+                    if (getIface(it, findField, keyword, &iface)) {
                         break;
                     }
                 }
 
-                return GetIfaceFieldValue(field, iface);
+                return getIfaceFieldValue(field, iface);
             }
 
-/*获取指定网卡的第一个IP*/
-            std::string IfaceFinder::GetIpAddrByName(const std::string &ifaceName) {
-                return FindByName(ifaceName);
+            /*获取指定网卡的第一个IP*/
+            std::string IfaceFinder::getIpAddrByName(const std::string &ifaceName) {
+                return findByName(ifaceName);
             }
 
-/*获取匹配ip关键字的第一个ip*/
-            std::string IfaceFinder::GetIpAddrByKeyword(const std::string &keyword) {
-                return Find(IFACE_IPADDR, IFACE_IPADDR, keyword);
+            /*获取匹配ip关键字的第一个ip*/
+            std::string IfaceFinder::getIpAddrByKeyword(const std::string &keyword) {
+                return find(IFACE_IPADDR, IFACE_IPADDR, keyword);
             }
 
-            bool IfaceFinder::GetIfaceByName(const std::string &ifaceName,
-                                                   Iface *iface) {
+            bool IfaceFinder::getIfaceByName(const std::string &ifaceName,
+                                             Iface *iface) {
                 if (ifaceList.empty()) {
                     return false;
                 }
@@ -460,33 +460,33 @@ namespace happycpp {
                 IfaceListIt it;
 
                 for (it = ifaceList.begin(); it < ifaceList.end(); it++) {
-                    if (GetIface(it, IFACE_NAME, ifaceName, iface)) {
+                    if (getIface(it, IFACE_NAME, ifaceName, iface)) {
                         break;
                     }
                 }
 
                 /*验证*/
-                if (iface->Verify()) {
+                if (iface->verify()) {
                     return true;
                 }
 
                 return false;
             }
 
-            bool IfaceFinder::GetFrontIface(Iface *iface) {
+            bool IfaceFinder::getFrontIface(Iface *iface) {
                 if (ifaceList.empty())
                     return false;
 
                 *iface = ifaceList.front();
 
                 /*验证*/
-                if (iface->Verify())
+                if (iface->verify())
                     return true;
 
                 return false;
             }
 
-            bool IfaceFinder::GetBackIface(Iface *iface) {
+            bool IfaceFinder::getBackIface(Iface *iface) {
                 if (ifaceList.empty()) {
                     return false;
                 }
@@ -494,49 +494,49 @@ namespace happycpp {
                 *iface = ifaceList.back();
 
                 /*验证*/
-                if (iface->Verify()) {
+                if (iface->verify()) {
                     return true;
                 }
 
                 return false;
             }
 
-            void IfaceFinder::GetIfaceList(IfaceList *iface_list) {
+            void IfaceFinder::getIfaceList(IfaceList *iface_list) {
                 *iface_list = ifaceList;
             }
 
-// 注意：
-//    使用 NetworkManager 单网卡绑定多IP，不会有类似eth0:0 之类的虚拟网卡，
-//    全部是eth0，这种情况无法支持。
-            bool GetIfaceNames(std::vector<std::string> *names) {
+            // 注意：
+            //    使用 NetworkManager 单网卡绑定多IP，不会有类似eth0:0 之类的虚拟网卡，
+            //    全部是eth0，这种情况无法支持。
+            bool getIfaceNames(std::vector<std::string> *names) {
                 names->clear();
 
                 const std::string cmd("ifconfig -a|grep 'Link encap'|awk '{print $1}'");
-                const std::string devs(GetOutputOfCmd(cmd));
-                Split(devs, names);
+                const std::string devs(getOutputOfCmd(cmd));
+                split(devs, names);
 
                 return !names->empty();
             }
 
-// 单网卡绑定多IP时，需要创建网卡别名做为网卡名。比如，eth0的别名
-// eth0:0、eth0:1、eth0:2 等等。iface_x_name 只能是标准网卡
-// 名称，比如 eth0 eth1 em0 em1等等。不能是网卡别名。
-// 注意：
-//    使用 NetworkManager 单网卡绑定多IP，不会有类似eth0:0 之
-// 类的虚拟网卡，全部是eth0，这种情况无法支持。
-            std::string NewAliasForIfaceX(const std::string &iface_x_name) {
+            // 单网卡绑定多IP时，需要创建网卡别名做为网卡名。比如，eth0的别名
+            // eth0:0、eth0:1、eth0:2 等等。iface_x_name 只能是标准网卡
+            // 名称，比如 eth0 eth1 em0 em1等等。不能是网卡别名。
+            // 注意：
+            //    使用 NetworkManager 单网卡绑定多IP，不会有类似eth0:0 之
+            // 类的虚拟网卡，全部是eth0，这种情况无法支持。
+            std::string newAliasForIfaceX(const std::string &iface_x_name) {
                 std::vector<std::string> old_iface_names;
                 const std::string sep(":");
                 std::string alias;
-                const std::string _iface_x_name(Trim(iface_x_name));
+                const std::string _iface_x_name(trim(iface_x_name));
                 uint32_t iface_num(0);
 
-                GetIfaceNames(&old_iface_names);
+                getIfaceNames(&old_iface_names);
 
                 while (true) {
                     alias = _iface_x_name + sep + to_string(iface_num);
 
-                    if (Exists(old_iface_names, alias)) {
+                    if (exists(old_iface_names, alias)) {
                         ++iface_num;
                         continue;
                     }
@@ -547,9 +547,9 @@ namespace happycpp {
                 return alias;
             }
 
-// 设置系统DNS，原配置将被清空
-// 修改 /etc/resolv.conf 文件方式
-            bool SetupDns(const std::string &dns1, const std::string &dns2) {
+            // 设置系统DNS，原配置将被清空
+            // 修改 /etc/resolv.conf 文件方式
+            bool setupDns(const std::string &dns1, const std::string &dns2) {
                 const std::string resolv_conf("/etc/resolv.conf");
                 const std::string pre_fix("nameserver ");
                 std::string content;
@@ -560,7 +560,7 @@ namespace happycpp {
                     content += pre_fix + dns2 + "\n";
 
                 if (!content.empty()) {
-                    hcfilesys::WriteFile(resolv_conf, content);
+                    hcfilesys::writeFile(resolv_conf, content);
                     return true;
                 }
 
@@ -569,20 +569,20 @@ namespace happycpp {
 
             namespace hcdebian {
 
-                bool StopNetwork() {
+                bool stopNetwork() {
                     const std::string cmd("/etc/init.d/networking stop");
-                    return GetExitStatusOfCmd(cmd);
+                    return getExitStatusOfCmd(cmd);
                 }
 
-                bool StartNetwork() {
+                bool startNetwork() {
                     const std::string cmd("service networking start");
-                    return GetExitStatusOfCmd(cmd);
+                    return getExitStatusOfCmd(cmd);
                 }
 
                 bool RestartNetwork() {
                     // ubuntu 不能直接restart，会提示错误
-                    StopNetwork();
-                    return StartNetwork();
+                    stopNetwork();
+                    return startNetwork();
                 }
 
                 std::string LoopInterfaceNode() {
@@ -591,10 +591,10 @@ namespace happycpp {
                                        "\n");
                 }
 
-// 生成单个网卡配置
+                // 生成单个网卡配置
                 std::string GenInterfaceNode(Iface *iface) {
                     // 是否是主IP，网卡名称中不能包含字符 ':'
-                    const bool is_primary_ip(!Find(iface->name_, ":"));
+                    const bool is_primary_ip(!find(iface->name_, ":"));
                     std::string node;
 
                     node = "auto " + iface->name_ + "\n"
@@ -611,13 +611,13 @@ namespace happycpp {
                     return node;
                 }
 
-// 重置所有网卡网络配置(包括系统DNS)
-// 参数 IfaceList，可以使用 IfaceFinder 从内核中获取。
-// 系统中，可能存在 NetworkManager 和 interfaces 配置两种网络管理方式。
-// NetworkManager 只会管理 /etc/network/interfaces 里没配置的网络接口，
-// 所以，直接使用 interfaces 配置即可。
-// 注意：
-//     1. /etc/network/interfaces 中原有配置会被清空
+                // 重置所有网卡网络配置(包括系统DNS)
+                // 参数 IfaceList，可以使用 IfaceFinder 从内核中获取。
+                // 系统中，可能存在 NetworkManager 和 interfaces 配置两种网络管理方式。
+                // NetworkManager 只会管理 /etc/network/interfaces 里没配置的网络接口，
+                // 所以，直接使用 interfaces 配置即可。
+                // 注意：
+                //     1. /etc/network/interfaces 中原有配置会被清空
                 bool ResetAllInterfacesConf(IfaceList *ifaces) {
                     const std::string interfaces_conf("/etc/network/interfaces");
                     std::string content(LoopInterfaceNode());
@@ -633,25 +633,25 @@ namespace happycpp {
                         content += GenInterfaceNode(&iface);
                     }
 
-                    hcfilesys::WriteFile(interfaces_conf, content);
-                    SetupDns(dns1, dns2);
+                    hcfilesys::writeFile(interfaces_conf, content);
+                    setupDns(dns1, dns2);
 
                     return true;
                 }
 
-// 更新网卡主IP(主IP不能直接删除，只能更新)
-                bool UpdatePrimaryIp(Iface *iface) {
-                    if (!iface->Verify() || iface->gateway_.empty())
+                // 更新网卡主IP(主IP不能直接删除，只能更新)
+                bool updatePrimaryIp(Iface *iface) {
+                    if (!iface->verify() || iface->gateway_.empty())
                         return false;
 
                     // 为 空 或者 找到分号 ":" (网卡次要IP设备名称以分号分割，比如 eth0:1)
-                    if (iface->name_.empty() || Find(iface->name_, ":"))
+                    if (iface->name_.empty() || find(iface->name_, ":"))
                         return false;
 
                     bool is_update(false);
                     IfaceList ifaces;
                     IfaceFinder finder;
-                    finder.GetIfaceList(&ifaces);
+                    finder.getIfaceList(&ifaces);
 
                     for (auto & it : ifaces) {
                         if (it.name_ == iface->name_) {
@@ -673,20 +673,20 @@ namespace happycpp {
                     return true;
                 }
 
-                void RemoveSecondaryIpByName(const std::string &iface_name) {
+                void removeSecondaryIpByName(const std::string &iface_name) {
                     // 为 空 或者 没有找到分号 ":" (网卡次要IP设备名称以分号分割，比如 eth0:1)
-                    if (iface_name.empty() || !Find(iface_name, ":"))
+                    if (iface_name.empty() || !find(iface_name, ":"))
                         return;
 
                     std::vector<std::string> iface_names;
-                    GetIfaceNames(&iface_names);
-                    if (!Exists(iface_names, iface_name))
+                    getIfaceNames(&iface_names);
+                    if (!exists(iface_names, iface_name))
                         return;
 
                     bool is_update(false);
                     IfaceList ifaces;
                     IfaceFinder finder;
-                    finder.GetIfaceList(&ifaces);
+                    finder.getIfaceList(&ifaces);
 
                     for (auto it = ifaces.begin(); it != ifaces.end(); ++it) {
                         if (it->name_ == iface_name) {
@@ -700,14 +700,14 @@ namespace happycpp {
                         ResetAllInterfacesConf(&ifaces);
                 }
 
-                void RemoveSecondaryIp(const std::string &ip_addr) {
+                void removeSecondaryIp(const std::string &ip_addr) {
                     if (ip_addr.empty())
                         return;
 
                     bool is_update(false);
                     IfaceList ifaces;
                     IfaceFinder finder;
-                    finder.GetIfaceList(&ifaces);
+                    finder.getIfaceList(&ifaces);
 
                     for (auto it = ifaces.begin(); it != ifaces.end(); ++it) {
                         if (it->ip_addr_ == ip_addr) {
@@ -721,21 +721,21 @@ namespace happycpp {
                         ResetAllInterfacesConf(&ifaces);
                 }
 
-// 设置网卡主IP或者从IP
-// 如果指定的网卡名称存在，则覆盖配置
-// 如果指定的网卡名称不存在，则在原配置上追加新配置
-                bool SetupIp(Iface *iface) {
-                    if (!iface->Verify())
+                // 设置网卡主IP或者从IP
+                // 如果指定的网卡名称存在，则覆盖配置
+                // 如果指定的网卡名称不存在，则在原配置上追加新配置
+                bool setupIp(Iface *iface) {
+                    if (!iface->verify())
                         return false;
 
                     std::vector<std::string> iface_names;
-                    GetIfaceNames(&iface_names);
-                    const bool is_exist = Exists(iface_names, iface->name_);
+                    getIfaceNames(&iface_names);
+                    const bool is_exist = exists(iface_names, iface->name_);
 
                     bool is_update(false);
                     IfaceList ifaces;
                     IfaceFinder finder;
-                    finder.GetIfaceList(&ifaces);
+                    finder.getIfaceList(&ifaces);
 
                     if (is_exist) {
                         for (auto & it : ifaces) {
@@ -768,15 +768,15 @@ namespace happycpp {
 
             namespace hcredhat {
 
-// 创建 或者 覆盖 网络配置文件
+                // 创建 或者 覆盖 网络配置文件
                 bool ResetNetworkCfg(Iface *iface) {
-                    if (!iface->Verify())
+                    if (!iface->verify())
                         return false;
 
-                    SetupDns(iface->dns1_, iface->dns2_);
+                    setupDns(iface->dns1_, iface->dns2_);
 
                     // 是否是主IP，网卡主IP名称中不能包含字符 ':'
-                    const bool is_primary_ip(!Find(iface->name_, ":"));
+                    const bool is_primary_ip(!find(iface->name_, ":"));
 
                     const std::string cfg_file(
                             "/etc/sysconfig/network-scripts/ifcfg-" + iface->name_);
@@ -796,47 +796,47 @@ namespace happycpp {
                                                                                        "NETMASK=" + iface->netmask_ +
                               "\n";
 
-                    hcfilesys::WriteFile(cfg_file, cfg);
+                    hcfilesys::writeFile(cfg_file, cfg);
 
                     return true;
                 }
 
-                bool StopNetwork() {
+                bool stopNetwork() {
                     const std::string cmd("service network stop");
-                    return GetExitStatusOfCmd(cmd);
+                    return getExitStatusOfCmd(cmd);
                 }
 
-                bool StartNetwork() {
+                bool startNetwork() {
                     const std::string cmd("service network start");
-                    return GetExitStatusOfCmd(cmd);
+                    return getExitStatusOfCmd(cmd);
                 }
 
-                bool RestartNetwork() {
+                bool restartNetwork() {
                     const std::string cmd("service network restart");
-                    return GetExitStatusOfCmd(cmd);
+                    return getExitStatusOfCmd(cmd);
                 }
 
-                bool SetupIp(Iface *iface) {
+                bool setupIp(Iface *iface) {
                     return ResetNetworkCfg(iface);
                 }
 
-// 更新网卡主IP(主IP不能直接删除，只能更新)
-                bool UpdatePrimaryIp(Iface *iface) {
-                    if (!iface->Verify() || iface->gateway_.empty())
+                // 更新网卡主IP(主IP不能直接删除，只能更新)
+                bool updatePrimaryIp(Iface *iface) {
+                    if (!iface->verify() || iface->gateway_.empty())
                         return false;
 
                     // 为 空 或者 找到分号 ":" (网卡次要IP设备名称以分号分割，比如 eth0:1)
-                    if (iface->name_.empty() || Find(iface->name_, ":"))
+                    if (iface->name_.empty() || find(iface->name_, ":"))
                         return false;
 
                     return ResetNetworkCfg(iface);
                 }
 
-// 根据网卡名称，删除网卡次要IP
-// 比如 eth0:1
-                void RemoveSecondaryIpByName(const std::string &iface_name) {
+                // 根据网卡名称，删除网卡次要IP
+                // 比如 eth0:1
+                void removeSecondaryIpByName(const std::string &iface_name) {
                     // 为 空 或者 没有找到分号 ":" (网卡次要IP设备名称以分号分割，比如 eth0:1)
-                    if (iface_name.empty() || !Find(iface_name, ":"))
+                    if (iface_name.empty() || !find(iface_name, ":"))
                         return;
 
                     const std::string cfg_file(
@@ -845,8 +845,8 @@ namespace happycpp {
                     bfs::remove(cfg_file);
                 }
 
-// 根据IP，删除网卡次要IP
-                void RemoveSecondaryIp(const std::string &ip_addr) {
+                // 根据IP，删除网卡次要IP
+                void removeSecondaryIp(const std::string &ip_addr) {
                     if (ip_addr.empty())
                         return;
 
@@ -859,8 +859,8 @@ namespace happycpp {
                     std::vector<std::string> files;
                     std::vector<std::string>::iterator it;
 
-                    const std::string ret(GetOutputOfCmd(cmd));
-                    Split(ret, &files);
+                    const std::string ret(getOutputOfCmd(cmd));
+                    split(ret, &files);
 
                     // 删除找到的文件
                     for (auto & file : files)
@@ -873,31 +873,32 @@ namespace happycpp {
 
         namespace hccpu {
 
-/*获取cpu型号，不处理重复行，比如
- Quad-Core AMD Opteron(tm) Processor 2350
- Quad-Core AMD Opteron(tm) Processor 2350
- Quad-Core AMD Opteron(tm) Processor 2350
- Quad-Core AMD Opteron(tm) Processor 2350
- Quad-Core AMD Opteron(tm) Processor 2350
- Quad-Core AMD Opteron(tm) Processor 2350
- Quad-Core AMD Opteron(tm) Processor 2350
- Quad-Core AMD Opteron(tm) Processor 2350
- */
-            std::string ModelName() {
+            /*
+             * 获取cpu型号，不处理重复行，比如
+             Quad-Core AMD Opteron(tm) Processor 2350
+             Quad-Core AMD Opteron(tm) Processor 2350
+             Quad-Core AMD Opteron(tm) Processor 2350
+             Quad-Core AMD Opteron(tm) Processor 2350
+             Quad-Core AMD Opteron(tm) Processor 2350
+             Quad-Core AMD Opteron(tm) Processor 2350
+             Quad-Core AMD Opteron(tm) Processor 2350
+             Quad-Core AMD Opteron(tm) Processor 2350
+             */
+            std::string modelName() {
                 const std::string cmd(
                         "egrep 'model name' /proc/cpuinfo|awk -F':' '{print $NF}'");
-                return GetOutputOfCmd(cmd);
+                return getOutputOfCmd(cmd);
             }
 
-/* 获取cpu实际核心数，返回uint16_t */
-            uint16_t CoreNum() {
+            /* 获取cpu实际核心数，返回uint16_t */
+            uint16_t coreNum() {
                 const std::string cmd("expr `grep 'physical id' /proc/cpuinfo"
                                       "|awk '{print $4}'"
                                       "|sort -u"
                                       "|wc -l` \\* `grep 'cpu cores' /proc/cpuinfo"
                                       "|awk '{print $4}'"
                                       "|sort -u`");
-                std::string cpu_num = GetOutputOfCmd(cmd);
+                std::string cpu_num = getOutputOfCmd(cmd);
 
                 uint16_t i_cpu_num = stoi(cpu_num);
                 if (i_cpu_num == 0)
@@ -906,20 +907,20 @@ namespace happycpp {
                 return i_cpu_num;
             }
 
-/* 获取cpu运行时间相关参数，用于计算cpu使用率 */
-            bool GetWorkCpuTime(CpuTime *cpu_time) {
+            /* 获取cpu运行时间相关参数，用于计算cpu使用率 */
+            bool getWorkCpuTime(CpuTime *cpu_time) {
                 std::vector<std::string> cpu_stats;
                 std::vector<std::string>::iterator it;
 
                 const std::string cmd(
                         "cat /proc/stat|egrep '^cpu[ ]+'|sed 's/^cpu[ ]\\+//g'");
-                const std::string proc_stat = GetOutputOfCmd(cmd);
+                const std::string proc_stat = getOutputOfCmd(cmd);
 
                 /*未获取到文件内容*/
                 if (proc_stat.empty())
                     return false;
 
-                Split(proc_stat, &cpu_stats, " ");
+                split(proc_stat, &cpu_stats, " ");
 
                 /*文件内容出乎意外，内容至少是6到9列*/
                 if (cpu_stats.size() < 6)
@@ -935,8 +936,8 @@ namespace happycpp {
                 return true;
             }
 
-/*获取cpu使用率和空闲率*/
-            void GetCpuUtil(CpuUtil *cpu_util) {
+            /*获取cpu使用率和空闲率*/
+            void getCpuUtil(CpuUtil *cpu_util) {
                 int32_t precision = 1;  // 保留一位小数
                 CpuTime cpu_time_1;
                 CpuTime cpu_time_2;
@@ -945,24 +946,24 @@ namespace happycpp {
                 cpu_util->used = 0;
                 cpu_util->idle = 0;
 
-                if (!GetWorkCpuTime(&cpu_time_1))
+                if (!getWorkCpuTime(&cpu_time_1))
                     return;
 
-                HappySleep(100);  // 延时100毫秒
+                happySleep(100);  // 延时100毫秒
 
-                if (!GetWorkCpuTime(&cpu_time_2))
+                if (!getWorkCpuTime(&cpu_time_2))
                     return;
 
                 double used_over_period = cpu_time_2.used - cpu_time_1.used;
                 double total_over_period = cpu_time_2.total - cpu_time_1.total;
 
                 double cpu_used = used_over_period / total_over_period * 100;
-                cpu_util->used = Round(cpu_used, precision);
+                cpu_util->used = round(cpu_used, precision);
                 snprintf(cpu_util->display_used, sizeof(cpu_util->display_used), "%s%%",
                          to_string(cpu_util->used).c_str());
 
                 double cpu_idle = 100 - cpu_used;
-                cpu_util->idle = Round(cpu_idle, precision);
+                cpu_util->idle = round(cpu_idle, precision);
                 snprintf(cpu_util->display_idle, sizeof(cpu_util->display_idle), "%s%%",
                          to_string(cpu_util->idle).c_str());
             }
@@ -971,25 +972,25 @@ namespace happycpp {
 
         namespace hcmem {
 
-/* 获取系统总内存，单位MiB */
-            uint32_t Total() {
+            /* 获取系统总内存，单位MiB */
+            uint32_t totalSysMem() {
                 const std::string cmd("free -m |egrep 'Mem:'|awk '{print $2}'");
-                std::string memory_size = GetOutputOfCmd(cmd);
+                std::string memory_size = getOutputOfCmd(cmd);
                 return stoi(memory_size);
             }
 
-/* 获取系统空闲内存，单位MiB */
-            uint32_t Free() {
+            /* 获取系统空闲内存，单位MiB */
+            uint32_t freeSysMem() {
                 const std::string cmd("free -m |egrep 'buffers/cache'|awk '{print $NF}'");
-                std::string memory_size = GetOutputOfCmd(cmd);
+                std::string memory_size = getOutputOfCmd(cmd);
                 return stoi(memory_size);
             }
 
-/* 获取系统使用内存，单位MiB */
-            uint32_t Use() {
+            /* 获取系统使用内存，单位MiB */
+            uint32_t useSysMem() {
                 const std::string cmd(
                         "free -m |egrep 'buffers/cache'|awk '{print $(NF-1)}'");
-                std::string memory_size = GetOutputOfCmd(cmd);
+                std::string memory_size = getOutputOfCmd(cmd);
                 return stoi(memory_size);
             }
 
@@ -997,40 +998,40 @@ namespace happycpp {
 
         namespace hcswap {
 
-/* 获取系统总虚拟内存，单位MiB */
-            uint32_t Total() {
+            /* 获取系统总虚拟内存，单位MiB */
+            uint32_t totalSysSwap() {
                 const std::string cmd("free -m|sed -n '4p'|awk '{print $2}'");
-                std::string memory_size = GetOutputOfCmd(cmd);
+                std::string memory_size = getOutputOfCmd(cmd);
                 return stoi(memory_size);
             }
 
-/* 获取系统空闲虚拟内存，单位MiB */
-            uint32_t Free() {
+            /* 获取系统空闲虚拟内存，单位MiB */
+            uint32_t freeSysSwap() {
                 const std::string cmd("free -m|sed -n '4p'|awk '{print $4}'");
-                std::string memory_size = GetOutputOfCmd(cmd);
+                std::string memory_size = getOutputOfCmd(cmd);
                 return stoi(memory_size);
             }
 
-/* 获取系统使用虚拟内存，单位MiB */
-            uint32_t Use() {
+            /* 获取系统使用虚拟内存，单位MiB */
+            uint32_t useSysSwap() {
                 const std::string cmd("free -m|sed -n '4p'|awk '{print $3}'");
-                std::string memory_size = GetOutputOfCmd(cmd);
+                std::string memory_size = getOutputOfCmd(cmd);
                 return stoi(memory_size);
             }
 
         } /*namespace hcswap*/
 
-/* 操作系统相关信息 */
+        /* 操作系统相关信息 */
         namespace hcsys {
 
-/* 控制服务进程的启动、停止以及重启操作
- * serv_script表示服务进程的管理脚本路径，比如/etc/init.d/mysqld。
- * wait表示是否等待操作完成。
- * 1. wait为true时，表示阻塞式操作服务进程，shell等待操作完毕后，才会返回。
- * 2. wait为false时，表示非阻塞式操作服务进程，
- * shell执行操作命令后，直接返回，不等待。 */
-            bool ContrlService(const std::string &serv_script, const ServiceACTION &action,
-                               const bool wait) {
+            /* 控制服务进程的启动、停止以及重启操作
+             * serv_script表示服务进程的管理脚本路径，比如/etc/init.d/mysqld。
+             * wait表示是否等待操作完成。
+             * 1. wait为true时，表示阻塞式操作服务进程，shell等待操作完毕后，才会返回。
+             * 2. wait为false时，表示非阻塞式操作服务进程，
+             * shell执行操作命令后，直接返回，不等待。 */
+            bool contrlService(const std::string &serv_script, const ServiceACTION &action,
+                               bool wait) {
                 if (bfs::exists(serv_script)) {
                     std::vector<std::string> actions(3);
                     actions[0] = "stop";
@@ -1041,49 +1042,49 @@ namespace happycpp {
                     if (wait)
                         cmd += " &";
 
-                    return GetExitStatusOfCmd(cmd);
+                    return getExitStatusOfCmd(cmd);
                 }
 
                 return false;
             }
 
-/*获取系统UUID，比如 44454C4C-4600-1056-8050-B7C04F4A3258
+            /*获取系统UUID，比如 44454C4C-4600-1056-8050-B7C04F4A3258
 
- System Information
- Manufacturer: Dell Inc.
- Product Name: PowerEdge SC1435
- Version: Not Specified
- Serial Number: 7FVPJ2X
- UUID: 44454C4C-4600-1056-8050-B7C04F4A3258
- Wake-up Type: Power Switch
- SKU Number: Not Specified
- Family: Not Specified
- * */
-            std::string Uuid() {
+             System Information
+             Manufacturer: Dell Inc.
+             Product Name: PowerEdge SC1435
+             Version: Not Specified
+             Serial Number: 7FVPJ2X
+             UUID: 44454C4C-4600-1056-8050-B7C04F4A3258
+             Wake-up Type: Power Switch
+             SKU Number: Not Specified
+             Family: Not Specified
+             * */
+            std::string uuid() {
                 const std::string cmd("dmidecode |egrep 'UUID: '|awk '{print $NF}';");
-                return GetOutputOfCmd(cmd);
+                return getOutputOfCmd(cmd);
             }
 
-/* How many seconds the system has been running. */
+            /* How many seconds the system has been running. */
             time_t UptimeSec();
 
-/* How many seconds the system has been running. */
+            /* How many seconds the system has been running. */
             time_t UptimeSec() {
                 const std::string proc_file("/proc/uptime");
-                const std::string content(hcfilesys::ReadFile(proc_file));
+                const std::string content(hcfilesys::readFile(proc_file));
                 std::vector<std::string> cols;
                 time_t running_sec = 0;
-                Split(content, &cols, " ");
+                split(content, &cols, " ");
 
                 if (cols.size() != 2)
                     return running_sec;
 
                 const double col_1 = stod(cols[0]);
-                running_sec = static_cast<time_t>(Round(col_1, 0));
+                running_sec = static_cast<time_t>(round(col_1, 0));
                 return running_sec;
             }
 
-            void UptimeHumanReadable(uptime_t *uptime) {
+            void uptimeHumanReadable(uptime_t *uptime) {
                 const time_t DAY_SEC = 86400;
                 const time_t HOUR_SEC = 3600;
                 const time_t MINUTE_SEC = 60;
@@ -1102,27 +1103,27 @@ namespace happycpp {
                 uptime->minute = to_string(minute);
             }
 
-            std::string CurrentLoad() {
+            std::string currentLoad() {
                 const std::string cmd("awk '{print $1}' /proc/loadavg");
-                return GetOutputOfCmd(cmd);
+                return getOutputOfCmd(cmd);
             }
 
-            bool Shutdown() {
-                return GetExitStatusOfCmd("sleep 5 && shutdown -h now &");
+            bool shutdown() {
+                return getExitStatusOfCmd("sleep 5 && shutdown -h now &");
             }
 
-            bool Reboot() {
-                return GetExitStatusOfCmd("sleep 5 && reboot &");
+            bool reboot() {
+                return getExitStatusOfCmd("sleep 5 && reboot &");
             }
 
         } /*namespace hcsys*/
 
         namespace hcsocket {
 
-/*在(SSL_read)读取函数调用之前，获取缓冲区内数据的长度。
- * 未解决的问题：如果单个数据包分次发送，第一个分包大小总是零，原因未知
- * 第二个分包大小正常*/
-            int GetSocketSize(int socket) {
+            /*在(SSL_read)读取函数调用之前，获取缓冲区内数据的长度。
+             * 未解决的问题：如果单个数据包分次发送，第一个分包大小总是零，原因未知
+             * 第二个分包大小正常*/
+            int getSocketSize(int socket) {
                 int ires;
                 int size = 0;
 
@@ -1138,9 +1139,9 @@ namespace happycpp {
 
         namespace hcuser {
 
-// 错误：返回 -1
-// 成功：返回 用户ID
-            int32_t GetUserId(const std::string &user) {
+            // 错误：返回 -1
+            // 成功：返回 用户ID
+            int32_t getUserId(const std::string &user) {
                 if (user.empty())
                     return -1;
 
@@ -1162,9 +1163,9 @@ namespace happycpp {
                 return p_pw_buf->pw_uid;
             }
 
-// 错误：返回 -1
-// 成功：返回 组ID
-            int32_t GetGroupId(const std::string &group) {
+            // 错误：返回 -1
+            // 成功：返回 组ID
+            int32_t getGroupId(const std::string &group) {
                 if (group.empty())
                     return -1;
 
@@ -1187,28 +1188,28 @@ namespace happycpp {
                 return p_group_buf->gr_gid;
             }
 
-// 修改系统账号密码
-            bool ChangePassword(const std::string &user, const std::string &pwd) {
+            // 修改系统账号密码
+            bool changePassword(const std::string &user, const std::string &pwd) {
                 if (user.empty() || pwd.empty())
                     return false;
 
                 std::string format_pwd;
-                format_pwd = Replace(pwd, "\\", "\\\\");
-                format_pwd = Replace(format_pwd, "'", "\\'");
+                format_pwd = replace(pwd, "\\", "\\\\");
+                format_pwd = replace(format_pwd, "'", "\\'");
 
                 const std::string cmd("echo " + user + ":'" + format_pwd + "'|chpasswd");
-                return GetExitStatusOfCmd(cmd);
+                return getExitStatusOfCmd(cmd);
             }
 
         } /*namespace hcuser*/
 
-// 锁文件（扩展名为.lock）相关代码
+        // 锁文件（扩展名为.lock）相关代码
         namespace hclock {
-            std::string GetLockFileDir() {
+            std::string getLockFileDir() {
                 return "/tmp";
             }
 
-            std::string GenLockFileName(const std::string &app, const pid_t &pid) {
+            std::string genLockFileName(const std::string &app, const pid_t &pid) {
                 const std::string ext(".lock");
                 std::string file_name(pid == 0 ?
                                       // 如，a1234.lock 或 diskcache.lock
@@ -1219,24 +1220,24 @@ namespace happycpp {
                 return file_name;
             }
 
-            bool CrtLockFileByName(const std::string &file_name,
+            bool crtLockFileByName(const std::string &file_name,
                                    const std::string &content) {
-                hcfilesys::WriteFile(file_name, content);
+                hcfilesys::writeFile(file_name, content);
                 return true;
             }
 
-            bool CrtLockFileById(const std::string &app, const pid_t &pid,
+            bool crtLockFileById(const std::string &app, const pid_t &pid,
                                  const std::string &content) {
-                hcfilesys::WriteFile(GenLockFileName(app, pid), content);
+                hcfilesys::writeFile(genLockFileName(app, pid), content);
                 return true;
             }
 
-            bool RmLockFileByName(const std::string &file_name) {
+            bool rmLockFileByName(const std::string &file_name) {
                 return remove(file_name.c_str()) == 0;
             }
 
-            bool RmLockFileByPid(const std::string &app, const pid_t &pid) {
-                return RmLockFileByName(GenLockFileName(app, pid));
+            bool rmLockFileByPid(const std::string &app, const pid_t &pid) {
+                return rmLockFileByName(genLockFileName(app, pid));
             }
 
         } /*namespace hclock*/

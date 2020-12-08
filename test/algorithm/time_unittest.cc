@@ -31,7 +31,7 @@ TEST(HCTIME_UNITTEST, HappyWait) {
     time_t end;
 
     time(&start);
-    hhhtime::HappyWait(sec);
+    hhhtime::happyWait(sec);
     time(&end);
 
     const double diff = difftime(end, start);
@@ -51,7 +51,7 @@ TEST(HCTIME_UNITTEST, HappySleep) {
     _timeb end;
 
     _ftime(&start);
-    hhhtime::HappySleep(milli_sec);
+    hhhtime::happySleep(milli_sec);
     _ftime(&end);
 
     const time_t diff =
@@ -62,12 +62,12 @@ TEST(HCTIME_UNITTEST, HappySleep) {
 }
 
 TEST(HCTIME_UNITTEST, CmpDate) {
-    CmpResult ret = hhhtime::CmpDate("2015-11-16 14:06:36",
+    CmpResult ret = hhhtime::cmpDate("2015-11-16 14:06:36",
                                      "2015-04-09 00:11:36");
     EXPECT_EQ(kGreater, ret);
 }
 
 TEST(HCTIME_UNITTEST, GetFormatTime) {
-    ASSERT_EQ("20160325", hhhtime::GetFormatTime(1458893661, "%Y%m%d"));
+    ASSERT_EQ("20160325", hhhtime::getFormatTime(1458893661, "%Y%m%d"));
 }
 

@@ -35,22 +35,22 @@ TEST(HCCMD_UNITTEST, GetExitStatusOfCmd) {
 
     if (bfs::exists("cmdtest")) {
         cmd = "rmdir cmdtest";
-        ret = hhcmd::GetExitStatusOfCmd(cmd);
+        ret = hhcmd::getExitStatusOfCmd(cmd);
         EXPECT_TRUE(ret);
     }
 
     cmd = "mkdir cmdtest";
-    ret = hhcmd::GetExitStatusOfCmd(cmd);
+    ret = hhcmd::getExitStatusOfCmd(cmd);
     EXPECT_TRUE(ret);
 
     cmd = "rmdir cmdtest";
-    ret = hhcmd::GetExitStatusOfCmd(cmd);
+    ret = hhcmd::getExitStatusOfCmd(cmd);
     EXPECT_TRUE(ret);
 }
 
 TEST(HCCMD_UNITTEST, GetOutputOfCmd) {
     std::string cmd("echo testing");
-    std::string ret(hhcmd::GetOutputOfCmd(cmd));
+    std::string ret(hhcmd::getOutputOfCmd(cmd));
     const std::string expected("testing");
     EXPECT_STREQ(expected.c_str(), ret.c_str());
 }

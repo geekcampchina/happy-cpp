@@ -26,76 +26,76 @@
 namespace hhhstring = happycpp::hcalgorithm::hcstring;
 
 TEST(HCSTRING_UNITTEST, Find) {
-    EXPECT_TRUE(hhhstring::Find("abcdefg", "cd"));
-    EXPECT_FALSE(hhhstring::Find("abcdefg", "123"));
-    EXPECT_FALSE(hhhstring::Find("ABC", "abcdefg"));
+    EXPECT_TRUE(hhhstring::find("abcdefg", "cd"));
+    EXPECT_FALSE(hhhstring::find("abcdefg", "123"));
+    EXPECT_FALSE(hhhstring::find("ABC", "abcdefg"));
 }
 
 TEST(HCSTRING_UNITTEST, Trim) {
-    EXPECT_STREQ("abc", hhhstring::Trim(" abc", " ").c_str());
-    EXPECT_STREQ("abc", hhhstring::Trim("abc ", " ").c_str());
-    EXPECT_STREQ("abc", hhhstring::Trim("abc", " ").c_str());
+    EXPECT_STREQ("abc", hhhstring::trim(" abc", " ").c_str());
+    EXPECT_STREQ("abc", hhhstring::trim("abc ", " ").c_str());
+    EXPECT_STREQ("abc", hhhstring::trim("abc", " ").c_str());
 
-    EXPECT_STREQ(" abc", hhhstring::Trim(" abc\t", "\t").c_str());
-    EXPECT_STREQ("abc ", hhhstring::Trim("\tabc ", "\t").c_str());
-    EXPECT_STREQ("abc\t ", hhhstring::Trim("abc\t ", "\t").c_str());
+    EXPECT_STREQ(" abc", hhhstring::trim(" abc\t", "\t").c_str());
+    EXPECT_STREQ("abc ", hhhstring::trim("\tabc ", "\t").c_str());
+    EXPECT_STREQ("abc\t ", hhhstring::trim("abc\t ", "\t").c_str());
 
-    EXPECT_STREQ("abc", hhhstring::Trim("abc", " \t").c_str());
-    EXPECT_STREQ("abc", hhhstring::Trim(" abc\t ", " \t").c_str());
-    EXPECT_STREQ("abc", hhhstring::Trim("\tabc ", " \t").c_str());
-    EXPECT_STREQ("abc", hhhstring::Trim(" \tabc \t", " \t").c_str());
+    EXPECT_STREQ("abc", hhhstring::trim("abc", " \t").c_str());
+    EXPECT_STREQ("abc", hhhstring::trim(" abc\t ", " \t").c_str());
+    EXPECT_STREQ("abc", hhhstring::trim("\tabc ", " \t").c_str());
+    EXPECT_STREQ("abc", hhhstring::trim(" \tabc \t", " \t").c_str());
 }
 
 TEST(HCSTRING_UNITTEST, ToLower) {
-    EXPECT_STREQ("abc", hhhstring::ToLower("abc").c_str());
-    EXPECT_STREQ("abc", hhhstring::ToLower("ABC").c_str());
+    EXPECT_STREQ("abc", hhhstring::toLower("abc").c_str());
+    EXPECT_STREQ("abc", hhhstring::toLower("ABC").c_str());
 }
 
 TEST(HCSTRING_UNITTEST, ToUpper) {
-    EXPECT_STREQ("ABC", hhhstring::ToUpper("abc").c_str());
-    EXPECT_STREQ("ABC", hhhstring::ToUpper("ABC").c_str());
-    EXPECT_STREQ(" ABC ", hhhstring::ToUpper(" abc ").c_str());
+    EXPECT_STREQ("ABC", hhhstring::toUpper("abc").c_str());
+    EXPECT_STREQ("ABC", hhhstring::toUpper("ABC").c_str());
+    EXPECT_STREQ(" ABC ", hhhstring::toUpper(" abc ").c_str());
 }
 
 TEST(HCSTRING_UNITTEST, Replace) {
     EXPECT_STREQ("1a111b1113c",
-                 hhhstring::Replace("1a2b23c", "2", "111").c_str());
-    EXPECT_STREQ("", hhhstring::Replace("", "abc", "111").c_str());
-    EXPECT_STREQ("abc", hhhstring::Replace("abc", "", "111").c_str());
-    EXPECT_STREQ("abc", hhhstring::Replace("abc", "111", "111").c_str());
-    EXPECT_STREQ("1ab3c", hhhstring::Replace("1a111b1113c", "111", "").c_str());
+                 hhhstring::replace("1a2b23c", "2", "111").c_str());
+    EXPECT_STREQ("", hhhstring::replace("", "abc", "111").c_str());
+    EXPECT_STREQ("abc", hhhstring::replace("abc", "", "111").c_str());
+    EXPECT_STREQ("abc", hhhstring::replace("abc", "111", "111").c_str());
+    EXPECT_STREQ("1ab3c", hhhstring::replace("1a111b1113c", "111", "").c_str());
 }
 
 TEST(HCSTRING_UNITTEST, Erase) {
-    EXPECT_STREQ("1ab3c", hhhstring::Erase("1a22b223c", "2").c_str());
-    EXPECT_STREQ("1a22b223c", hhhstring::Erase("1a22b223c", "").c_str());
-    EXPECT_STREQ("", hhhstring::Erase("", "abc").c_str());
+    EXPECT_STREQ("1ab3c", hhhstring::erase("1a22b223c", "2").c_str());
+    EXPECT_STREQ("1a22b223c", hhhstring::erase("1a22b223c", "").c_str());
+    EXPECT_STREQ("", hhhstring::erase("", "abc").c_str());
 }
 
 TEST(HCSTRING_UNITTEST, IsDigit) {
-    EXPECT_TRUE(hhhstring::IsDigit("123"));
-    EXPECT_FALSE(hhhstring::IsDigit("12a3"));
+    EXPECT_TRUE(hhhstring::isDigit("123"));
+    EXPECT_FALSE(hhhstring::isDigit("12a3"));
 }
 
 TEST(HCSTRING_UNITTEST, IsVersion) {
-    EXPECT_TRUE(hhhstring::IsVersion("1.2.3"));
-    EXPECT_FALSE(hhhstring::IsVersion(""));
-    EXPECT_FALSE(hhhstring::IsVersion("1.a.3"));
-    EXPECT_FALSE(hhhstring::IsVersion(".123"));
-    EXPECT_FALSE(hhhstring::IsVersion("123."));
+    EXPECT_TRUE(hhhstring::isVersion("1.2.3"));
+    EXPECT_FALSE(hhhstring::isVersion(""));
+    EXPECT_FALSE(hhhstring::isVersion("1.a.3"));
+    EXPECT_FALSE(hhhstring::isVersion(".123"));
+    EXPECT_FALSE(hhhstring::isVersion("123."));
 }
 
 TEST(HCSTRING_UNITTEST, IsAlnum) {
-    EXPECT_TRUE(hhhstring::IsAlnum("12a3"));
-    EXPECT_TRUE(hhhstring::IsAlnum("123"));
-    EXPECT_FALSE(hhhstring::IsAlnum(""));
-    EXPECT_FALSE(hhhstring::IsAlnum("12+3"));
+    EXPECT_TRUE(hhhstring::isAlnum("12a3"));
+    EXPECT_TRUE(hhhstring::isAlnum("123"));
+    EXPECT_FALSE(hhhstring::isAlnum(""));
+    EXPECT_FALSE(hhhstring::isAlnum("12+3"));
 }
 
 TEST(HCSTRING_UNITTEST, IsAlpha) {
-    EXPECT_TRUE(hhhstring::IsAlpha("abc"));
-    EXPECT_FALSE(hhhstring::IsAlpha(""));
-    EXPECT_FALSE(hhhstring::IsAlpha("123abc"));
+    EXPECT_TRUE(hhhstring::isAlpha("abc"));
+    EXPECT_FALSE(hhhstring::isAlpha(""));
+    EXPECT_FALSE(hhhstring::isAlpha("123abc"));
 }
 
 // c++11 标准函数测试
@@ -172,7 +172,7 @@ TEST(HCSTRING_UNITTEST, Split) {
     std::vector<std::string> v1;
     const std::string s1("a\nb+c");
 
-    hhhstring::Split(s1, &v1, "\n+");
+    hhhstring::split(s1, &v1, "\n+");
     EXPECT_EQ(3U, v1.size());
     EXPECT_STREQ("a", v1[0].c_str());
     EXPECT_STREQ("b", v1[1].c_str());
@@ -181,7 +181,7 @@ TEST(HCSTRING_UNITTEST, Split) {
     std::vector<std::string> v2;
     const std::string s2("a\nb\nc\n");
 
-    hhhstring::Split(s2, &v2, "\n");
+    hhhstring::split(s2, &v2, "\n");
     EXPECT_EQ(4U, v2.size());
     EXPECT_STREQ("a", v2[0].c_str());
     EXPECT_STREQ("b", v2[1].c_str());
@@ -191,7 +191,7 @@ TEST(HCSTRING_UNITTEST, Split) {
     std::vector<std::string> v3;
     const std::string s3("\n");
 
-    hhhstring::Split(s3, &v3, "\n");
+    hhhstring::split(s3, &v3, "\n");
     EXPECT_EQ(2U, v3.size());
     EXPECT_STREQ("", v3[0].c_str());
     EXPECT_STREQ("", v3[1].c_str());
@@ -199,13 +199,13 @@ TEST(HCSTRING_UNITTEST, Split) {
     std::vector<std::string> v4;
     const std::string s4("abc.com");
 
-    hhhstring::Split(s4, &v4, "\n");
+    hhhstring::split(s4, &v4, "\n");
     EXPECT_EQ(1U, v4.size());
 
     std::vector<std::string> v5;
     const std::string s5("");
 
-    hhhstring::Split(s5, &v5, "\n");
+    hhhstring::split(s5, &v5, "\n");
     EXPECT_EQ(0U, v5.size());
 }
 
@@ -213,7 +213,7 @@ TEST(HCSTRING_UNITTEST, ToMap1) {
     std::vector<std::string> v{"a", "b", "c"};
     std::map<std::string, std::string> m;
 
-    hhhstring::ToMap(v, &m);
+    hhhstring::toMap(v, &m);
 
     EXPECT_EQ(v.size(), m.size());
     EXPECT_STREQ("", m["a"].c_str());
@@ -227,7 +227,7 @@ TEST(HCSTRING_UNITTEST, ToMap2) {
                          "b\n"
                          "c\n");
 
-    hhhstring::ToMap(s1, &m1, "\n");
+    hhhstring::toMap(s1, &m1, "\n");
     EXPECT_EQ(4U, m1.size());
     EXPECT_STREQ("", m1["a"].c_str());
     EXPECT_STREQ("", m1["b"].c_str());
@@ -237,13 +237,13 @@ TEST(HCSTRING_UNITTEST, ToMap2) {
     std::map<std::string, std::string> m2;
     const std::string s2("\n");
 
-    hhhstring::ToMap(s2, &m2, "\n");
+    hhhstring::toMap(s2, &m2, "\n");
     EXPECT_EQ(1U, m2.size());
     EXPECT_STREQ("", m2[""].c_str());
 
     std::map<std::string, std::string> m3;
     const std::string s3("");
 
-    hhhstring::ToMap(s3, &m3, "\n");
+    hhhstring::toMap(s3, &m3, "\n");
     EXPECT_EQ(0U, m3.size());
 }

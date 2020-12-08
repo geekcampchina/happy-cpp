@@ -31,9 +31,9 @@
 #include <vector>
 #include <iostream>
 
-using happycpp::hcalgorithm::hcstring::Find;
-using happycpp::hcalgorithm::hcstring::Split;
-using happycpp::hcalgorithm::hcstring::ToLower;
+using happycpp::hcalgorithm::hcstring::find;
+using happycpp::hcalgorithm::hcstring::split;
+using happycpp::hcalgorithm::hcstring::toLower;
 
 namespace happycpp {
 
@@ -46,7 +46,7 @@ namespace happycpp {
         // 操作系统。
 #endif
 
-        bool Is64BitArch() {
+        bool is64BitArch() {
 #ifdef PLATFORM_64
             return true;
 #endif
@@ -63,7 +63,7 @@ namespace happycpp {
 #endif
         }
 
-        std::string GetEnumDesc(const std::map<uint32_t, std::string> &desc,
+        std::string getEnumDesc(const std::map<uint32_t, std::string> &desc,
                                 const uint32_t e) {
             auto it = desc.find(e);
 
@@ -73,7 +73,7 @@ namespace happycpp {
             return it->second;
         }
 
-        std::string GetOsVersionDesc(const uint32_t e) {
+        std::string getOsVersionDesc(uint32_t e) {
             static std::map<uint32_t, std::string> desc{
 #ifdef PLATFORM_WIN32
                     {kWindowsXP, "Windows XP"},
@@ -100,10 +100,10 @@ namespace happycpp {
 #endif
             };
 
-            return GetEnumDesc(desc, e);
+            return getEnumDesc(desc, e);
         }
 
-        std::string GetOsIdDesc(const uint32_t e) {
+        std::string getOsIdDesc(uint32_t e) {
             static std::map<uint32_t, std::string> desc{
 #ifdef PLATFORM_WIN32
                     {kWindowsWorkStation, "Windows"},
@@ -115,7 +115,7 @@ namespace happycpp {
 #endif
             };
 
-            return GetEnumDesc(desc, e);
+            return getEnumDesc(desc, e);
         }
 
 #ifdef PLATFORM_WIN32
@@ -326,7 +326,7 @@ namespace happycpp {
         }
 #else
 
-        bool GetRedHatRelease(const char *info, OsIdentification *osi) {
+        bool getRedHatRelease(const char *info, OsIdentification *osi) {
             OsIdentification _osi;
             std::string _info;
 
@@ -334,33 +334,33 @@ namespace happycpp {
                 _info = info;
             } else {
                 if (bfs::exists("/etc/redhat-release"))
-                    _info = hcfilesys::ReadFile("/etc/redhat-release");
+                    _info = hcfilesys::readFile("/etc/redhat-release");
                 else
                     return false;
             }
 
-            static HappyRegex re = HappyRegexCompile("^(.*) "
+            static HappyRegex re = happyRegexCompile("^(.*) "
                                                      "release "
                                                      "(\\d+)\\.(\\d+)(?:\\.(\\d+))? "
                                                      "\\((.+)\\)");
 
             HappySmatch what;
 
-            if (!HappyRegexMatch(_info, what, re))
+            if (!happyRegexMatch(_info, what, re))
                 return false;
 
             const std::string name(what[1]);
 
-            if (Find(name, "CentOS"))
+            if (find(name, "CentOS"))
                 _osi.id = kCentOS;
-            else if (Find(name, "Red Hat Enterprise Linux"))
+            else if (find(name, "Red Hat Enterprise Linux"))
                 _osi.id = kRedHat;
 
-            _osi.arch_id = Is64BitArch() ? 64 : 32;
+            _osi.arch_id = is64BitArch() ? 64 : 32;
             _osi.major_version = std::stoi(what[2]);
             _osi.minor_version = std::stoi(what[3]);
-            _osi.build_id = ToLower(what[4]);
-            _osi.code_id = ToLower(what[5]);
+            _osi.build_id = toLower(what[4]);
+            _osi.code_id = toLower(what[5]);
             _osi.pretty_name = info;
 
             const bool is_centos = (_osi.id == kCentOS);
@@ -390,7 +390,7 @@ namespace happycpp {
 
             std::vector<std::string> tmp_list;
 
-            if (Split(s, &tmp_list, "=") && tmp_list.size() == 2) {
+            if (split(s, &tmp_list, "=") && tmp_list.size() == 2) {
                 if (tmp_list[1].size() > 2) {
                     auto begin_it = tmp_list[1].begin();
                     if (*begin_it == '"') tmp_list[1].erase(begin_it);
@@ -403,7 +403,7 @@ namespace happycpp {
             }
         }
 
-        bool GetLsbRelease(const char *info, OsIdentification *osi) {
+        bool getLsbRelease(const char *info, OsIdentification *osi) {
             OsIdentification _osi;
             std::string _info;
 
@@ -411,7 +411,7 @@ namespace happycpp {
                 _info = info;
             } else {
                 if (bfs::exists("/etc/lsb-release"))
-                    _info = hcfilesys::ReadFile("/etc/lsb-release");
+                    _info = hcfilesys::readFile("/etc/lsb-release");
                 else
                     return false;
             }
@@ -419,7 +419,7 @@ namespace happycpp {
             std::vector<std::string> line_list;
             std::map<std::string, std::string> directive_list;
 
-            if (!Split(_info, &line_list, EOL))
+            if (!split(_info, &line_list, EOL))
                 return false;
 
             for (const auto& line : line_list)
@@ -432,7 +432,7 @@ namespace happycpp {
                 if (it.first == "LSB_VERSION") {
                     return false;
                 } else if (it.first == "DISTRIB_ID") {
-                    if (ToLower(it.second) == "ubuntu")
+                    if (toLower(it.second) == "ubuntu")
                         _osi.id = kUbuntu;
                     else
                         return false;
@@ -456,7 +456,7 @@ namespace happycpp {
                            "%u.%u",
                            &_osi.major_version, &_osi.minor_version);
                 } else if (it.first == "DISTRIB_CODENAME") {
-                    _osi.code_id = ToLower(it.second);
+                    _osi.code_id = toLower(it.second);
                 } else if (it.first == "DISTRIB_DESCRIPTION") {
                     _osi.pretty_name = it.second;
                 } else {
@@ -465,12 +465,12 @@ namespace happycpp {
                 }
             }
 
-            _osi.arch_id = Is64BitArch() ? 64 : 32;
+            _osi.arch_id = is64BitArch() ? 64 : 32;
             *osi = _osi;
             return true;
         }
 
-        bool GetOsRelease(const char *info, OsIdentification *osi) {
+        bool getOsRelease(const char *info, OsIdentification *osi) {
             OsIdentification _osi;
             std::string _info;
 
@@ -478,7 +478,7 @@ namespace happycpp {
                 _info = info;
             } else {
                 if (bfs::exists("/etc/os-release"))
-                    _info = hcfilesys::ReadFile("/etc/os-release");
+                    _info = hcfilesys::readFile("/etc/os-release");
                 else
                     return false;
             }
@@ -487,7 +487,7 @@ namespace happycpp {
             std::map<std::string, std::string> directive_list;
             std::string version_id;
 
-            if (!Split(_info, &line_list, EOL))
+            if (!split(_info, &line_list, EOL))
                 return false;
 
             for (const auto& line : line_list)
@@ -502,9 +502,9 @@ namespace happycpp {
                 if (it.first == "ID") {
                     ++match_key;
 
-                    if (ToLower(it.second) == "centos")
+                    if (toLower(it.second) == "centos")
                         _osi.id = kCentOS;
-                    else if (ToLower(it.second) == "ubuntu")
+                    else if (toLower(it.second) == "ubuntu")
                         _osi.id = kUbuntu;
                     else
                         return false;
@@ -544,17 +544,17 @@ namespace happycpp {
             if (match_key != 3)
                 return false;
 
-            _osi.arch_id = Is64BitArch() ? 64 : 32;
+            _osi.arch_id = is64BitArch() ? 64 : 32;
             *osi = _osi;
             return true;
         }
 
-        bool _GetOsInfo(const char *info, OsIdentification *osi) {
-            if (GetOsRelease(info, osi))
+        bool _getOsInfo(const char *info, OsIdentification *osi) {
+            if (getOsRelease(info, osi))
                 return true;
-            else if (GetLsbRelease(info, osi))
+            else if (getLsbRelease(info, osi))
                 return true;
-            else if (GetRedHatRelease(info, osi))
+            else if (getRedHatRelease(info, osi))
                 return true;
             else
                 return false;
@@ -562,7 +562,7 @@ namespace happycpp {
 
 #endif
 
-        bool GetOsInfo(OsIdentification *osi) {
+        bool getOsInfo(OsIdentification *osi) {
 #ifdef PLATFORM_WIN32
             SYSTEM_INFO sys_info;
             HappyGetSystemInfo(&sys_info);
@@ -576,7 +576,7 @@ namespace happycpp {
             return _GetOsInfo(reinterpret_cast<void *>(&sys_info),
                              reinterpret_cast<void *>(&os), variant_id, 0, osi);
 #else
-            return _GetOsInfo(nullptr, osi);
+            return _getOsInfo(nullptr, osi);
 #endif
         }
 

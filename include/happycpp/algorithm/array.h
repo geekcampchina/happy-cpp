@@ -36,13 +36,13 @@ namespace happycpp {
         namespace hcarray {
 
             template<class T>
-            inline bool Exists(const std::vector<T> &v, const T &e) {
+            inline bool exists(const std::vector<T> &v, const T &e) {
                 return (std::find(v.begin(), v.end(), e) != v.end());
             }
 
-// 检查数组中是否存在指定元素
+            // 检查数组中是否存在指定元素
             template<class T>
-            inline bool Find(std::vector<T> *v, const T &e,
+            inline bool find(std::vector<T> *v, const T &e,
                              typename std::vector<T>::iterator *it) {
                 typename std::vector<T>::iterator _it = std::find(v->begin(), v->end(), e);
 
@@ -53,9 +53,9 @@ namespace happycpp {
                 return true;
             }
 
-// 删除数组中所有重复的元素
+            // 删除数组中所有重复的元素
             template<class T>
-            inline void Unique(std::vector<T> *v) {
+            inline void unique(std::vector<T> *v) {
                 if (v->empty())
                     return;
 

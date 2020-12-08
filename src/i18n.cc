@@ -31,7 +31,7 @@
 
 namespace happycpp {
 
-    std::string WcsToMbs(const std::wstring &ws) {
+    std::string wcsToMbs(const std::wstring &ws) {
         const std::string locale = setlocale(LC_ALL, "");
         const wchar_t *wch_src = ws.c_str();
         const size_t dest_size = wcstombs(nullptr, wch_src, 0);
@@ -48,7 +48,7 @@ namespace happycpp {
         return s;
     }
 
-    std::wstring MbsToWcs(const std::string &s) {
+    std::wstring mbsToWcs(const std::string &s) {
         const std::string locale = setlocale(LC_ALL, "");
         const char *ch_src = s.c_str();
 
@@ -66,7 +66,7 @@ namespace happycpp {
     }
 
 #ifdef PLATFORM_WIN32
-    std::wstring CodePageToUnicode(std::string src, const uint32_t code_page) {
+    std::wstring codePageToUnicode(std::string src, const uint32_t code_page) {
       const size_t src_size = src.size();
       const size_t dest_size = MultiByteToWideChar(code_page,
         0,
@@ -88,7 +88,7 @@ namespace happycpp {
       return ret_val == 0 ? L"" : &buffer[0];
     }
 
-    std::string UnicodeToCodePage(std::wstring src, const uint32_t code_page) {
+    std::string unicodeToCodePage(std::wstring src, const uint32_t code_page) {
       const size_t src_size = src.size();
       const size_t dest_size = ::WideCharToMultiByte(code_page,
         0,
@@ -114,14 +114,14 @@ namespace happycpp {
       return ret_val == 0 ? "" : &buffer[0];
     }
 
-    std::string AnsiToUtf8(const std::string &s) {
-      const std::wstring ws(CodePageToUnicode(s, CP_ACP));
-      return UnicodeToCodePage(ws, CP_UTF8);
+    std::string ansiToUtf8(const std::string &s) {
+      const std::wstring ws(codePageToUnicode(s, CP_ACP));
+      return unicodeToCodePage(ws, CP_UTF8);
     }
 
-    std::string Utf8ToAnsi(const std::string &s) {
-      const std::wstring ws(CodePageToUnicode(s, CP_UTF8));
-      return UnicodeToCodePage(ws, CP_ACP);
+    std::string utf8ToAnsi(const std::string &s) {
+      const std::wstring ws(codePageToUnicode(s, CP_UTF8));
+      return unicodeToCodePage(ws, CP_ACP);
     }
 #endif
 
@@ -134,7 +134,7 @@ namespace happycpp {
  * 如果指定了空值、不存在或者不支持的locale，则使用系统变量定义的locale
  * locale 为空，则使用当前系统设置的locale值
  * dir_name 为空则使用默认值 locale，比如 locale/zh_CN/LC_MESSAGES/domainname.mo */
-    void InitGettext(const std::string &locale, const std::string &domain_name,
+    void initGettext(const std::string &locale, const std::string &domain_name,
                      const std::string &dir_name) {
         /* 为空则使用默认值 locale */
         const std::string _dir_name(dir_name.empty() ? "locale" : dir_name);

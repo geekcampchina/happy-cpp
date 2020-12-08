@@ -24,9 +24,9 @@
 namespace hhhint = happycpp::hcalgorithm::hcint;
 
 TEST(HCINT_UNITTEST, DecToHex) {
-    ASSERT_EQ("ff", hhhint::DecToHex(255));
+    ASSERT_EQ("ff", hhhint::decToHex(255));
 }
 
 TEST(HCINT_UNITTEST, IsOddNum) {
-    ASSERT_TRUE(hhhint::IsOddNum(3));
+    ASSERT_TRUE(hhhint::isOddNum(3));
 }

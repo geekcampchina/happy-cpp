@@ -46,15 +46,15 @@
 
 namespace happycpp {
 
-// 仅仅做类型转换, 转换中文内容有问题
-    std::string WcsToMbs(const std::wstring &ws);
+    // 仅仅做类型转换, 转换中文内容有问题
+    std::string wcsToMbs(const std::wstring &ws);
 
-// 仅仅做类型转换, 转换中文内容有问题
-    std::wstring MbsToWcs(const std::string &s);
+    // 仅仅做类型转换, 转换中文内容有问题
+    std::wstring mbsToWcs(const std::string &s);
 
 #ifdef PLATFORM_WIN32
-    std::string AnsiToUtf8(const std::string &s);
-    std::string Utf8ToAnsi(const std::string &s);
+    std::string ansiToUtf8(const std::string &s);
+    std::string utf8ToAnsi(const std::string &s);
 #endif
 
     std::string _gettext(const std::string &s);
@@ -64,16 +64,16 @@ namespace happycpp {
  * 如果指定了空值、不存在或者不支持的locale，则使用系统变量定义的locale
  * locale 为空，则使用当前系统设置的locale值
  * dir_name 为空则使用默认值 locale，比如 locale/zh_CN/LC_MESSAGES/domainname.mo */
-    void InitGettext(const std::string &locale, const std::string &domain_name,
+    void initGettext(const std::string &locale, const std::string &domain_name,
                      const std::string &dir_name);
 
 }/* namespace happycpp */
 
 #ifdef PLATFORM_WIN32
 // native to utf-8
-#define _ntu(s) happycpp::AnsiToUtf8(s)
+#define _ntu(s) happycpp::ansiToUtf8(s)
 // utf-8 to native
-#define _utn(s) happycpp::Utf8ToAnsi(s)
+#define _utn(s) happycpp::utf8ToAnsi(s)
 #else
 // native to utf-8
 #define _ntu(s) s

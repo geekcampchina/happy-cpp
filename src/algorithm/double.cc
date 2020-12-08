@@ -29,7 +29,7 @@ namespace happycpp {
 
         namespace hcdouble {
 
-            HAPPYCPP_SHARED_LIB_API double Round(const double &d,
+            HAPPYCPP_SHARED_LIB_API double round(const double &d,
                                                  const int32_t &precision) {
                 double i;
                 double y;

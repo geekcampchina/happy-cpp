@@ -45,10 +45,10 @@ TEST(HCERRNO_UNITTEST, ErrorToStr) {
                  happycpp::hcerrno::ErrorToStr().c_str());
 #else
     errno = 0;
-    EXPECT_STREQ("", happycpp::hcerrno::ErrorToStr().c_str());
+    EXPECT_STREQ("", happycpp::hcerrno::errorToStr().c_str());
 
     std::ifstream ifs("test_+abc.txt");
     EXPECT_STREQ("No such file or directory(errno: 2)",
-                 happycpp::hcerrno::ErrorToStr().c_str());
+                 happycpp::hcerrno::errorToStr().c_str());
 #endif
 }

@@ -63,45 +63,45 @@ const std::string pretty_xml("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                              "</books>\n");
 
 TEST(HCXML_UNITTEST, SpecNodeSize) {
-    ASSERT_EQ(2U, hhxml::SpecNodeSize(xml, "/books/book"));
+    ASSERT_EQ(2U, hhxml::specNodeSize(xml, "/books/book"));
 }
 
 TEST(HCXML_UNITTEST, Validate) {
-    ASSERT_FALSE(hhxml::Validate("test"));
-    ASSERT_TRUE(hhxml::Validate(xml));
+    ASSERT_FALSE(hhxml::validate("test"));
+    ASSERT_TRUE(hhxml::validate(xml));
 }
 
 TEST(HCXML_UNITTEST, ToStr) {
     pugi::xml_document doc;
 
     ASSERT_TRUE(doc.load_string(xml.c_str()));
-    ASSERT_EQ(pretty_xml, hhxml::ToStr(&doc));
+    ASSERT_EQ(pretty_xml, hhxml::toStr(&doc));
 }
 
 TEST(HCXML_UNITTEST, Format) {
-    ASSERT_EQ(pretty_xml, hhxml::Format(xml));
+    ASSERT_EQ(pretty_xml, hhxml::format(xml));
 }
 
 TEST(HCXML_UNITTEST, LoadFromFile) {
     const std::string xml_file("test.xml");
-    ASSERT_NO_THROW(hhfilesys::WriteFile(xml_file, xml));
-    ASSERT_EQ(pretty_xml, hhxml::LoadFromFile(xml_file));
+    ASSERT_NO_THROW(hhfilesys::writeFile(xml_file, xml));
+    ASSERT_EQ(pretty_xml, hhxml::loadFromFile(xml_file));
     bfs::remove(xml_file);
 }
 
 TEST(HCXML_UNITTEST, GetValue_string) {
-    const std::string name1(hhxml::GetValue(xml, "name"));
+    const std::string name1(hhxml::getValue(xml, "name"));
     EXPECT_STREQ("Codebook1", name1.c_str());
 
-    const std::string price1(hhxml::GetValue(xml, "price"));
+    const std::string price1(hhxml::getValue(xml, "price"));
     EXPECT_STREQ("13.02", price1.c_str());
 
-    EXPECT_DOUBLE_EQ(13.02, hhxml::GetValueAsDouble(xml, "price"));
-    EXPECT_EQ(2005, hhxml::GetValueAsInt32(xml, "year"));
-    EXPECT_EQ(2005, hhxml::GetValueAsInt64(xml, "year"));
+    EXPECT_DOUBLE_EQ(13.02, hhxml::getValueAsDouble(xml, "price"));
+    EXPECT_EQ(2005, hhxml::getValueAsInt32(xml, "year"));
+    EXPECT_EQ(2005, hhxml::getValueAsInt64(xml, "year"));
 
-    EXPECT_TRUE(hhxml::GetValueAsBool(xml, "sale1"));
-    EXPECT_FALSE(hhxml::GetValueAsBool(xml, "sale2"));
+    EXPECT_TRUE(hhxml::getValueAsBool(xml, "sale1"));
+    EXPECT_FALSE(hhxml::getValueAsBool(xml, "sale2"));
 }
 
 TEST(HCXML_UNITTEST, GetValue_node) {
@@ -111,33 +111,33 @@ TEST(HCXML_UNITTEST, GetValue_node) {
 
     pugi::xml_node book1 = books.first_child();
 
-    const std::string name1(hhxml::GetValue(book1, "name"));
+    const std::string name1(hhxml::getValue(book1, "name"));
     EXPECT_STREQ("Codebook1", name1.c_str());
 
-    const std::string price1(hhxml::GetValue(book1, "price"));
+    const std::string price1(hhxml::getValue(book1, "price"));
     EXPECT_STREQ("13.02", price1.c_str());
 
-    EXPECT_DOUBLE_EQ(13.02, hhxml::GetValueAsDouble(book1, "price"));
-    EXPECT_EQ(2005, hhxml::GetValueAsInt32(book1, "year"));
-    EXPECT_EQ(2005, hhxml::GetValueAsInt64(book1, "year"));
+    EXPECT_DOUBLE_EQ(13.02, hhxml::getValueAsDouble(book1, "price"));
+    EXPECT_EQ(2005, hhxml::getValueAsInt32(book1, "year"));
+    EXPECT_EQ(2005, hhxml::getValueAsInt64(book1, "year"));
 
-    EXPECT_TRUE(hhxml::GetValueAsBool(book1, "sale1"));
-    EXPECT_FALSE(hhxml::GetValueAsBool(book1, "sale2"));
+    EXPECT_TRUE(hhxml::getValueAsBool(book1, "sale1"));
+    EXPECT_FALSE(hhxml::getValueAsBool(book1, "sale2"));
 
     pugi::xml_node book2 = book1.next_sibling();
 
-    const std::string name2(hhxml::GetValue(book2, "name"));
+    const std::string name2(hhxml::getValue(book2, "name"));
     EXPECT_STREQ("Codebook2", name2.c_str());
 
-    const std::string price2(hhxml::GetValue(book2, "price"));
+    const std::string price2(hhxml::getValue(book2, "price"));
     EXPECT_STREQ("14.12", price2.c_str());
 
-    EXPECT_DOUBLE_EQ(14.12, hhxml::GetValueAsDouble(book2, "price"));
-    EXPECT_EQ(2005, hhxml::GetValueAsInt32(book2, "year"));
-    EXPECT_EQ(2005, hhxml::GetValueAsInt64(book2, "year"));
+    EXPECT_DOUBLE_EQ(14.12, hhxml::getValueAsDouble(book2, "price"));
+    EXPECT_EQ(2005, hhxml::getValueAsInt32(book2, "year"));
+    EXPECT_EQ(2005, hhxml::getValueAsInt64(book2, "year"));
 
-    EXPECT_FALSE(hhxml::GetValueAsBool(book2, "sale1"));
-    EXPECT_TRUE(hhxml::GetValueAsBool(book2, "sale2"));
+    EXPECT_FALSE(hhxml::getValueAsBool(book2, "sale1"));
+    EXPECT_TRUE(hhxml::getValueAsBool(book2, "sale2"));
 }
 
 TEST(HCXML_UNITTEST, GetTxtValue) {
@@ -145,6 +145,6 @@ TEST(HCXML_UNITTEST, GetTxtValue) {
     doc.load(xml.c_str());
     pugi::xml_node name_node = doc.child("books").first_child().child("name");
 
-    EXPECT_EQ("Codebook1", hhxml::GetTxtValue(name_node));
+    EXPECT_EQ("Codebook1", hhxml::getTxtValue(name_node));
 }
 

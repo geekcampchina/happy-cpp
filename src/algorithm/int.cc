@@ -31,13 +31,13 @@ namespace happycpp {
 
         namespace hcint {
 
-            HAPPYCPP_SHARED_LIB_API std::string DecToHex(const int32_t &n) {
+            HAPPYCPP_SHARED_LIB_API std::string decToHex(const int32_t &n) {
                 std::stringstream ss;
                 ss << hex << n;
                 return ss.str();
             }
 
-            HAPPYCPP_SHARED_LIB_API bool IsOddNum(const int32_t &n) {
+            HAPPYCPP_SHARED_LIB_API bool isOddNum(const int32_t &n) {
                 // 奇数: true
                 // 偶数: false
                 return (n & 1) != 0;

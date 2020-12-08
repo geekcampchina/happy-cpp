@@ -23,14 +23,14 @@
 #include "happycpp/algorithm.h"
 #include <curl/curl.h>
 
-using happycpp::hcalgorithm::hcstring::Split;
-using happycpp::hcalgorithm::hcstring::Trim;
+using happycpp::hcalgorithm::hcstring::split;
+using happycpp::hcalgorithm::hcstring::trim;
 
 namespace happycpp {
 
     namespace hchttp {
 
-        std::map<std::string, HttpMethodType> HttpMessage::m_desc_hm = {
+        std::map<std::string, HttpMethodType> HttpMessage::mDescHm = {
                 {"",        INVALID_HTTP_METHOD},
                 {"CONNECT", HTTP_METHOD_CONNECT},
                 {"DELETE",  HTTP_METHOD_DELETE},
@@ -41,7 +41,7 @@ namespace happycpp {
                 {"TRACE",   HTTP_METHOD_TRACE}
         };
 
-        std::map<std::string, HttpMsgField> HttpMessage::m_desc_hmf = {
+        std::map<std::string, HttpMsgField> HttpMessage::mDescHmf = {
                 {"",                            INVALID_HTTP_MSG_FIELD},
                 {"Cache-Control",               HTTP_MCOMF_CACHE_CONTROL},
                 {"Connection",                  HTTP_MCOMF_CONNECTION},
@@ -134,33 +134,33 @@ namespace happycpp {
         HttpMessage::~HttpMessage() {
         }
 
-        HttpMethodType HttpMessage::to_hm(const std::string &k) {
-            std::map<std::string, HttpMethodType>::const_iterator it = m_desc_hm.find(k);
+        HttpMethodType HttpMessage::toHm(const std::string &k) {
+            std::map<std::string, HttpMethodType>::const_iterator it = mDescHm.find(k);
 
-            if (it == m_desc_hm.end())
+            if (it == mDescHm.end())
                 return INVALID_HTTP_METHOD;
 
             return it->second;
         }
 
-        HttpMsgField HttpMessage::to_hmf(const std::string &k) {
-            std::map<std::string, HttpMsgField>::const_iterator it = m_desc_hmf.find(k);
+        HttpMsgField HttpMessage::toHmf(const std::string &k) {
+            std::map<std::string, HttpMsgField>::const_iterator it = mDescHmf.find(k);
 
-            if (it == m_desc_hmf.end())
+            if (it == mDescHmf.end())
                 return INVALID_HTTP_MSG_FIELD;
 
             return it->second;
         }
 
-        void HttpMessage::set_version(const std::string &v) {
+        void HttpMessage::setVersion(const std::string &v) {
             version_ = v;
         }
 
-        void HttpMessage::add_field(const HttpMsgField k, const std::string &v) {
+        void HttpMessage::addField(HttpMsgField k, const std::string &v) {
             header_[k] = v;
         }
 
-        void HttpMessage::set_body(const std::string &v) {
+        void HttpMessage::setBody(const std::string &v) {
             body_ = v;
         }
 
@@ -194,19 +194,19 @@ namespace happycpp {
 
         HttpRequestMsg::~HttpRequestMsg() = default;
 
-        void HttpRequestMsg::set_method(const HttpMethodType v) {
+        void HttpRequestMsg::setMethod(HttpMethodType v) {
             method_ = v;
         }
 
-        void HttpRequestMsg::set_request_url(const std::string &v) {
+        void HttpRequestMsg::setRequestUrl(const std::string &v) {
             request_url_ = v;
         }
 
-        void HttpRequestMsg::set_url(const std::string &v) {
+        void HttpRequestMsg::setUrl(const std::string &v) {
             url_ = v;
         }
 
-        void HttpRequestMsg::set_args(const std::string &v) {
+        void HttpRequestMsg::setArgs(const std::string &v) {
             args_ = v;
         }
 
@@ -214,7 +214,7 @@ namespace happycpp {
             return method_;
         }
 
-        std::string HttpRequestMsg::request_url() {
+        std::string HttpRequestMsg::requestUrl() {
             return request_url_;
         }
 
@@ -227,27 +227,27 @@ namespace happycpp {
         }
 
         HttpResponseMsg::HttpResponseMsg()
-                : status_(0), reason_phrase_("") {
+                : status_(0), reasonPhrase_("") {
             type_ = HTTP_MSG_RESPONSE;
         }
 
         HttpResponseMsg::~HttpResponseMsg() {
         }
 
-        void HttpResponseMsg::set_status(const uint32_t v) {
+        void HttpResponseMsg::setStatus(uint32_t v) {
             status_ = v;
         }
 
-        void HttpResponseMsg::set_reason_phrase(const std::string &v) {
-            reason_phrase_ = v;
+        void HttpResponseMsg::setReasonPhrase(const std::string &v) {
+            reasonPhrase_ = v;
         }
 
         uint32_t HttpResponseMsg::status() {
             return status_;
         }
 
-        std::string HttpResponseMsg::reason_phrase() {
-            return reason_phrase_;
+        std::string HttpResponseMsg::reasonPhrase() {
+            return reasonPhrase_;
         }
 
         HttpMsgCtx::HttpMsgCtx() {
@@ -256,44 +256,44 @@ namespace happycpp {
         HttpMsgCtx::~HttpMsgCtx() {
         }
 
-        void HttpMsgCtx::parse_request_line(const std::string &line,
-                                            HttpMessagePtr hm) {
+        void HttpMsgCtx::parseRequestLine(const std::string &line,
+                                          HttpMessagePtr hm) {
             const std::string ARGS_FLAG("?");
 
             HttpRequestMsgPtr _hm = std::dynamic_pointer_cast<HttpRequestMsg>(hm);
 
             std::vector<std::string> start_line_cols;
-            Split(line, &start_line_cols, " ");
+            split(line, &start_line_cols, " ");
 
             if (start_line_cols.size() < 3)
                 return;
 
-            const HttpMethodType method = hm->to_hm(start_line_cols[0]);
+            const HttpMethodType method = hm->toHm(start_line_cols[0]);
 
             if (method == INVALID_HTTP_METHOD)
                 return;
 
             const std::string request_url(start_line_cols[1]);
 
-            _hm->set_method(method);
-            _hm->set_request_url(request_url);
-            _hm->set_version(start_line_cols[2]);
+            _hm->setMethod(method);
+            _hm->setRequestUrl(request_url);
+            _hm->setVersion(start_line_cols[2]);
 
             const size_t args_flag_pos = request_url.find(ARGS_FLAG);
 
             if (args_flag_pos == std::string::npos) {
-                _hm->set_url(request_url);
+                _hm->setUrl(request_url);
             } else {
-                _hm->set_url(request_url.substr(0, args_flag_pos));
+                _hm->setUrl(request_url.substr(0, args_flag_pos));
 
                 const std::string args(
                         request_url.substr(args_flag_pos + ARGS_FLAG.size()));
-                _hm->set_args(hcurl::decode(args));
+                _hm->setArgs(hcurl::decode(args));
             }
         }
 
-        void HttpMsgCtx::parse_status_line(const std::string &line,
-                                           HttpMessagePtr hm) {
+        void HttpMsgCtx::parseStatusLine(const std::string &line,
+                                         HttpMessagePtr hm) {
             const char SP = ' ';
             const size_t SP_SIZE = 1;
 
@@ -303,7 +303,7 @@ namespace happycpp {
             const size_t version_end_pos = line.find(SP);
             if (version_end_pos == std::string::npos)
                 return;
-            _hm->set_version(line.substr(0, version_end_pos));
+            _hm->setVersion(line.substr(0, version_end_pos));
 
             // 获取状态码
             const size_t status_start_pos = version_end_pos + SP_SIZE;
@@ -313,14 +313,14 @@ namespace happycpp {
 
             const size_t status_size = status_end_pos - status_start_pos;
             const std::string status(line.substr(status_start_pos, status_size));
-            _hm->set_status(stoi(status));
+            _hm->setStatus(stoi(status));
 
             // 获取原因简述
             const size_t rp_start_pos = status_end_pos + SP_SIZE;
-            _hm->set_reason_phrase(line.substr(rp_start_pos));
+            _hm->setReasonPhrase(line.substr(rp_start_pos));
         }
 
-        HttpMessagePtr HttpMsgCtx::init_hm(const std::string &http) {
+        HttpMessagePtr HttpMsgCtx::initHm(const std::string &http) {
             const std::string FLAG("HTTP");
             const size_t FLAG_SIZE = 4;
 
@@ -337,19 +337,19 @@ namespace happycpp {
             return _hm;
         }
 
-        void HttpMsgCtx::parse_start_line(const std::string &line, HttpMessagePtr hm) {
+        void HttpMsgCtx::parseStartLine(const std::string &line, HttpMessagePtr hm) {
             if (hm->type() == HTTP_MSG_REQUEST)
-                parse_request_line(line, hm);
+                parseRequestLine(line, hm);
             else
-                parse_status_line(line, hm);
+                parseStatusLine(line, hm);
         }
 
-        void HttpMsgCtx::parse_header(const std::string &header, HttpMessagePtr hm) {
+        void HttpMsgCtx::parseHeader(const std::string &header, HttpMessagePtr hm) {
             const std::string FIELD_FLAG(": ");
             const size_t FIELD_FLAG_SIZE = 2;
 
             std::vector<std::string> field_lines;
-            Split(header, &field_lines, "\r\n");
+            split(header, &field_lines, "\r\n");
 
             if (field_lines.size() < 3)
                 return;
@@ -365,15 +365,15 @@ namespace happycpp {
                 const std::string name(it.substr(0, field_pos));
                 const std::string value(it.substr(field_pos + FIELD_FLAG_SIZE));
 
-                const HttpMsgField field = hm->to_hmf(name);
+                const HttpMsgField field = hm->toHmf(name);
 
                 if (field != INVALID_HTTP_MSG_FIELD)
-                    hm->add_field(field, value);
+                    hm->addField(field, value);
             }
         }
 
-        void HttpMsgCtx::parse_body(const std::string &body, HttpMessagePtr hm) {
-            hm->set_body(body);
+        void HttpMsgCtx::parseBody(const std::string &body, HttpMessagePtr hm) {
+            hm->setBody(body);
         }
 
         HttpMessagePtr HttpMsgCtx::parse(const std::string &http) {
@@ -388,7 +388,7 @@ namespace happycpp {
             if (http.size() < 50)
                 return hm;
 
-            hm = init_hm(http);
+            hm = initHm(http);
 
             // 1. 获取起始行
             const size_t start_line_pos = http.find(CRLF);
@@ -397,7 +397,7 @@ namespace happycpp {
                 return hm;
 
             const std::string start_line(http.substr(0, start_line_pos));
-            parse_start_line(start_line, hm);
+            parseStartLine(start_line, hm);
 
             // 2. 获取消息头内容
             const size_t body_pos = http.find(TWO_CRLF);
@@ -406,17 +406,17 @@ namespace happycpp {
                 return hm;
 
             const std::string header(http.substr(start_line_pos + CRLF_SIZE, body_pos));
-            parse_header(header, hm);
+            parseHeader(header, hm);
 
             // 3. 获取消息体
-            parse_body(http.substr(body_pos + TWO_CRLF_SIZE), hm);
+            parseBody(http.substr(body_pos + TWO_CRLF_SIZE), hm);
 
             return hm;
         }
 
 /*根据uri，返回对应的mime type*/
-        const std::string get_mime_type(const std::string &uri,
-                                        const std::string &charset) {
+        const std::string getMimeType(const std::string &uri,
+                                      const std::string &charset) {
             typedef std::map<std::string, std::string> mime_t;
             mime_t mime_types;
             mime_t::iterator it;
@@ -439,7 +439,7 @@ namespace happycpp {
              * http://www.foo.com/image/logo.gif
              * 取最后的扩展名 gif */
             size_t last_dot = uri.find_last_of(".");
-            const std::string ext_name = Trim(uri.substr(last_dot + 1));
+            const std::string ext_name = trim(uri.substr(last_dot + 1));
 
             std::string mime_type("application/octet-stream");
 
@@ -456,7 +456,7 @@ namespace happycpp {
             return size * nmemb;
         }
 
-        HttpResponseMsgPtr get_header_info(const std::string &url) {
+        HttpResponseMsgPtr getHeaderInfo(const std::string &url) {
             std::string header;
             auto curl = curl_easy_init();
             HAPPY_ASSERT(curl);

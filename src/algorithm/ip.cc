@@ -101,15 +101,15 @@ namespace happycpp {
 # endif
 #else
 
-            HAPPYCPP_SHARED_LIB_API bool IsIpAddr(const std::string &s) {
+            HAPPYCPP_SHARED_LIB_API bool isIpAddr(const std::string &s) {
                 struct sockaddr_in sa{};
                 return inet_pton(AF_INET, s.c_str(), &(sa.sin_addr)) == 1;
             }
 
 #endif
 
-            bool IsReserveIpAddr(const std::string &ip) {
-                if (!IsIpAddr(ip))
+            bool isReserveIpAddr(const std::string &ip) {
+                if (!isIpAddr(ip))
                     return false;
 
                 // 用十进制写出的32位整数
@@ -139,7 +139,7 @@ namespace happycpp {
                         || (host_addr >= 4026531840 && host_addr <= 4294967295));
             }
 
-            bool IsIpCidr(const std::string &s) {
+            bool isIpCidr(const std::string &s) {
                 const int kMinCidr = 8;
                 const int kMaxCidr = 32;
 
@@ -153,7 +153,7 @@ namespace happycpp {
 
                 const std::string ip(s.substr(0, pos_));
 
-                if (!IsIpAddr(ip)) return false;
+                if (!isIpAddr(ip)) return false;
 
                 const std::string cidr_str(s.substr(pos_ + sep_size_));
 

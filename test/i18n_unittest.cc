@@ -25,14 +25,14 @@ TEST(HAPPYCPP_UNITTEST, WcsToMbs) {
     const std::string s("Hello world!");
     const std::wstring ws(L"Hello world!");
 
-    ASSERT_EQ(s, happycpp::WcsToMbs(ws));
+    ASSERT_EQ(s, happycpp::wcsToMbs(ws));
 }
 
 TEST(HAPPYCPP_UNITTEST, MbsToWcs) {
     const std::string s("Hello world!");
     const std::wstring ws(L"Hello world!");
 
-    ASSERT_EQ(ws, happycpp::MbsToWcs(s));
+    ASSERT_EQ(ws, happycpp::mbsToWcs(s));
 }
 
 #ifdef PLATFORM_WIN32

@@ -42,13 +42,13 @@ namespace happycpp {
     namespace hcalgorithm {
 
         namespace hctime {
-            HAPPYCPP_SHARED_LIB_API void HappyWait(const time_t &sec) {
+            HAPPYCPP_SHARED_LIB_API void happyWait(const time_t &sec) {
                 clock_t end_wait = clock() + sec * CLOCKS_PER_SEC;
 
                 while (clock() < end_wait) {}
             }
 
-            HAPPYCPP_SHARED_LIB_API void HappySleep(const time_t &milli_sec) {
+            HAPPYCPP_SHARED_LIB_API void happySleep(const time_t &milli_sec) {
 #ifdef PLATFORM_WIN32
                 Sleep(static_cast<DWORD>(milli_sec));
 #else
@@ -65,7 +65,7 @@ namespace happycpp {
 #endif
             }
 
-            HAPPYCPP_SHARED_LIB_API CmpResult CmpDate(const std::string &d1,
+            HAPPYCPP_SHARED_LIB_API CmpResult cmpDate(const std::string &d1,
                                                       const std::string &d2) {
                 /*
                  格式相同的字符串，可以直接比较
@@ -83,7 +83,7 @@ namespace happycpp {
                     return kGreater;
             }
 
-            std::string GetFormatTime(const time_t t, const std::string &format) {
+            std::string getFormatTime(time_t t, const std::string &format) {
                 struct tm _tm = {0};
                 time_t _t = t;
 #ifdef PLATFORM_WIN32

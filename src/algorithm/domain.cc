@@ -30,9 +30,9 @@ namespace happycpp {
 
         namespace hcdomain {
 
-// 判断域名块是否是有字母、数字以及不在首尾的连字符(中横线)组成，
-// 比如abc.com中的abc
-            HAPPYCPP_SHARED_LIB_API bool IsDomainBlock(const std::string &b) {
+            // 判断域名块是否是有字母、数字以及不在首尾的连字符(中横线)组成，
+            // 比如abc.com中的abc
+            HAPPYCPP_SHARED_LIB_API bool isDomainBlock(const std::string &b) {
                 if (b.empty())
                     return false;
 
@@ -49,17 +49,17 @@ namespace happycpp {
                 return true;
             }
 
-            HAPPYCPP_SHARED_LIB_API bool IsDomain(const std::string &s) {
+            HAPPYCPP_SHARED_LIB_API bool isDomain(const std::string &s) {
                 const size_t kMaxSize = 80;
 
                 if (s.empty()  // 空
                     || s.size() > kMaxSize  // 长度超过80
-                    || !hcstring::Find(s, ".")  // 没有包含点
-                    || hcstring::Find(s, ".."))  // 包含连续的多个点
+                    || !hcstring::find(s, ".")  // 没有包含点
+                    || hcstring::find(s, ".."))  // 包含连续的多个点
                     return false;
 
                 std::vector<std::string> v_domain_block;
-                hcstring::Split(s, &v_domain_block, ".");
+                hcstring::split(s, &v_domain_block, ".");
 
                 // 标准域名至少是abc.com这样，包含两个域名块
                 if (v_domain_block.size() < 2)
@@ -76,12 +76,12 @@ namespace happycpp {
 
                 // 移除数组中，最后一个
                 v_domain_block.pop_back();
-                if (!IsDomainBlock(geographic_top_level_domain))
+                if (!isDomainBlock(geographic_top_level_domain))
                     return false;
 
                 //  除域名最后的国家代码以外
                 for (const auto& x : v_domain_block) {
-                    if (!IsDomainBlock(x))
+                    if (!isDomainBlock(x))
                         return false;
                 }
 

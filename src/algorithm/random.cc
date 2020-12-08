@@ -27,18 +27,18 @@ namespace happycpp {
     namespace hcalgorithm {
 
         namespace hcrandom {
-            HAPPYCPP_SHARED_LIB_API uint64_t GetRandom() {
+            HAPPYCPP_SHARED_LIB_API uint64_t getRandom() {
                 std::random_device rd;
                 return rd();
             }
 
-            HAPPYCPP_SHARED_LIB_API std::string GenRandom(const size_t &size,
+            HAPPYCPP_SHARED_LIB_API std::string genRandom(const size_t &size,
                                                           CharClassification cc) {
                 std::string str;
                 size_t len = 0;
 
                 do {
-                    int c = GetRandom() % 126;
+                    int c = getRandom() % 126;
                     bool ret_val = false;
 
                     switch (cc) {

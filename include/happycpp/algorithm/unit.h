@@ -34,17 +34,17 @@ namespace happycpp {
 
         namespace hcunit {
 
-// 输入二进制词头枚举，输出类似 KiB、MiB、GiB、KB、MB、GB 等单位字符串
-// 输入国际单位制词头枚举，输出类似 KiB、MiB、GiB、KB、MB、GB 等单位字符串
-            HAPPYCPP_SHARED_LIB_API std::string ToStr(UnitType ut);
+            // 输入二进制词头枚举，输出类似 KiB、MiB、GiB、KB、MB、GB 等单位字符串
+            // 输入国际单位制词头枚举，输出类似 KiB、MiB、GiB、KB、MB、GB 等单位字符串
+            HAPPYCPP_SHARED_LIB_API std::string toStr(UnitType ut);
 
-            HAPPYCPP_SHARED_LIB_API byte_t ToByte(UnitType ut);
+            HAPPYCPP_SHARED_LIB_API byte_t toByte(UnitType ut);
 
-// 将指定进制单位值转换为 byte_t
-            HAPPYCPP_SHARED_LIB_API byte_t ToByte(UnitType ut, double s);
+            // 将指定进制单位值转换为 byte_t
+            HAPPYCPP_SHARED_LIB_API byte_t toByte(UnitType ut, double s);
 
-// 将 byte_t 转换为指定进制单位值
-            HAPPYCPP_SHARED_LIB_API double Convert(UnitType ut, byte_t b,
+            // 将 byte_t 转换为指定进制单位值
+            HAPPYCPP_SHARED_LIB_API double convert(UnitType ut, byte_t b,
                                                    uint32_t precision = 2);
 
         } /* namespace hcunit */

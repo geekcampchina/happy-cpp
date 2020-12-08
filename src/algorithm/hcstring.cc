@@ -27,12 +27,12 @@ namespace happycpp {
 
         namespace hcstring {
 
-            HAPPYCPP_SHARED_LIB_API bool Find(const std::string &s,
+            HAPPYCPP_SHARED_LIB_API bool find(const std::string &s,
                                               const std::string &sub) {
                 return (s.size() >= sub.size() && s.find(sub) != std::string::npos);
             }
 
-            HAPPYCPP_SHARED_LIB_API std::string Trim(const std::string &s,
+            HAPPYCPP_SHARED_LIB_API std::string trim(const std::string &s,
                                                      const std::string &white_space) {
                 const size_t start = s.find_first_not_of(white_space);
 
@@ -45,7 +45,7 @@ namespace happycpp {
                 return s.substr(start, end - start + 1);
             }
 
-            HAPPYCPP_SHARED_LIB_API std::string Replace(const std::string &s,
+            HAPPYCPP_SHARED_LIB_API std::string replace(const std::string &s,
                                                         const std::string &old_sub,
                                                         const std::string &new_sub) {
                 if (s.empty())
@@ -66,11 +66,11 @@ namespace happycpp {
                 return str;
             }
 
-            HAPPYCPP_SHARED_LIB_API std::string Erase(const std::string &s,
+            HAPPYCPP_SHARED_LIB_API std::string erase(const std::string &s,
                                                       const std::string &sub) {
                 std::string str(s);
 
-                if (!s.empty() && !sub.empty() && Find(s, sub)) {
+                if (!s.empty() && !sub.empty() && find(s, sub)) {
                     size_t pos(0);
                     size_t erase_pos(0);
                     size_t sub_size = sub.size();
@@ -89,7 +89,7 @@ namespace happycpp {
                 return str;
             }
 
-            HAPPYCPP_SHARED_LIB_API bool IsVersion(const std::string &s) {
+            HAPPYCPP_SHARED_LIB_API bool isVersion(const std::string &s) {
                 if (s.empty())
                     return false;
 
@@ -105,7 +105,7 @@ namespace happycpp {
                 return true;
             }
 
-            HAPPYCPP_SHARED_LIB_API bool IsDigit(const std::string &s) {
+            HAPPYCPP_SHARED_LIB_API bool isDigit(const std::string &s) {
                 if (s.empty())
                     return false;
 
@@ -117,7 +117,7 @@ namespace happycpp {
                 return true;
             }
 
-            HAPPYCPP_SHARED_LIB_API bool IsAlnum(const std::string &s) {
+            HAPPYCPP_SHARED_LIB_API bool isAlnum(const std::string &s) {
                 if (s.empty())
                     return false;
 
@@ -129,7 +129,7 @@ namespace happycpp {
                 return true;
             }
 
-            HAPPYCPP_SHARED_LIB_API bool IsAlpha(const std::string &s) {
+            HAPPYCPP_SHARED_LIB_API bool isAlpha(const std::string &s) {
                 if (s.empty())
                     return false;
 
@@ -141,7 +141,7 @@ namespace happycpp {
                 return true;
             }
 
-            HAPPYCPP_SHARED_LIB_API std::string ToLower(const std::string &s) {
+            HAPPYCPP_SHARED_LIB_API std::string toLower(const std::string &s) {
                 std::string str;
 
                 for (const auto x : s)
@@ -150,7 +150,7 @@ namespace happycpp {
                 return str;
             }
 
-            HAPPYCPP_SHARED_LIB_API std::string ToUpper(const std::string &s) {
+            HAPPYCPP_SHARED_LIB_API std::string toUpper(const std::string &s) {
                 std::string str;
 
                 for (const auto x : s)
@@ -159,8 +159,8 @@ namespace happycpp {
                 return str;
             }
 
-/* sep可以是多个分隔符，会按照多分隔符同时分隔 */
-            bool Split(const std::string &s, std::vector<std::string> *result,
+            /* sep可以是多个分隔符，会按照多分隔符同时分隔 */
+            bool split(const std::string &s, std::vector<std::string> *result,
                        const std::string &sep) {
                 boost::split(*result, s, boost::is_any_of(sep));
 
@@ -173,19 +173,19 @@ namespace happycpp {
                 return true;
             }
 
-            HAPPYCPP_SHARED_LIB_API void ToMap(const std::vector<std::string> &v,
+            HAPPYCPP_SHARED_LIB_API void toMap(const std::vector<std::string> &v,
                                                std::map<std::string, std::string> *m) {
                 for (const auto& x : v)
                     m->insert(std::pair<std::string, std::string>(x, ""));
             }
 
-            HAPPYCPP_SHARED_LIB_API void ToMap(const std::string &s,
+            HAPPYCPP_SHARED_LIB_API void toMap(const std::string &s,
                                                std::map<std::string, std::string> *m,
                                                const std::string &sep) {
                 std::vector<std::string> v;
 
-                Split(s, &v);
-                ToMap(v, m);
+                split(s, &v);
+                toMap(v, m);
             }
 
         } /* namespace hcstring */

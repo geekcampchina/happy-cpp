@@ -53,14 +53,14 @@
 
 using std::ifstream;
 using std::ofstream;
-using happycpp::hcerrno::ErrorToStr;
-using happycpp::hcalgorithm::hcstring::ToLower;
+using happycpp::hcerrno::errorToStr;
+using happycpp::hcalgorithm::hcstring::toLower;
 
 namespace happycpp {
 
     namespace hcfilesys {
 
-        HAPPYCPP_SHARED_LIB_API bool HappyCreateFile(const std::string &file) {
+        HAPPYCPP_SHARED_LIB_API bool happyCreateFile(const std::string &file) {
             if (bfs::exists(file))
                 return true;
 
@@ -90,11 +90,11 @@ namespace happycpp {
             return false;
         }
 
-        HAPPYCPP_SHARED_LIB_API std::string ReadFile(const std::string &file) {
+        HAPPYCPP_SHARED_LIB_API std::string readFile(const std::string &file) {
             ifstream ifs(file.c_str(), ifstream::binary);
 
             if (!ifs)
-                ThrowHappyException(ErrorToStr());
+                ThrowHappyException(errorToStr());
 
             std::stringstream buffer;
             buffer << ifs.rdbuf();
@@ -104,7 +104,7 @@ namespace happycpp {
             return buffer.str();
         }
 
-        HAPPYCPP_SHARED_LIB_API bool ReadFile(const std::string &file,
+        HAPPYCPP_SHARED_LIB_API bool readFile(const std::string &file,
                                               std::vector<std::string> *lines) {
             lines->clear();
             std::string tmp;
@@ -113,7 +113,7 @@ namespace happycpp {
 
             if (!ifs) {
                 happycpp::log::HappyLogPtr hlog = happycpp::log::HappyLog::getInstance();
-                hlog->error(ErrorToStr());
+                hlog->error(errorToStr());
                 return false;
             }
 
@@ -132,7 +132,7 @@ namespace happycpp {
             return true;
         }
 
-        HAPPYCPP_SHARED_LIB_API bool WriteFile(const std::string &file,
+        HAPPYCPP_SHARED_LIB_API bool writeFile(const std::string &file,
                                                const std::vector<std::string> &lines,
                                                const bool &append) {
             std::string content;
@@ -140,10 +140,10 @@ namespace happycpp {
             for (const auto& x : lines)
                 content += x + EOL;
 
-            return WriteFile(file, content, append);
+            return writeFile(file, content, append);
         }
 
-        HAPPYCPP_SHARED_LIB_API bool WriteFile(const std::string &file,
+        HAPPYCPP_SHARED_LIB_API bool writeFile(const std::string &file,
                                                const std::string &content,
                                                const bool &append) {
             ofstream ofs;
@@ -157,17 +157,17 @@ namespace happycpp {
                 ofs << content;
             } else {
                 happycpp::log::HappyLogPtr hlog = happycpp::log::HappyLog::getInstance();
-                hlog->error(ErrorToStr());
+                hlog->error(errorToStr());
                 return false;
             }
 
             return true;
         }
 
-        HAPPYCPP_SHARED_LIB_API void GetFilesInDir(const std::string &path,
-                                                   const FileType type,
+        HAPPYCPP_SHARED_LIB_API void getFilesInDir(const std::string &path,
+                                                   FileType type,
                                                    std::vector<FileStat> *v,
-                                                   const uint32_t max_num) {
+                                                   uint32_t max_num) {
             if (path.empty())
                 ThrowHappyException("Invalid directory");
 
@@ -197,7 +197,7 @@ namespace happycpp {
             dir = opendir(path.c_str());
 
             if (dir == nullptr)
-                ThrowHappyException(hcerrno::ErrorToStr());
+                ThrowHappyException(hcerrno::errorToStr());
 
             // 遍历目录，找出目录和文件
             while ((d = readdir(dir))) {
@@ -211,7 +211,7 @@ namespace happycpp {
 
                 // 检测能否获取文件信息
                 if (stat(_path.c_str(), &_stat) != 0)
-                    ThrowHappyException(hcerrno::ErrorToStr());
+                    ThrowHappyException(hcerrno::errorToStr());
 
                 if (S_ISDIR(_stat.st_mode)) {
                     _type = kDir;
@@ -222,7 +222,7 @@ namespace happycpp {
                     sep_pos = name.find_last_of('.');
 
                     if (sep_pos != std::string::npos)
-                        ext = ToLower(name.substr(sep_pos));
+                        ext = toLower(name.substr(sep_pos));
                 } else {
                     continue;
                 }

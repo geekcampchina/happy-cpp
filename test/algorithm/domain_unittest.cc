@@ -24,7 +24,7 @@
 namespace hhhdomain = happycpp::hcalgorithm::hcdomain;
 
 TEST(HCDOMAIN_UNITTEST, IsDomain) {
-    EXPECT_TRUE(hhhdomain::IsDomain("abc.com"));
-    EXPECT_TRUE(hhhdomain::IsDomain("www.abc.com"));
-    EXPECT_FALSE(hhhdomain::IsDomain("www.abc..com"));
+    EXPECT_TRUE(hhhdomain::isDomain("abc.com"));
+    EXPECT_TRUE(hhhdomain::isDomain("www.abc.com"));
+    EXPECT_FALSE(hhhdomain::isDomain("www.abc..com"));
 }

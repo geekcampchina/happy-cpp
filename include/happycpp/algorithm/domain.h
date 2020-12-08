@@ -33,8 +33,8 @@ namespace happycpp {
 
         namespace hcdomain {
 
-// 判断字符串是否是合法域名
-            HAPPYCPP_SHARED_LIB_API bool IsDomain(const std::string &s);
+            // 判断字符串是否是合法域名
+            HAPPYCPP_SHARED_LIB_API bool isDomain(const std::string &s);
 
         } /* namespace hcdomain */
 

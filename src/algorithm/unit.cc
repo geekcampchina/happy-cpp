@@ -30,7 +30,7 @@ namespace happycpp {
 
         namespace hcunit {
 
-            HAPPYCPP_SHARED_LIB_API std::string ToStr(const UnitType ut) {
+            HAPPYCPP_SHARED_LIB_API std::string toStr(UnitType ut) {
                 static std::map<UnitType, std::string> m;
                 m[kUnitByte] = "byte";
                 m[kUnitKiB] = "KiB";
@@ -47,7 +47,7 @@ namespace happycpp {
                 return m[ut];
             }
 
-            HAPPYCPP_SHARED_LIB_API byte_t ToByte(const UnitType ut) {
+            HAPPYCPP_SHARED_LIB_API byte_t toByte(UnitType ut) {
                 static std::map<UnitType, byte_t> m;
                 m[kUnitByte] = 1L;
                 m[kUnitKiB] = 1024L;
@@ -64,23 +64,23 @@ namespace happycpp {
                 return m[ut];
             }
 
-            HAPPYCPP_SHARED_LIB_API byte_t ToByte(const UnitType ut, const double s) {
-                return ToByte(ut) * s;
+            HAPPYCPP_SHARED_LIB_API byte_t toByte(UnitType ut, double s) {
+                return toByte(ut) * s;
             }
 
-            HAPPYCPP_SHARED_LIB_API double Convert(const UnitType ut, const byte_t b,
-                                                   const uint32_t precision) {
+            HAPPYCPP_SHARED_LIB_API double convert(UnitType ut, byte_t b,
+                                                   uint32_t precision) {
                 if (ut == kUnitByte)
                     return static_cast<double>(b);
 
-                double size = static_cast<double>(b) / ToByte(ut);
+                double size = static_cast<double>(b) / toByte(ut);
 
                 if (precision == 0)
                     // 向上取整
                     size = ceil(size);
                 else
                     // 四舍五入，并保留指定的有效数
-                    size = hcdouble::Round(size, precision);
+                    size = hcdouble::round(size, precision);
 
                 return size;
             }

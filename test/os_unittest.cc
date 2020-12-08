@@ -346,7 +346,7 @@ TEST(HCOS_UNITTEST, CentOS5) {
     const std::string centos5_redhat_release("CentOS release 5.11 (Final)");
 
     hhos::OsIdentification osi;
-    ASSERT_TRUE(_GetOsInfo(centos5_redhat_release.c_str(), &osi));
+    ASSERT_TRUE(_getOsInfo(centos5_redhat_release.c_str(), &osi));
     ASSERT_EQ(hhos::kCentOS, osi.id);
     ASSERT_EQ(hhos::kCentOS5, osi.version);
     ASSERT_EQ(5U, osi.major_version);
@@ -361,7 +361,7 @@ TEST(HCOS_UNITTEST, CentOS6) {
     const std::string centos6_redhat_release("CentOS release 6.7 (Final)");
 
     hhos::OsIdentification osi;
-    ASSERT_TRUE(_GetOsInfo(centos6_redhat_release.c_str(), &osi));
+    ASSERT_TRUE(_getOsInfo(centos6_redhat_release.c_str(), &osi));
     ASSERT_EQ(hhos::kCentOS, osi.id);
     ASSERT_EQ(hhos::kCentOS6, osi.version);
     ASSERT_EQ(6U, osi.major_version);
@@ -377,7 +377,7 @@ TEST(HCOS_UNITTEST, CentOS7) {
             "CentOS Linux release 7.2.1511 (Core)");
 
     hhos::OsIdentification osi;
-    ASSERT_TRUE(_GetOsInfo(centos7_redhat_release.c_str(), &osi));
+    ASSERT_TRUE(_getOsInfo(centos7_redhat_release.c_str(), &osi));
     ASSERT_EQ(hhos::kCentOS, osi.id);
     ASSERT_EQ(hhos::kCentOS7, osi.version);
     ASSERT_EQ(7U, osi.major_version);
@@ -398,7 +398,7 @@ TEST(HCOS_UNITTEST, CentOS6_LSB) {
             ":printing-4.0-noarch");
 
     hhos::OsIdentification osi;
-    ASSERT_FALSE(_GetOsInfo(lsb_release.c_str(), &osi));
+    ASSERT_FALSE(_getOsInfo(lsb_release.c_str(), &osi));
 }
 
 TEST(HCOS_UNITTEST, Ubuntu_12_04) {
@@ -409,7 +409,7 @@ TEST(HCOS_UNITTEST, Ubuntu_12_04) {
             "DISTRIB_DESCRIPTION=\"Ubuntu 12.04 LTS\"");
 
     hhos::OsIdentification osi;
-    ASSERT_TRUE(_GetOsInfo(lsb_release.c_str(), &osi));
+    ASSERT_TRUE(_getOsInfo(lsb_release.c_str(), &osi));
 
     ASSERT_EQ(hhos::kUbuntu, osi.id);
     ASSERT_EQ(hhos::kUbuntu12_04, osi.version);
@@ -440,7 +440,7 @@ TEST(HCOS_UNITTEST, CentOS7_OS) {
             "REDHAT_SUPPORT_PRODUCT_VERSION=\"7\"");
 
     hhos::OsIdentification osi;
-    ASSERT_TRUE(_GetOsInfo(centos7_os_release.c_str(), &osi));
+    ASSERT_TRUE(_getOsInfo(centos7_os_release.c_str(), &osi));
 
     ASSERT_EQ(hhos::kCentOS, osi.id);
     ASSERT_EQ(hhos::kCentOS7, osi.version);
@@ -465,7 +465,7 @@ TEST(HCOS_UNITTEST, Ubuntu_14_04) {
             "SUPPORT_URL=\"http://help.ubuntu.com/\"\n"
             "BUG_REPORT_URL=\"http://bugs.launchpad.net/ubuntu/\"");
     hhos::OsIdentification osi;
-    ASSERT_TRUE(_GetOsInfo(ubuntu_os_release.c_str(), &osi));
+    ASSERT_TRUE(_getOsInfo(ubuntu_os_release.c_str(), &osi));
 
     ASSERT_EQ(hhos::kUbuntu, osi.id);
     ASSERT_EQ(hhos::kUbuntu14_04, osi.version);

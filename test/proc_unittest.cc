@@ -27,12 +27,12 @@ namespace hhproc = happycpp::hcproc;
 namespace hhhstring = happycpp::hcalgorithm::hcstring;
 
 std::string format_path(const std::string &path) {
-    return hhhstring::Replace(path, "/", OsSeparator);
+    return hhhstring::replace(path, "/", OsSeparator);
 }
 
 TEST(HCPROC_UNITTEST, current_work_dir) {
     std::string expected;
-    EXPECT_TRUE(hhproc::CurrentWorkDir(&expected));
+    EXPECT_TRUE(hhproc::currentWorkDir(&expected));
 
 #ifdef CURRENT_WORK_DIR
     const std::string actual(format_path(CURRENT_WORK_DIR));
@@ -42,7 +42,7 @@ TEST(HCPROC_UNITTEST, current_work_dir) {
 
 TEST(HCPROC_UNITTEST, CurrentExe_path) {
     std::string expected;
-    EXPECT_TRUE(hhproc::CurrentExePath(&expected));
+    EXPECT_TRUE(hhproc::currentExePath(&expected));
 
 #ifdef CURRENT_EXE_PATH
     const std::string actual(format_path(CURRENT_EXE_PATH));
@@ -52,7 +52,7 @@ TEST(HCPROC_UNITTEST, CurrentExe_path) {
 
 TEST(HCPROC_UNITTEST, CurrentExe_dir) {
     std::string expected;
-    EXPECT_TRUE(hhproc::CurrentExeDir(&expected));
+    EXPECT_TRUE(hhproc::currentExeDir(&expected));
 
 #ifdef CURRENT_EXE_DIR
     const std::string actual(format_path(CURRENT_EXE_DIR));
@@ -68,10 +68,10 @@ TEST(HCPROC_UNITTEST, LockProc_and_UnLockProc) {
     EXPECT_FALSE(hhproc::LockProc("test.lock"));
     EXPECT_TRUE(hhproc::UnLockProc("test.lock"));
 #else
-    EXPECT_FALSE(hhproc::UnLockProc("test.lock", "/tmp"));
-    EXPECT_TRUE(hhproc::LockProc("test.lock", getppid(), "/tmp"));
+    EXPECT_FALSE(hhproc::unLockProc("test.lock", "/tmp"));
+    EXPECT_TRUE(hhproc::lockProc("test.lock", getppid(), "/tmp"));
 
-    EXPECT_FALSE(hhproc::LockProc("test.lock", getppid(), "/tmp"));
-    EXPECT_TRUE(hhproc::UnLockProc("test.lock", "/tmp"));
+    EXPECT_FALSE(hhproc::lockProc("test.lock", getppid(), "/tmp"));
+    EXPECT_TRUE(hhproc::unLockProc("test.lock", "/tmp"));
 #endif
 }

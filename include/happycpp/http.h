@@ -33,10 +33,10 @@ namespace happycpp {
 
     namespace hchttp {
 
-//! HTTP 请求方法枚举
-/*!
- http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
- */
+        //! HTTP 请求方法枚举
+        /*!
+         http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
+         */
         typedef enum {
             INVALID_HTTP_METHOD = -1,  /// 无效的 HTTP 方法
             HTTP_METHOD_CONNECT,
@@ -48,16 +48,16 @@ namespace happycpp {
             HTTP_METHOD_TRACE
         } HttpMethodType;
 
-//! HTTP 消息字段枚举
-/*!
- non-standard(nonstd)，非标准
- HTTP Message Common field(http_mcomf)，HTTP 消息通用字段
- HTTP Message Request field(http_mreqf)，HTTP 消息请求字段
- HTTP Message Response field(http_mresf)，HTTP 消息响应字段
+        //! HTTP 消息字段枚举
+        /*!
+         non-standard(nonstd)，非标准
+         HTTP Message Common field(http_mcomf)，HTTP 消息通用字段
+         HTTP Message Request field(http_mreqf)，HTTP 消息请求字段
+         HTTP Message Response field(http_mresf)，HTTP 消息响应字段
 
- http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4
- https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
- */
+         http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4
+         https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
+         */
         typedef enum {
             INVALID_HTTP_MSG_FIELD = -1,  /// 无效的 HTTP 字段
             HTTP_MCOMF_CACHE_CONTROL,
@@ -144,18 +144,18 @@ namespace happycpp {
             HTTP_MRESF_NONSTD_X_CONTENT_DURATION,
         } HttpMsgField;
 
-//! HTTP 消息类型枚举
+        //! HTTP 消息类型枚举
         typedef enum {
             INVALID_HTTP_MSG_TYPE = -1,  /// 无效的 HTTP 消息类型
             HTTP_MSG_REQUEST,
             HTTP_MSG_RESPONSE,
         } HttpMsgType;
 
-//! HTTP 消息基类
+        //! HTTP 消息基类
         class HttpMessage {
         protected:
-            static std::map<std::string, HttpMethodType> m_desc_hm;
-            static std::map<std::string, HttpMsgField> m_desc_hmf;
+            static std::map<std::string, HttpMethodType> mDescHm;
+            static std::map<std::string, HttpMsgField> mDescHmf;
 
             HttpMsgType type_; /*! 消息类型 */
             std::string version_; /*! HTTP 版本 */
@@ -168,15 +168,15 @@ namespace happycpp {
         public:
             virtual ~HttpMessage();
 
-            HttpMethodType to_hm(const std::string &k);
+            HttpMethodType toHm(const std::string &k);
 
-            HttpMsgField to_hmf(const std::string &k);
+            HttpMsgField toHmf(const std::string &k);
 
-            void set_version(const std::string &v);
+            void setVersion(const std::string &v);
 
-            void add_field(HttpMsgField k, const std::string &v);
+            void addField(HttpMsgField k, const std::string &v);
 
-            void set_body(const std::string &v);
+            void setBody(const std::string &v);
 
             HttpMsgType type();
 
@@ -193,10 +193,10 @@ namespace happycpp {
             std::string body();
         };
 
-//! HTTP 请求消息类
-/*!
- HttpMessage 派生类
- */
+        //! HTTP 请求消息类
+        /*!
+         HttpMessage 派生类
+         */
         class HttpRequestMsg : public HttpMessage {
         private:
             HttpMethodType method_; /*! 请求字段 */
@@ -210,65 +210,65 @@ namespace happycpp {
 
             ~HttpRequestMsg() override;
 
-            void set_method(HttpMethodType v);
+            void setMethod(HttpMethodType v);
 
-            void set_request_url(const std::string &v);
+            void setRequestUrl(const std::string &v);
 
-            void set_url(const std::string &v);
+            void setUrl(const std::string &v);
 
-            void set_args(const std::string &v);
+            void setArgs(const std::string &v);
 
             HttpMethodType method();
 
-            std::string request_url();
+            std::string requestUrl();
 
             std::string url();
 
             std::string args();
         };
 
-//! HTTP 响应消息类
-/*!
- HttpMessage 派生类
- */
+        //! HTTP 响应消息类
+        /*!
+         HttpMessage 派生类
+         */
         class HttpResponseMsg : public HttpMessage {
         private:
             uint32_t status_; /*! 响应字段。状态码 */
-            std::string reason_phrase_; /*! 响应字段。原因简述 */
+            std::string reasonPhrase_; /*! 响应字段。原因简述 */
 
         public:
             HttpResponseMsg();
 
             ~HttpResponseMsg() override;
 
-            void set_status(uint32_t v);
+            void setStatus(uint32_t v);
 
-            void set_reason_phrase(const std::string &v);
+            void setReasonPhrase(const std::string &v);
 
             uint32_t status();
 
-            std::string reason_phrase();
+            std::string reasonPhrase();
         };
 
         typedef std::shared_ptr<HttpMessage> HttpMessagePtr;
         typedef std::shared_ptr<HttpRequestMsg> HttpRequestMsgPtr;
         typedef std::shared_ptr<HttpResponseMsg> HttpResponseMsgPtr;
 
-//! HttpMessage 上下文类
-/*!
- 将 HTTP 消息转换为 HttpMessage 类指针
+        //! HttpMessage 上下文类
+        /*!
+         将 HTTP 消息转换为 HttpMessage 类指针
 
- HTTP 消息格式如下：
- @verbatim
- generic-message = start-line
- *(message-header CRLF)
- CRLF
- [ message-body ]
- start-line      = Request-Line | Status-Line
- @endverbatim
+         HTTP 消息格式如下：
+         @verbatim
+         generic-message = start-line
+         *(message-header CRLF)
+         CRLF
+         [ message-body ]
+         start-line      = Request-Line | Status-Line
+         @endverbatim
 
- http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4
- */
+         http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4
+         */
         class HttpMsgCtx {
         private:
             //! 初始化 HTTP 消息类智能指针
@@ -276,7 +276,7 @@ namespace happycpp {
              * @param http HTTP 消息原始数据
              * @return HTTP 消息类智能指针
              */
-            HttpMessagePtr init_hm(const std::string &http);
+            HttpMessagePtr initHm(const std::string &http);
 
             //! 转换 HTTP 消息请求行
             /*! 比如，
@@ -287,7 +287,7 @@ namespace happycpp {
              * @param line 请求行字符串
              * @param hm HTTP 消息类智能指针
              */
-            void parse_request_line(const std::string &line, HttpMessagePtr hm);
+            void parseRequestLine(const std::string &line, HttpMessagePtr hm);
 
             //! 转换 HTTP 消息状态行
             /*! 比如，
@@ -298,7 +298,7 @@ namespace happycpp {
              * @param line 状态行字符串
              * @param hm HTTP 消息类智能指针
              */
-            void parse_status_line(const std::string &line, HttpMessagePtr hm);
+            void parseStatusLine(const std::string &line, HttpMessagePtr hm);
 
             //! 转换 HTTP 消息起始行
             /*! 比如，
@@ -311,7 +311,7 @@ namespace happycpp {
              * @param line 起始行字符串
              * @param hm HTTP 消息类智能指针
              */
-            void parse_start_line(const std::string &line, HttpMessagePtr hm);
+            void parseStartLine(const std::string &line, HttpMessagePtr hm);
 
             //! 转换 HTTP 消息头
 
@@ -322,7 +322,7 @@ namespace happycpp {
              * @param 起始行到消息体之间的字符串
              * @param hm HTTP 消息类智能指针
              */
-            void parse_header(const std::string &header, HttpMessagePtr hm);
+            void parseHeader(const std::string &header, HttpMessagePtr hm);
 
             //! 转换 HTTP 消息体
             /*! 比如，
@@ -336,7 +336,7 @@ namespace happycpp {
              * @param body 消息体字符串
              * @param hm HTTP 消息类智能指针
              */
-            void parse_body(const std::string &body, HttpMessagePtr hm);
+            void parseBody(const std::string &body, HttpMessagePtr hm);
 
         public:
             HttpMsgCtx();
@@ -363,15 +363,15 @@ namespace happycpp {
             HttpMessagePtr parse(const std::string &http);
         };
 
-/*根据uri，返回对应的mime type*/
-        const std::string get_mime_type(const std::string &uri,
-                                        const std::string &charset);
-//! 从 URL 获取头信息
-/*!
- * @param url URL 地址
- * @return HttpResponseMsg 智能指针
- */
-        HttpResponseMsgPtr get_header_info(const std::string &url);
+        // 根据uri，返回对应的mime type
+        const std::string getMimeType(const std::string &uri,
+                                      const std::string &charset);
+        //! 从 URL 获取头信息
+        /*!
+         * @param url URL 地址
+         * @return HttpResponseMsg 智能指针
+         */
+        HttpResponseMsgPtr getHeaderInfo(const std::string &url);
 
         namespace hcurl {
 
