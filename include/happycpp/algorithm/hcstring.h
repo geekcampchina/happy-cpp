@@ -94,6 +94,8 @@ namespace happycpp {
                                                std::map<std::string, std::string> *m,
                                                const std::string &sep = "\n");
 
+            HAPPYCPP_SHARED_LIB_API long toLong(const std::string &s);
+
         } /* namespace hcstring */
 
     } /* namespace hcalgorithm */

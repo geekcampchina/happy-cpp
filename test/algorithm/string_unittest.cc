@@ -242,8 +242,16 @@ TEST(HCSTRING_UNITTEST, ToMap2) {
     EXPECT_STREQ("", m2[""].c_str());
 
     std::map<std::string, std::string> m3;
-    const std::string s3("");
+    const std::string s3;
 
     hhhstring::toMap(s3, &m3, "\n");
     EXPECT_EQ(0U, m3.size());
+}
+
+TEST(HCSTRING_UNITTEST, ToLong) {
+    const long result1 = hhhstring::toLong("123456789");
+    EXPECT_EQ(123456789L, result1);
+
+    const long result2 = hhhstring::toLong("-123456789");
+    EXPECT_EQ(-123456789L, result2);
 }

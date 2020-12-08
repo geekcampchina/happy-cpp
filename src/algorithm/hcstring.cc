@@ -188,6 +188,13 @@ namespace happycpp {
                 toMap(v, m);
             }
 
+            long toLong(const std::string &s) {
+                char *endptr = nullptr;
+                const long result = strtol(s.c_str(), &endptr, 10);
+
+                return result;
+            }
+
         } /* namespace hcstring */
 
     } /* namespace hcalgorithm */
