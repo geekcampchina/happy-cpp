@@ -5,11 +5,11 @@ log4cplus.rootLogger=TRACE, STDOUT, ROLLING
 
 log4cplus.appender.STDOUT=log4cplus::ConsoleAppender
 log4cplus.appender.STDOUT.layout=log4cplus::PatternLayout
-log4cplus.appender.STDOUT.layout.ConversionPattern=%d{%Y-%m-%d %H:%M:%S.%q} %-5i %-5p %c ---- %m%n
+log4cplus.appender.STDOUT.layout.ConversionPattern=%d{%Y-%m-%d %H:%M:%S.%q} %-5i %-5p %c --- %m%n
 
 log4cplus.appender.ROLLING=log4cplus::RollingFileAppender
 log4cplus.appender.ROLLING.File=error.log
 log4cplus.appender.ROLLING.MaxFileSize=10MB
 log4cplus.appender.ROLLING.MaxBackupIndex=3
 log4cplus.appender.ROLLING.layout=log4cplus::PatternLayout
-log4cplus.appender.ROLLING.layout.ConversionPattern=%d{%Y-%m-%d %H:%M:%S.%q} %-5i %-5p %c ---- %m%n
+log4cplus.appender.ROLLING.layout.ConversionPattern=%d{%Y-%m-%d %H:%M:%S.%q} %-5i %-5p %c --- %m%n
