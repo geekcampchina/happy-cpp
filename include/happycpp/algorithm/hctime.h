@@ -33,7 +33,7 @@ namespace happycpp {
     namespace hcalgorithm {
 
         namespace hctime {
-            // 延迟指定的时间，单位:秒
+            // 延迟指定的时间，单位:秒。警告：消耗的CPU时间，用于特殊用途
             HAPPYCPP_SHARED_LIB_API void happyWait(const time_t &sec);
 
             // 延迟指定的时间，单位:毫秒
