@@ -44,11 +44,15 @@ namespace happycpp {
             Logger::getRoot().setLogLevel(level);
 
             _logger = Logger::getRoot();
+
+            info("HappyLog->未启用日志配置文件，加载默认设置。当前运行在【控制台输出】模式下......");
         }
 
         HappyLog::HappyLog(const string &profile) {
             PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT(profile));
             _logger = Logger::getRoot();
+
+            info("HappyLog->日志配置文件 '" + profile + "' 加载成功......");
         }
 
         HappyLogPtr HappyLog::getInstance(log4cplus::LogLevel level) {
