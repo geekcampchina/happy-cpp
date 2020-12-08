@@ -38,7 +38,7 @@ namespace happycpp {
 
             defaultAppend->setName(LOG4CPLUS_TEXT("Console"));
 
-            log4cplus::tstring pattern = LOG4CPLUS_TEXT("%d{%Y-%m-%d %H:%M:%S.%q} %-5i %-5p %c ---- %m%n");
+            log4cplus::tstring pattern = LOG4CPLUS_TEXT("%d{%Y-%m-%d %H:%M:%S.%q} %-5i %-5p %c --- %m%n");
             defaultAppend->setLayout(std::unique_ptr<Layout>(new PatternLayout(pattern)) );
             Logger::getRoot().addAppender(defaultAppend);
             Logger::getRoot().setLogLevel(level);
@@ -105,6 +105,10 @@ namespace happycpp {
 
         void HappyLog::trace(const string &s) {
             LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT(s));
+        }
+
+        void HappyLog::error(const exception &e) {
+            LOG4CPLUS_ERROR(_logger, LOG4CPLUS_TEXT("Exception Error->" << e.what()));
         }
     } /* namespace log */
 } /* namespace happycpp */

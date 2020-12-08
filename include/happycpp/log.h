@@ -79,6 +79,7 @@ namespace happycpp {
             }
 
             void error(const std::string &s);
+            void error(const std::exception &e);
 
             void warn(const std::string &s);
 
