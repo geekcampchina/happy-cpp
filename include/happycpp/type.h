@@ -40,7 +40,10 @@ typedef intptr_t ssize_t;
 
 #endif
 
-typedef uint64_t byte_t;
+// 网络用途
+typedef unsigned char byte_t;
+
+typedef uint64_t byteSize_t;
 typedef double kib_t;
 typedef double mib_t;
 typedef double gib_t;
@@ -123,7 +126,7 @@ typedef struct {
     std::string name;  // 文件名
     std::string ext;  // 文件扩展名，小写
     std::string path;  // 文件全路径
-    byte_t bytes;  // 文件大小，单位字节(byte)。如果是目录，则为0
+    byteSize_t bytes;  // 文件大小，单位字节(byte)。如果是目录，则为0
     time_t atime;  // 文件访问时间，秒
     time_t ctime;  // 文件状态修改时间，秒
     time_t mtime;  // 文件修改时间，秒

@@ -32,6 +32,7 @@ SET(SRC_LIST
         algorithm/hcstring.cc
         algorithm/hctime.cc
         algorithm/unit.cc
+        algorithm/byte.cc
         cmd.cc
         filesys.cc
         proc.cc

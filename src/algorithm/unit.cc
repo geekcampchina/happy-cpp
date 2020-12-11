@@ -47,8 +47,8 @@ namespace happycpp {
                 return m[ut];
             }
 
-            HAPPYCPP_SHARED_LIB_API byte_t toByte(UnitType ut) {
-                static std::map<UnitType, byte_t> m;
+            HAPPYCPP_SHARED_LIB_API byteSize_t toByte(UnitType ut) {
+                static std::map<UnitType, byteSize_t> m;
                 m[kUnitByte] = 1L;
                 m[kUnitKiB] = 1024L;
                 m[kUnitMiB] = 1048576L;
@@ -64,11 +64,11 @@ namespace happycpp {
                 return m[ut];
             }
 
-            HAPPYCPP_SHARED_LIB_API byte_t toByte(UnitType ut, double s) {
+            HAPPYCPP_SHARED_LIB_API byteSize_t toByte(UnitType ut, double s) {
                 return toByte(ut) * s;
             }
 
-            HAPPYCPP_SHARED_LIB_API double convert(UnitType ut, byte_t b,
+            HAPPYCPP_SHARED_LIB_API double convert(UnitType ut, byteSize_t b,
                                                    uint32_t precision) {
                 if (ut == kUnitByte)
                     return static_cast<double>(b);

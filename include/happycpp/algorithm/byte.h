@@ -1,4 +1,4 @@
-﻿// -*- C++ -*-
+// -*- C++ -*-
 // Copyright (c) 2016, Fifi Lyu. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,36 +21,37 @@
 
 /** @file */
 
-#ifndef INCLUDE_HAPPYCPP_ALGORITHM_UNIT_H_
-#define INCLUDE_HAPPYCPP_ALGORITHM_UNIT_H_
+#ifndef INCLUDE_HAPPYCPP_ALGORITHM_BYTE_H_
+#define INCLUDE_HAPPYCPP_ALGORITHM_BYTE_H_
 
 #include "happycpp/common.h"
-#include <string>
-#include <cmath>
 
 namespace happycpp {
 
     namespace hcalgorithm {
 
-        namespace hcunit {
+        namespace hcbyte {
 
-            // 输入二进制词头枚举，输出类似 KiB、MiB、GiB、KB、MB、GB 等单位字符串
-            // 输入国际单位制词头枚举，输出类似 KiB、MiB、GiB、KB、MB、GB 等单位字符串
-            HAPPYCPP_SHARED_LIB_API std::string toStr(UnitType ut);
+            // 生成byte数组对应的十六进制字符串
+            std::string toHexStringWithDelimiter(const std::vector<byte_t> &bytes, const std::string &delimiter);
 
-            HAPPYCPP_SHARED_LIB_API byteSize_t toByte(UnitType ut);
+            // 生成byte数组对应的十六进制字符串（没有分隔符）
+            std::string toHexString(const std::vector<byte_t> &bytes);
 
-            // 将指定进制单位值转换为 byteSize_t
-            HAPPYCPP_SHARED_LIB_API byteSize_t toByte(UnitType ut, double s);
+            // 生成byte数组对应的十六进制字符串（以空格为分隔符）
+            std::string toHexStringWithSpace(const std::vector<byte_t> &bytes);
 
-            // 将 byteSize_t 转换为指定进制单位值
-            HAPPYCPP_SHARED_LIB_API double convert(UnitType ut, byteSize_t b,
-                                                   uint32_t precision = 2);
+            // 生成byte数组对应的十六进制字符串（以空格为分隔符），用于日志打印
+            std::string toHexStringForPrint(const std::vector<byte_t> &bytes);
 
-        } /* namespace hcunit */
+            // 十六进制字符串转换为byte数组，十六进制字符串中的空格会被自动删除
+            std::vector<byte_t> hexStringToBytes(const std::string &s);
+
+        } /* namespace hcbyte */
 
     } /* namespace hcalgorithm */
 
 } /* namespace happycpp */
 
-#endif  // INCLUDE_HAPPYCPP_ALGORITHM_UNIT_H_
+
+#endif  // INCLUDE_HAPPYCPP_ALGORITHM_BYTE_H_
