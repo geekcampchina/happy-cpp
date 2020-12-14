@@ -44,8 +44,8 @@ namespace happycpp {
             // 生成byte数组对应的十六进制字符串（以空格为分隔符），用于日志打印
             std::string toHexStringForPrint(const std::vector<byte_t> &bytes);
 
-            // 十六进制字符串转换为byte数组，十六进制字符串中的空格会被自动删除
-            std::vector<byte_t> hexStringToBytes(const std::string &s);
+            // 十六进制字符串转换为byte数组，十六进制字符串中的指定的分隔符（默认空格）会被自动删除
+            std::vector<byte_t> hexStringToBytes(const std::string &s, const std::string &delimiter = " ");
 
             std::vector<byte_t> to4ByteArray(uint32_t i);
             std::vector<byte_t> to2ByteArray(uint16_t i);

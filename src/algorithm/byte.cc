@@ -79,9 +79,9 @@ namespace happycpp {
                 return "[" + toHexStringWithDelimiter(bytes, ", ") + "]";
             }
 
-            // 十六进制字符串转换为byte数组，十六进制字符串中的空格会被自动删除
-            vector<byte_t> hexStringToBytes(const string &s) {
-                const string _s = hcstring::replace(s, " ", "");
+            // 十六进制字符串转换为byte数组，十六进制字符串中的指定的分隔符（默认空格）会被自动删除
+            vector<byte_t> hexStringToBytes(const string &s, const std::string &delimiter) {
+                const string _s = hcstring::replace(s, delimiter, "");
                 const int hexStrLen = _s.length();
 
                 vector<byte_t> bytes(0);

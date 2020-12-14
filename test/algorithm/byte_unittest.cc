@@ -53,7 +53,7 @@ TEST(HCBYTE_UNITTEST, hexStringToBytesTest) {
 
     const string hexString2 = "12 34";
     const vector<byte_t> expectBytes2 = {0x12, 0x34};
-    ASSERT_EQ(expectBytes2,hcbyte::hexStringToBytes(hexString2));
+    ASSERT_EQ(expectBytes2,hcbyte::hexStringToBytes(hexString2, " "));
 }
 
 TEST(HCBYTE_UNITTEST, to4ByteArrayTest) {
