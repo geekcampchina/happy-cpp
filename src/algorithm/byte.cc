@@ -23,6 +23,7 @@
 #include "happycpp/algorithm/hcstring.h"
 #include <sstream>
 #include <iomanip>
+#include "happycpp/exception.h"
 
 using namespace std;
 
@@ -31,12 +32,10 @@ namespace happycpp {
     namespace hcalgorithm {
 
         namespace hcbyte {
-
-            template<typename T>
-            string intToHex(T i) {
+            string byteToHex(byte_t i) {
                 stringstream stream;
-                stream << setfill('0') << setw(sizeof(T) * 2)
-                       << hex << i;
+                stream << setfill('0') << setw(sizeof(byte_t) * 2)
+                       << hex << static_cast<uint16_t>(i);
                 return stream.str();
             }
 
@@ -46,11 +45,7 @@ namespace happycpp {
                 string hexTmpStr;
 
                 for (byte_t b : bytes) {
-                    hexTmpStr = intToHex(b);
-
-//                    if (hexTmpStr.length() == 1) {
-//                        hexStr.append("0");
-//                    }
+                    hexTmpStr = byteToHex(b);
 
                     boost::to_upper(hexTmpStr);
                     hexStr.append(hexTmpStr);
@@ -104,11 +99,55 @@ namespace happycpp {
 
                 for (size_t i = 0; i < bytes.size(); i++) {
                     const size_t index = i * 2;
-                    const uint32_t j = stoul(_s.substr(index, index + 2), nullptr, 16);
+                    const string subStr = _s.substr(index, 2);
+                    const uint32_t j = stoul(subStr, nullptr, 16);
                     bytes[i] = j;
                 }
 
                 return bytes;
+            }
+
+            vector<byte_t> to4ByteArray(uint32_t i) {
+                vector<byte_t> bytes(4);
+
+                bytes[0] = (i >> 24) & 0xFF;
+                bytes[1] = (i >> 16) & 0xFF;
+                bytes[2] = (i >> 8) & 0xFF;
+                bytes[3] = i & 0xFF;
+
+                return bytes;
+            }
+            
+            vector<byte_t> to2ByteArray(uint16_t i) {
+                vector<byte_t> bytes(2);
+
+                bytes[0] = (i >> 8) & 0xFF;
+                bytes[1] = i & 0xFF;
+
+                return bytes;
+            }
+            
+            uint32_t from4ByteArray(const vector<byte_t> &bytes) {
+                if (bytes.size() != 4U) {
+                    ThrowHappyException("byte数组转为uint32_t时，长度必须为4");
+                }
+
+                return ((bytes[0] & 0xFF) << 24) |
+                       ((bytes[1] & 0xFF) << 16) |
+                       ((bytes[2] & 0xFF) << 8) |
+                       ((bytes[3] & 0xFF)
+                       );
+            }
+            
+            uint16_t from2ByteArray(const vector<byte_t> &bytes) {
+                if (bytes.size() != 2U) {
+                    ThrowHappyException("byte数组转为uint16_t时，长度必须为2");
+                }
+
+                return static_cast<uint16_t> (
+                        ((bytes[0] & 0xFF) << 8) |
+                        ((bytes[1] & 0xFF))
+                );
             }
 
         } /* namespace hcbyte */

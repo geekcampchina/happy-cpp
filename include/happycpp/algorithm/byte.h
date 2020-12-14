@@ -47,6 +47,11 @@ namespace happycpp {
             // 十六进制字符串转换为byte数组，十六进制字符串中的空格会被自动删除
             std::vector<byte_t> hexStringToBytes(const std::string &s);
 
+            std::vector<byte_t> to4ByteArray(uint32_t i);
+            std::vector<byte_t> to2ByteArray(uint16_t i);
+            uint32_t from4ByteArray(const std::vector<byte_t> &bytes);
+            uint16_t from2ByteArray(const std::vector<byte_t> &bytes);
+
         } /* namespace hcbyte */
 
     } /* namespace hcalgorithm */

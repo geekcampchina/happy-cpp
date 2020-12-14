@@ -20,7 +20,9 @@
 
 #include <gtest/gtest.h>
 #include "happycpp/algorithm/byte.h"
+#include "happycpp/exception.h"
 
+using namespace std;
 namespace hcbyte = happycpp::hcalgorithm::hcbyte;
 
 TEST(HCBYTE_UNITTEST, toHexStringWithDelimiterTest) {
@@ -28,6 +30,67 @@ TEST(HCBYTE_UNITTEST, toHexStringWithDelimiterTest) {
               hcbyte::toHexStringWithDelimiter({'h', 'e', 'l','l', 'o'}, "|"));
 }
 
-TEST(HCBYTE_UNITTEST, IsOddNum) {
-//    ASSERT_TRUE(hcbyte::isOddNum(3));
+TEST(HCBYTE_UNITTEST, toHexStringTest) {
+    ASSERT_EQ("68656C6C6F",
+              hcbyte::toHexString({'h', 'e', 'l','l', 'o'}));
+}
+
+TEST(HCBYTE_UNITTEST, toHexStringWithSpaceTest) {
+    ASSERT_EQ("68 65 6C 6C 6F",
+              hcbyte::toHexStringWithSpace({'h', 'e', 'l','l', 'o'}));
+}
+
+TEST(HCBYTE_UNITTEST, toHexStringForPrintTest) {
+    ASSERT_EQ("[68, 65, 6C, 6C, 6F]",
+              hcbyte::toHexStringForPrint({'h', 'e', 'l','l', 'o'}));
+}
+
+TEST(HCBYTE_UNITTEST, hexStringToBytesTest) {
+    const vector<byte_t> bb = {'h', 'e', 'l','l', 'o'};
+    const string hexString = hcbyte::toHexString(bb);
+    const vector<byte_t> expectBytes = {0x68, 0x65, 0x6C, 0x6C, 0x6F};
+
+    ASSERT_EQ(expectBytes,hcbyte::hexStringToBytes(hexString));
+}
+
+TEST(HCBYTE_UNITTEST, to4ByteArrayTest) {
+    const vector<byte_t> expectBytes = {0x00, 0x00, 0x00, 0x0A};
+    const vector<byte_t> bb = hcbyte::to4ByteArray(10);
+
+    ASSERT_EQ(bb, expectBytes);
+}
+
+TEST(HCBYTE_UNITTEST, from4ByteArrayTest) {
+    const int expectResult = 10;
+    const vector<byte_t> bb = {0x00, 0x00, 0x00, 0x0A};
+    const int result = hcbyte::from4ByteArray(bb);
+
+    ASSERT_EQ(result, expectResult);
+
+    const vector<byte_t> bb2 = {0x00, 0x0A};
+    ASSERT_THROW(hcbyte::from4ByteArray(bb2), happycpp::HappyException);
+}
+
+TEST(HCBYTE_UNITTEST, to2ByteArrayTest) {
+    const vector<byte_t> expectBytes = {0x00, 0x0A};
+    const vector<byte_t> bb = hcbyte::to2ByteArray( 10U);
+    ASSERT_EQ(bb, expectBytes);
+}
+
+TEST(HCBYTE_UNITTEST, from2ByteArrayTest) {
+    const int expectResult = 10;
+    const vector<byte_t> bb = {0x00, 0x0A};
+    const int result = hcbyte::from2ByteArray(bb);
+
+    ASSERT_EQ(result, expectResult);
+
+    const vector<byte_t> bb2 = {0x00};
+    ASSERT_THROW(hcbyte::from2ByteArray(bb2), happycpp::HappyException);
+}
+
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
 }
