@@ -61,7 +61,7 @@ TEST(HCUNIT_UNITTEST, ToByte2) {
 
 TEST(HCUNIT_UNITTEST, Convert) {
     // 1024 PiB
-    const byte_t b1 = 1152921504606846976UL;
+    const byteSize_t b1 = 1152921504606846976UL;
 
     EXPECT_DOUBLE_EQ(1152921504606846976UL, hhhunit::convert(kUnitByte, b1, 0));
 
@@ -78,7 +78,7 @@ TEST(HCUNIT_UNITTEST, Convert) {
     EXPECT_DOUBLE_EQ(1152.92, hhhunit::convert(kUnitPB, b1, 2));
 
     // 1000 PB
-    const byte_t b2 = 1000000000000000000UL;
+    const byteSize_t b2 = 1000000000000000000UL;
 
     EXPECT_DOUBLE_EQ(1000000000000000000UL, hhhunit::convert(kUnitByte, b2, 0));
 

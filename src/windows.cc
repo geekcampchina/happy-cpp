@@ -431,7 +431,7 @@ bool GetMemoryInfo(MemoryInfo *mem_info) {
     return false;
 
   const mib_t mem_total_mibs = Convert(kUnitMiB, mem_status.ullTotalPhys);
-  const byte_t mem_used_bytes =
+  const byteSize_t mem_used_bytes =
       mem_status.ullTotalPhys - mem_status.ullAvailPhys;
   const mib_t mem_used_mibs = Convert(kUnitMiB, mem_used_bytes);
 
@@ -440,7 +440,7 @@ bool GetMemoryInfo(MemoryInfo *mem_info) {
   mem_info->used = mem_used_mibs;
 
   const mib_t swap_total_mibs = Convert(kUnitMiB, mem_status.ullTotalPageFile);
-  const byte_t swap_used_bytes =
+  const byteSize_t swap_used_bytes =
       mem_status.ullTotalPageFile - mem_status.ullAvailPageFile;
   const mib_t swap_used_mibs = Convert(kUnitMiB, swap_used_bytes);
 
@@ -471,9 +471,9 @@ bool IsSysDrive(const std::string &dirve_name) {
 
 /* 获取驱动器信息列表 */
 bool GetDriveInfo(DriveInfoVector *drive_infos) {
-  byte_t total_bytes = 0;
-  byte_t free_bytes = 0;
-  byte_t used_bytes = 0;
+  byteSize_t total_bytes = 0;
+  byteSize_t free_bytes = 0;
+  byteSize_t used_bytes = 0;
   gb_t total_gibs = 0;
   gb_t used_gibs = 0;
   int ret_val = 0;
