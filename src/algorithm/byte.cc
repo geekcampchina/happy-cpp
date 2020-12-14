@@ -21,8 +21,8 @@
 #include "happycpp/algorithm/byte.h"
 #include <boost/algorithm/string.hpp>
 #include "happycpp/algorithm/hcstring.h"
-#include <sstream>
 #include <iomanip>
+#include <iostream>
 #include "happycpp/exception.h"
 
 using namespace std;
@@ -81,8 +81,8 @@ namespace happycpp {
 
             // 十六进制字符串转换为byte数组，十六进制字符串中的空格会被自动删除
             vector<byte_t> hexStringToBytes(const string &s) {
-                const string _s = hcstring::trim(s, " ");
-                const int hexStrLen = s.length();
+                const string _s = hcstring::replace(s, " ", "");
+                const int hexStrLen = _s.length();
 
                 vector<byte_t> bytes(0);
 

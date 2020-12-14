@@ -49,8 +49,11 @@ TEST(HCBYTE_UNITTEST, hexStringToBytesTest) {
     const vector<byte_t> bb = {'h', 'e', 'l','l', 'o'};
     const string hexString = hcbyte::toHexString(bb);
     const vector<byte_t> expectBytes = {0x68, 0x65, 0x6C, 0x6C, 0x6F};
-
     ASSERT_EQ(expectBytes,hcbyte::hexStringToBytes(hexString));
+
+    const string hexString2 = "12 34";
+    const vector<byte_t> expectBytes2 = {0x12, 0x34};
+    ASSERT_EQ(expectBytes2,hcbyte::hexStringToBytes(hexString2));
 }
 
 TEST(HCBYTE_UNITTEST, to4ByteArrayTest) {
