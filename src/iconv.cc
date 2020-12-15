@@ -29,7 +29,7 @@ using namespace std;
 namespace happycpp {
 
     namespace hciconv {
-        string getCodeName(LanguageEncodingName_t code, bool isToCode) {
+        string getCodeName(StandardCharsets code, bool isToCode) {
             const string suffix = isToCode ? "//TRANSLIT" : "";
 
             switch (code) {
@@ -46,7 +46,7 @@ namespace happycpp {
             }
         }
 
-        string iconvConvert(LanguageEncodingName_t fromCode, LanguageEncodingName_t toCode, const string &s) {
+        string iconvConvert(StandardCharsets fromCode, StandardCharsets toCode, const string &s) {
             happycpp::log::HappyLogPtr hlog = happycpp::log::HappyLog::getInstance();
 
             size_t inSize = s.length();

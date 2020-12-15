@@ -41,11 +41,11 @@ namespace happycpp {
             GBK,
             GB18030,
             UTF8,
-        } LanguageEncodingName_t;
+        } StandardCharsets;
 
-        std::string getCodeName(LanguageEncodingName_t code, bool isToCode = false);
+        std::string getCodeName(StandardCharsets code, bool isToCode = false);
 
-        std::string iconvConvert(LanguageEncodingName_t fromCode, LanguageEncodingName_t toCode, const std::string &s);
+        std::string iconvConvert(StandardCharsets fromCode, StandardCharsets toCode, const std::string &s);
 
     } /* namespace hciconv */
 
