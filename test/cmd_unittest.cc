@@ -30,8 +30,8 @@ namespace hhtime = happycpp::hcalgorithm::hctime;
 #endif
 
 TEST(HCCMD_UNITTEST, GetExitStatusOfCmd) {
-    std::string cmd("");
-    bool ret = false;
+    std::string cmd;
+    bool ret;
 
     if (bfs::exists("cmdtest")) {
         cmd = "rmdir cmdtest";
