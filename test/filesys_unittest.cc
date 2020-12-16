@@ -20,18 +20,16 @@
 
 #include <gtest/gtest.h>
 #include "happycpp/filesys.h"
-#include "happycpp/exception.h"
-#include <cstdlib>
 
 namespace hhfilesys = happycpp::hcfilesys;
 
-TEST(HCFILESYS_UNITTEST, HappyCreateFile) {
-    ASSERT_TRUE(hhfilesys::happyCreateFile("testFile"));
-    ASSERT_TRUE(bfs::remove("testFile"));
+TEST(HCFILESYS_UNITTEST, HappyCreateFile) { // NOLINT
+    EXPECT_TRUE(hhfilesys::happyCreateFile("testFile"));
+    EXPECT_TRUE(bfs::remove("testFile"));
 }
 
-TEST(HCFILESYS_UNITTEST, ReadFile1_and_WriteFile1) {
-    ASSERT_TRUE(hhfilesys::writeFile("testFile", "1234567890"));
+TEST(HCFILESYS_UNITTEST, ReadFile1AndWriteFile1) { // NOLINT
+    EXPECT_TRUE(hhfilesys::writeFile("testFile", "1234567890"));
 
     const std::string s = hhfilesys::readFile("testFile");
     EXPECT_STREQ("1234567890", s.c_str());
@@ -39,12 +37,12 @@ TEST(HCFILESYS_UNITTEST, ReadFile1_and_WriteFile1) {
     bfs::remove("testFile");
 }
 
-TEST(HCFILESYS_UNITTEST, ReadFile2_and_WriteFile2) {
+TEST(HCFILESYS_UNITTEST, ReadFile2AndWriteFile2) { // NOLINT
     std::vector<std::string> v1{"1234567890", "abcdefg", "ABCDEFG"};
     std::vector<std::string> v2;
 
-    ASSERT_TRUE(hhfilesys::writeFile("testFile", v1));
-    ASSERT_TRUE(hhfilesys::readFile("testFile", &v2));
+    EXPECT_TRUE(hhfilesys::writeFile("testFile", v1));
+    EXPECT_TRUE(hhfilesys::readFile("testFile", &v2));
     EXPECT_EQ(3U, v2.size());
     EXPECT_STREQ("1234567890", v2[0].c_str());
     EXPECT_STREQ("abcdefg", v2[1].c_str());
@@ -53,7 +51,7 @@ TEST(HCFILESYS_UNITTEST, ReadFile2_and_WriteFile2) {
     bfs::remove("testFile");
 }
 
-TEST(HCFILESYS_UNITTEST, GetFilesInDir) {
+TEST(HCFILESYS_UNITTEST, GetFilesInDir) { // NOLINT
     bfs::create_directories("test_dir" OsSeparator "sub");
     hhfilesys::happyCreateFile("test_dir" OsSeparator "f1.txt");
     hhfilesys::happyCreateFile("test_dir" OsSeparator "f2.txt");
@@ -75,4 +73,10 @@ TEST(HCFILESYS_UNITTEST, GetFilesInDir) {
     EXPECT_STREQ("sub", v[0].name.c_str());
 
     bfs::remove_all("test_dir");
+}
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
 }

@@ -33,9 +33,7 @@ bool CheckCharClassification(const std::string &s,
 bool CheckCharClassification(const std::string &s, CharClassification cc) {
     bool ret = true;
 
-    for (uint32_t i = 0; i < s.size(); ++i) {
-        char c = s[i];
-
+    for (char c : s) {
         switch (cc) {
             case kAlnum:
                 ret = isalnum(c);
@@ -60,7 +58,7 @@ bool CheckCharClassification(const std::string &s, CharClassification cc) {
     return true;
 }
 
-TEST(HCRANDOM_UNITTEST, GetRandom_int64) {
+TEST(HCRANDOM_UNITTEST, GetRandomInt64) { // NOLINT
     std::vector<int64_t> v;
 
     for (int64_t i = 0; i < 100; ++i) {
@@ -76,7 +74,7 @@ TEST(HCRANDOM_UNITTEST, GetRandom_int64) {
     EXPECT_GE(ratio, 0.90);
 }
 
-TEST(HCRANDOM_UNITTEST, GetRandom_str) {
+TEST(HCRANDOM_UNITTEST, GetRandomStr) { // NOLINT
     const std::string s1(hhhrandom::genRandom(11, kAlnum));
     EXPECT_EQ(11U, s1.size());
     EXPECT_TRUE(CheckCharClassification(s1, kAlnum));
@@ -92,4 +90,10 @@ TEST(HCRANDOM_UNITTEST, GetRandom_str) {
     const std::string s4(hhhrandom::genRandom(14, kPrint));
     EXPECT_EQ(14U, s4.size());
     EXPECT_TRUE(CheckCharClassification(s4, kPrint));
+}
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
 }

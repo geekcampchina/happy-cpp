@@ -28,9 +28,7 @@
 #include <string>
 #include <vector>
 
-namespace happycpp {
-
-    namespace hcproc {
+namespace happycpp::hcproc {
 
         // 返回当前工作目录绝对路径
         HAPPYCPP_SHARED_LIB_API bool currentWorkDir(std::string *dir);
@@ -58,8 +56,6 @@ namespace happycpp {
 
 #endif
 
-    } /* namespace hcproc */
-
-} /* namespace happycpp */
+    } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_PROC_H_

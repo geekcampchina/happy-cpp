@@ -33,9 +33,7 @@ using happycpp::hcalgorithm::hcstring::isAlpha;
 using happycpp::hcalgorithm::hcstring::isDigit;
 using happycpp::hcalgorithm::hcstring::toLower;
 
-namespace happycpp {
-
-    namespace hcxml {
+namespace happycpp::hcxml {
 
         typedef enum {
             VM_STRICT,  // 严格
@@ -104,12 +102,10 @@ namespace happycpp {
             std::string value;
             const bool ret = getValue(src, key, &value);
 
-            if (mode == VM_STRICT && ret)  // 严格模式，并且获取成功，直接返回值
-                return value;
-            else if (mode == VM_STRICT && !ret)  // 严格模式，并且获取失败，则抛出异常
+            if (mode == VM_STRICT && !ret)  // 严格模式，并且获取失败，则抛出异常
                 ThrowHappyException("Node mismatched.");
             else
-                return value;  // 非严格模式，直接返回值
+                return value;
         }
 
         template<class T>
@@ -150,8 +146,6 @@ namespace happycpp {
         std::string getTxtValue(const pugi::xml_node &node,
                                 value_mode_t mode = VM_STRICT);
 
-    } /* namespace hcxml */
-
-} /* namespace happycpp */
+    } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_XML_H_

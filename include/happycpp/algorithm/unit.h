@@ -28,11 +28,7 @@
 #include <string>
 #include <cmath>
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcunit {
+namespace happycpp::hcalgorithm::hcunit {
 
             // 输入二进制词头枚举，输出类似 KiB、MiB、GiB、KB、MB、GB 等单位字符串
             // 输入国际单位制词头枚举，输出类似 KiB、MiB、GiB、KB、MB、GB 等单位字符串
@@ -47,10 +43,6 @@ namespace happycpp {
             HAPPYCPP_SHARED_LIB_API double convert(UnitType ut, byteSize_t b,
                                                    uint32_t precision = 2);
 
-        } /* namespace hcunit */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_UNIT_H_

@@ -36,9 +36,7 @@
 
 using std::to_string;
 
-namespace happycpp {
-
-    namespace hcproc {
+namespace happycpp::hcproc {
 
         HAPPYCPP_SHARED_LIB_API bool currentWorkDir(std::string *dir) {
             dir->clear();
@@ -156,6 +154,4 @@ namespace happycpp {
 
 #endif
 
-    } /* namespace hcproc */
-
-} /* namespace happycpp */
+    } /* namespace happycpp */

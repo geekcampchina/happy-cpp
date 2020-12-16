@@ -23,11 +23,17 @@
 
 namespace hhhdouble = happycpp::hcalgorithm::hcdouble;
 
-TEST(HCDOUBLE_UNITTEST, Round) {
+TEST(HCDOUBLE_UNITTEST, Round) { // NOLINT
     // int64_t 边界值
     // round 中使用了int64_t
     const double d = 10000000000000000.89443;
     const double expected = hhhdouble::round(d, 2);
     const double actual = 10000000000000000.89;
     EXPECT_DOUBLE_EQ(actual, expected);
+}
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
 }

@@ -21,11 +21,7 @@
 #include "happycpp/algorithm/hcstring.h"
 #include <boost/algorithm/string.hpp>
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcstring {
+namespace happycpp::hcalgorithm::hcstring {
 
             HAPPYCPP_SHARED_LIB_API bool find(const std::string &s,
                                               const std::string &sub) {
@@ -97,7 +93,7 @@ namespace happycpp {
                 if ((s[0] == '.') || (s[s.size() - 1] == '.'))
                     return false;
 
-                for (const auto x : s) {
+                for (const auto x : s) { // NOLINT
                     if (!isdigit(x) && x != '.')
                         return false;
                 }
@@ -109,7 +105,7 @@ namespace happycpp {
                 if (s.empty())
                     return false;
 
-                for (const auto x : s) {
+                for (const auto x : s) { // NOLINT
                     if (!isdigit(x))
                         return false;
                 }
@@ -121,7 +117,7 @@ namespace happycpp {
                 if (s.empty())
                     return false;
 
-                for (const auto x : s) {
+                for (const auto x : s) { // NOLINT
                     if (!isalnum(x))
                         return false;
                 }
@@ -133,7 +129,7 @@ namespace happycpp {
                 if (s.empty())
                     return false;
 
-                for (const auto x : s) {
+                for (const auto x : s) { // NOLINT
                     if (!isalpha(x))
                         return false;
                 }
@@ -195,8 +191,4 @@ namespace happycpp {
                 return result;
             }
 
-        } /* namespace hcstring */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */

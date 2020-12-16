@@ -23,10 +23,16 @@
 
 namespace hhhint = happycpp::hcalgorithm::hcint;
 
-TEST(HCINT_UNITTEST, DecToHex) {
-    ASSERT_EQ("ff", hhhint::decToHex(255));
+TEST(HCINT_UNITTEST, DecToHex) { // NOLINT
+    EXPECT_EQ("ff", hhhint::decToHex(255));
 }
 
-TEST(HCINT_UNITTEST, IsOddNum) {
-    ASSERT_TRUE(hhhint::isOddNum(3));
+TEST(HCINT_UNITTEST, IsOddNum) { // NOLINT
+    EXPECT_TRUE(hhhint::isOddNum(3));
+}
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
 }

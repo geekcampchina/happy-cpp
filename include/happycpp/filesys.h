@@ -33,9 +33,7 @@
 #include <vector>
 #include <string>
 
-namespace happycpp {
-
-    namespace hcfilesys {
+namespace happycpp::hcfilesys {
 
         HAPPYCPP_SHARED_LIB_API bool happyCreateFile(const std::string &file);
 
@@ -67,8 +65,6 @@ namespace happycpp {
                                                    std::vector<FileStat> *v,
                                                    uint32_t max_num = 10000);
 
-    } /* namespace hcfilesys */
-
-} /* namespace happycpp */
+    } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_FILESYS_H_

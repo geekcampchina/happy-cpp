@@ -27,9 +27,7 @@
 #include "happycpp/common.h"
 #include <string>
 
-namespace happycpp {
-
-    namespace hccmd {
+namespace happycpp::hccmd {
 
         // 执行系统命令，屏蔽标准输出，根据命令退出代码返回布尔值
         HAPPYCPP_SHARED_LIB_API bool getExitStatusOfCmd(const std::string &cmd);
@@ -45,8 +43,6 @@ namespace happycpp {
 // Linux 直接使用 sleep + & 即可达到同样的效果。比如，sleep 2 && ls /tmp &
 #endif
 
-    } /* namespace hccmd */
-
-} /* namespace happycpp */
+    } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_CMD_H_

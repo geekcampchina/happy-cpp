@@ -19,9 +19,11 @@
 // IN THE SOFTWARE.
 
 #include <gtest/gtest.h>
-#include "happycpp/filesys.h"
 #include "happycpp/hcerrno.h"
+#ifdef PLATFORM_WIN32
+#include "happycpp/filesys.h"
 #include "happycpp/exception.h"
+#endif
 #include <iostream>
 
 #ifdef PLATFORM_WIN32
@@ -31,11 +33,11 @@
 #endif
 #else
 
-#include <errno.h>
+#include <cerrno>
 
 #endif
 
-TEST(HCERRNO_UNITTEST, ErrorToStr) {
+TEST(HCERRNO_UNITTEST, ErrorToStr) { // NOLINT
 #ifdef PLATFORM_WIN32
     SetLastError(0);
     EXPECT_STREQ("", happycpp::hcerrno::ErrorToStr().c_str());
@@ -51,4 +53,10 @@ TEST(HCERRNO_UNITTEST, ErrorToStr) {
     EXPECT_STREQ("No such file or directory(errno: 2)",
                  happycpp::hcerrno::errorToStr().c_str());
 #endif
+}
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
 }

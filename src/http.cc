@@ -16,7 +16,6 @@
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-// IN THE SOFTWARE.
 
 #include "happycpp/http.h"
 #include "happycpp/exception.h"
@@ -26,11 +25,9 @@
 using happycpp::hcalgorithm::hcstring::split;
 using happycpp::hcalgorithm::hcstring::trim;
 
-namespace happycpp {
+namespace happycpp::hchttp {
 
-    namespace hchttp {
-
-        std::map<std::string, HttpMethodType> HttpMessage::mDescHm = {
+        std::map<std::string, HttpMethodType> HttpMessage::mDescHm = { // NOLINT
                 {"",        INVALID_HTTP_METHOD},
                 {"CONNECT", HTTP_METHOD_CONNECT},
                 {"DELETE",  HTTP_METHOD_DELETE},
@@ -41,7 +38,7 @@ namespace happycpp {
                 {"TRACE",   HTTP_METHOD_TRACE}
         };
 
-        std::map<std::string, HttpMsgField> HttpMessage::mDescHmf = {
+        std::map<std::string, HttpMsgField> HttpMessage::mDescHmf = { // NOLINT
                 {"",                            INVALID_HTTP_MSG_FIELD},
                 {"Cache-Control",               HTTP_MCOMF_CACHE_CONTROL},
                 {"Connection",                  HTTP_MCOMF_CONNECTION},
@@ -128,14 +125,13 @@ namespace happycpp {
         };
 
         HttpMessage::HttpMessage()
-                : type_(INVALID_HTTP_MSG_TYPE), version_(""), body_("") {
+                : type_(INVALID_HTTP_MSG_TYPE) {
         }
 
-        HttpMessage::~HttpMessage() {
-        }
+        HttpMessage::~HttpMessage() = default;
 
         HttpMethodType HttpMessage::toHm(const std::string &k) {
-            std::map<std::string, HttpMethodType>::const_iterator it = mDescHm.find(k);
+            auto it = mDescHm.find(k);
 
             if (it == mDescHm.end())
                 return INVALID_HTTP_METHOD;
@@ -144,7 +140,7 @@ namespace happycpp {
         }
 
         HttpMsgField HttpMessage::toHmf(const std::string &k) {
-            std::map<std::string, HttpMsgField>::const_iterator it = mDescHmf.find(k);
+            auto it = mDescHmf.find(k);
 
             if (it == mDescHmf.end())
                 return INVALID_HTTP_MSG_FIELD;
@@ -188,7 +184,7 @@ namespace happycpp {
         }
 
         HttpRequestMsg::HttpRequestMsg()
-                : method_(INVALID_HTTP_METHOD), request_url_(""), url_(""), args_("") {
+                : method_(INVALID_HTTP_METHOD) {
             type_ = HTTP_MSG_REQUEST;
         }
 
@@ -227,12 +223,11 @@ namespace happycpp {
         }
 
         HttpResponseMsg::HttpResponseMsg()
-                : status_(0), reasonPhrase_("") {
+                : status_(0) {
             type_ = HTTP_MSG_RESPONSE;
         }
 
-        HttpResponseMsg::~HttpResponseMsg() {
-        }
+        HttpResponseMsg::~HttpResponseMsg() = default;
 
         void HttpResponseMsg::setStatus(uint32_t v) {
             status_ = v;
@@ -242,7 +237,7 @@ namespace happycpp {
             reasonPhrase_ = v;
         }
 
-        uint32_t HttpResponseMsg::status() {
+        uint32_t HttpResponseMsg::status() const {
             return status_;
         }
 
@@ -250,14 +245,12 @@ namespace happycpp {
             return reasonPhrase_;
         }
 
-        HttpMsgCtx::HttpMsgCtx() {
-        }
+        HttpMsgCtx::HttpMsgCtx() = default;
 
-        HttpMsgCtx::~HttpMsgCtx() {
-        }
+        HttpMsgCtx::~HttpMsgCtx() = default;
 
         void HttpMsgCtx::parseRequestLine(const std::string &line,
-                                          HttpMessagePtr hm) {
+                                          const HttpMessagePtr& hm) {
             const std::string ARGS_FLAG("?");
 
             HttpRequestMsgPtr _hm = std::dynamic_pointer_cast<HttpRequestMsg>(hm);
@@ -293,7 +286,7 @@ namespace happycpp {
         }
 
         void HttpMsgCtx::parseStatusLine(const std::string &line,
-                                         HttpMessagePtr hm) {
+                                         const HttpMessagePtr& hm) {
             const char SP = ' ';
             const size_t SP_SIZE = 1;
 
@@ -337,14 +330,14 @@ namespace happycpp {
             return _hm;
         }
 
-        void HttpMsgCtx::parseStartLine(const std::string &line, HttpMessagePtr hm) {
+        void HttpMsgCtx::parseStartLine(const std::string &line, const HttpMessagePtr& hm) {
             if (hm->type() == HTTP_MSG_REQUEST)
                 parseRequestLine(line, hm);
             else
                 parseStatusLine(line, hm);
         }
 
-        void HttpMsgCtx::parseHeader(const std::string &header, HttpMessagePtr hm) {
+        void HttpMsgCtx::parseHeader(const std::string &header, const HttpMessagePtr& hm) {
             const std::string FIELD_FLAG(": ");
             const size_t FIELD_FLAG_SIZE = 2;
 
@@ -356,7 +349,7 @@ namespace happycpp {
 
             size_t field_pos = std::string::npos;
 
-            for (auto it : field_lines) {
+            for (const auto& it : field_lines) {
                 field_pos = it.find(FIELD_FLAG);
 
                 if (field_pos == std::string::npos)
@@ -372,7 +365,7 @@ namespace happycpp {
             }
         }
 
-        void HttpMsgCtx::parseBody(const std::string &body, HttpMessagePtr hm) {
+        void HttpMsgCtx::parseBody(const std::string &body, const HttpMessagePtr& hm) {
             hm->setBody(body);
         }
 
@@ -415,8 +408,8 @@ namespace happycpp {
         }
 
 /*根据uri，返回对应的mime type*/
-        const std::string getMimeType(const std::string &uri,
-                                      const std::string &charset) {
+        std::string getMimeType(const std::string &uri,
+                                const std::string &charset) {
             typedef std::map<std::string, std::string> mime_t;
             mime_t mime_types;
             mime_t::iterator it;
@@ -438,7 +431,7 @@ namespace happycpp {
             /*例如：
              * http://www.foo.com/image/logo.gif
              * 取最后的扩展名 gif */
-            size_t last_dot = uri.find_last_of(".");
+            size_t last_dot = uri.find_last_of('.');
             const std::string ext_name = trim(uri.substr(last_dot + 1));
 
             std::string mime_type("application/octet-stream");
@@ -519,24 +512,24 @@ namespace happycpp {
                 /* make the 0 to 0  -- 00000000 */
                 temp_word[1] = char_to_int(str[1]);
                 /* to change the BO to 10110000 */
-                chn = (temp_word[0] << 4) | temp_word[1];
+                chn = temp_word[0] << 4 | temp_word[1]; // NOLINT
 
                 return chn;
             }
 
             std::string encode(const std::string &s) {
-                std::string val("");
+                std::string val;
 
                 if (s.empty())
                     return val;
 
                 uint8_t uc;
 
-                for (size_t i = 0; i < s.size(); i++) {
-                    uc = static_cast<uint8_t>(s[i]);
+                for (char i : s) {
+                    uc = static_cast<uint8_t>(i);
 
                     if (isalnum(uc) || uc == '-' || uc == '_' || uc == '.' || uc == '~') {
-                        val.push_back(s[i]);
+                        val.push_back(i);
                     } else if (isspace(uc)) {
                         val.push_back('+');
                     } else {
@@ -550,7 +543,7 @@ namespace happycpp {
             }
 
             std::string decode(const std::string &s) {
-                std::string val("");
+                std::string val;
 
                 if (s.empty())
                     return val;
@@ -579,6 +572,4 @@ namespace happycpp {
 
         } /*namespace hcurl*/
 
-    } /* namespace hchttp */
-
-} /* namespace happycpp */
+    } /* namespace happycpp */

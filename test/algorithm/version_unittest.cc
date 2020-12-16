@@ -23,43 +23,49 @@
 
 namespace hhhversion = happycpp::hcalgorithm::hcversion;
 
-hhhversion::Version g_version("1.2.3");
+hhhversion::Version g_version("1.2.3"); // NOLINT
 
-TEST(HCVERSION_UNITTEST, major) {
-    ASSERT_EQ(1U, g_version.major());
+TEST(HCVERSION_UNITTEST, Major) { // NOLINT
+    EXPECT_EQ(1U, g_version.major());
 }
 
-TEST(HCVERSION_UNITTEST, minor) {
-    ASSERT_EQ(2U, g_version.minor());
+TEST(HCVERSION_UNITTEST, Minor) { // NOLINT
+    EXPECT_EQ(2U, g_version.minor());
 }
 
-TEST(HCVERSION_UNITTEST, revision) {
-    ASSERT_EQ(3U, g_version.revision());
+TEST(HCVERSION_UNITTEST, Revision) { // NOLINT
+    EXPECT_EQ(3U, g_version.revision());
 }
 
-TEST(HCVERSION_UNITTEST, build) {
-    ASSERT_EQ(0U, g_version.build());
+TEST(HCVERSION_UNITTEST, Build) { // NOLINT
+    EXPECT_EQ(0U, g_version.build());
 }
 
-TEST(HCVERSION_UNITTEST, LT) {
-    ASSERT_TRUE(hhhversion::Version("1.2.0") < g_version);
+TEST(HCVERSION_UNITTEST, LT) { // NOLINT
+    EXPECT_TRUE(hhhversion::Version("1.2.0") < g_version);
 }
 
-TEST(HCVERSION_UNITTEST, LE) {
-    ASSERT_TRUE(hhhversion::Version("1.0.0") <= g_version);
-    ASSERT_TRUE(hhhversion::Version("1.2.0") <= g_version);
+TEST(HCVERSION_UNITTEST, LE) { // NOLINT
+    EXPECT_TRUE(hhhversion::Version("1.0.0") <= g_version);
+    EXPECT_TRUE(hhhversion::Version("1.2.0") <= g_version);
 }
 
-TEST(HCVERSION_UNITTEST, EQ) {
-    ASSERT_TRUE(hhhversion::Version("1.2.3") <= g_version);
-    ASSERT_TRUE(hhhversion::Version("1.2.3.0") <= g_version);
+TEST(HCVERSION_UNITTEST, EQ) { // NOLINT
+    EXPECT_TRUE(hhhversion::Version("1.2.3") <= g_version);
+    EXPECT_TRUE(hhhversion::Version("1.2.3.0") <= g_version);
 }
 
-TEST(HCVERSION_UNITTEST, GT) {
-    ASSERT_TRUE(hhhversion::Version("1.2.3.1") > g_version);
+TEST(HCVERSION_UNITTEST, GT) { // NOLINT
+    EXPECT_TRUE(hhhversion::Version("1.2.3.1") > g_version);
 }
 
-TEST(HCVERSION_UNITTEST, GE) {
-    ASSERT_TRUE(hhhversion::Version("1.2.3.1") >= g_version);
-    ASSERT_TRUE(hhhversion::Version("1.2.3") >= g_version);
+TEST(HCVERSION_UNITTEST, GE) { // NOLINT
+    EXPECT_TRUE(hhhversion::Version("1.2.3.1") >= g_version);
+    EXPECT_TRUE(hhhversion::Version("1.2.3") >= g_version);
+}
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
 }

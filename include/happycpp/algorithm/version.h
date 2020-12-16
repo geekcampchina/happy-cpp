@@ -29,11 +29,7 @@
 #include <iostream>
 #include "happycpp/common.h"
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcversion {
+namespace happycpp::hcalgorithm::hcversion {
 
             class Version {
             public:
@@ -156,10 +152,6 @@ namespace happycpp {
                 uint32_t build_{};
             };
 
-        } /* namespace hcversion */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_VERSION_H_

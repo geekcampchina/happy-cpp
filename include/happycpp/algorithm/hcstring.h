@@ -30,11 +30,7 @@
 #include <vector>
 #include <string>
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcstring {
+namespace happycpp::hcalgorithm::hcstring {
 
             // 在字符串str中，查找子字符串sub
             HAPPYCPP_SHARED_LIB_API bool find(const std::string &s,
@@ -96,10 +92,6 @@ namespace happycpp {
 
             HAPPYCPP_SHARED_LIB_API long toLong(const std::string &s);
 
-        } /* namespace hcstring */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_STRING_H_

@@ -29,9 +29,7 @@
 #include <memory>
 #include <vector>
 
-namespace happycpp {
-
-    namespace hchttp {
+namespace happycpp::hchttp {
 
         //! HTTP 请求方法枚举
         /*!
@@ -168,9 +166,9 @@ namespace happycpp {
         public:
             virtual ~HttpMessage();
 
-            HttpMethodType toHm(const std::string &k);
+            static HttpMethodType toHm(const std::string &k);
 
-            HttpMsgField toHmf(const std::string &k);
+            static HttpMsgField toHmf(const std::string &k);
 
             void setVersion(const std::string &v);
 
@@ -245,7 +243,7 @@ namespace happycpp {
 
             void setReasonPhrase(const std::string &v);
 
-            uint32_t status();
+            uint32_t status() const;
 
             std::string reasonPhrase();
         };
@@ -276,7 +274,7 @@ namespace happycpp {
              * @param http HTTP 消息原始数据
              * @return HTTP 消息类智能指针
              */
-            HttpMessagePtr initHm(const std::string &http);
+            static HttpMessagePtr initHm(const std::string &http);
 
             //! 转换 HTTP 消息请求行
             /*! 比如，
@@ -287,7 +285,7 @@ namespace happycpp {
              * @param line 请求行字符串
              * @param hm HTTP 消息类智能指针
              */
-            void parseRequestLine(const std::string &line, HttpMessagePtr hm);
+            static void parseRequestLine(const std::string &line, const HttpMessagePtr& hm);
 
             //! 转换 HTTP 消息状态行
             /*! 比如，
@@ -298,7 +296,7 @@ namespace happycpp {
              * @param line 状态行字符串
              * @param hm HTTP 消息类智能指针
              */
-            void parseStatusLine(const std::string &line, HttpMessagePtr hm);
+            static void parseStatusLine(const std::string &line, const HttpMessagePtr &hm);
 
             //! 转换 HTTP 消息起始行
             /*! 比如，
@@ -311,7 +309,7 @@ namespace happycpp {
              * @param line 起始行字符串
              * @param hm HTTP 消息类智能指针
              */
-            void parseStartLine(const std::string &line, HttpMessagePtr hm);
+            static void parseStartLine(const std::string &line, const HttpMessagePtr& hm);
 
             //! 转换 HTTP 消息头
 
@@ -322,7 +320,7 @@ namespace happycpp {
              * @param 起始行到消息体之间的字符串
              * @param hm HTTP 消息类智能指针
              */
-            void parseHeader(const std::string &header, HttpMessagePtr hm);
+            static void parseHeader(const std::string &header, const HttpMessagePtr& hm);
 
             //! 转换 HTTP 消息体
             /*! 比如，
@@ -336,7 +334,7 @@ namespace happycpp {
              * @param body 消息体字符串
              * @param hm HTTP 消息类智能指针
              */
-            void parseBody(const std::string &body, HttpMessagePtr hm);
+            static void parseBody(const std::string &body, const HttpMessagePtr& hm);
 
         public:
             HttpMsgCtx();
@@ -360,11 +358,11 @@ namespace happycpp {
              * @param http HTTP 消息原始数据
              * @return HTTP 消息类智能指针
              */
-            HttpMessagePtr parse(const std::string &http);
+            static HttpMessagePtr parse(const std::string &http);
         };
 
         // 根据uri，返回对应的mime type
-        const std::string getMimeType(const std::string &uri,
+        std::string getMimeType(const std::string &uri,
                                       const std::string &charset);
         //! 从 URL 获取头信息
         /*!
@@ -381,9 +379,7 @@ namespace happycpp {
 
         } /* namespace hcurl */
 
-    } /* namespace hchttp */
-
-} /* namespace happycpp */
+    } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_HTTP_H_
 

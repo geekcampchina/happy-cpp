@@ -25,6 +25,7 @@
 #define INCLUDE_HAPPYCPP_ALGORITHM_H_
 
 #include "happycpp/algorithm/array.h"
+#include "happycpp/algorithm/byte.h"
 #include "happycpp/algorithm/domain.h"
 #include "happycpp/algorithm/double.h"
 #include "happycpp/algorithm/int.h"

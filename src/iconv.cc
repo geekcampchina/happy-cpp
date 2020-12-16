@@ -20,15 +20,12 @@
 
 #include "happycpp/common.h"
 #include "happycpp/iconv.h"
-#include <clocale>
 #include <iconv.h>
 #include "happycpp/log.h"
 
 using namespace std;
 
-namespace happycpp {
-
-    namespace hciconv {
+namespace happycpp::hciconv {
         string getCodeName(StandardCharsets code, bool isToCode) {
             const string suffix = isToCode ? "//TRANSLIT" : "";
 
@@ -77,6 +74,4 @@ namespace happycpp {
             return outStr;
         }
 
-    } /* namespace hciconv */
-
-} /* namespace happycpp */
+    } /* namespace happycpp */

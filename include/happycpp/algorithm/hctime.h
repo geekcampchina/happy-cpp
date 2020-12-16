@@ -28,11 +28,7 @@
 #include <string>
 #include <ctime>
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hctime {
+namespace happycpp::hcalgorithm::hctime {
             // 延迟指定的时间，单位:秒。警告：消耗的CPU时间，用于特殊用途
             HAPPYCPP_SHARED_LIB_API void happyWait(const time_t &sec);
 
@@ -56,10 +52,6 @@ namespace happycpp {
              */
             std::string getFormatTime(time_t t, const std::string &format);
 
-        } /* namespace hctime */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_TIME_H_

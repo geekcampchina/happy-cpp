@@ -37,9 +37,7 @@
 using std::string;
 using std::to_string;
 
-namespace happycpp {
-
-    namespace hcerrno {
+namespace happycpp::hcerrno {
 
         HAPPYCPP_SHARED_LIB_API std::string errorToStr() {
 #ifdef PLATFORM_WIN32
@@ -94,6 +92,4 @@ namespace happycpp {
 #endif
         }
 
-    } /* namespace hcerrno */
-
-} /* namespace happycpp */
+    } /* namespace happycpp */

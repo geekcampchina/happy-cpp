@@ -21,7 +21,7 @@
 #include <gtest/gtest.h>
 #include "happycpp/exception.h"
 
-TEST(HAPPYCPP_UNITTEST, HappyException) {
+TEST(HAPPYCPP_UNITTEST, HappyException) { // NOLINT
     EXPECT_THROW(ThrowHappyException("test message."), happycpp::HappyException);
 
     try {
@@ -30,3 +30,10 @@ TEST(HAPPYCPP_UNITTEST, HappyException) {
         EXPECT_STREQ("test message.", e.what());
     }
 }
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
+}
+

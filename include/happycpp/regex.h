@@ -39,7 +39,7 @@
 typedef std::regex HappyRegex;
 typedef std::smatch HappySmatch;
 
-#define happyRegexCompile(exp) move(std::regex(exp))
+#define happyRegexCompile(exp) std::regex(exp)
 // 匹配整个字符串
 #define happyRegexMatch(exp1, exp2, exp3) std::regex_match(exp1, exp2, exp3)
 // 在字符串中搜索，不需要匹配整个字符串

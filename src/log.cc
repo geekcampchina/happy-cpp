@@ -29,8 +29,7 @@ using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
 
-namespace happycpp {
-    namespace log {
+namespace happycpp::log {
         HappyLogPtr HappyLog::_instance = nullptr;
 
         HappyLog::HappyLog(log4cplus::LogLevel level) {
@@ -110,5 +109,4 @@ namespace happycpp {
         void HappyLog::error(const exception &e) {
             LOG4CPLUS_ERROR(_logger, LOG4CPLUS_TEXT("Exception Error->" << e.what()));
         }
-    } /* namespace log */
-} /* namespace happycpp */
+    } /* namespace happycpp */

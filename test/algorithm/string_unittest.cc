@@ -20,18 +20,17 @@
 
 #include <gtest/gtest.h>
 #include "happycpp/algorithm/hcstring.h"
-#include "happycpp/exception.h"
 #include <string>
 
 namespace hhhstring = happycpp::hcalgorithm::hcstring;
 
-TEST(HCSTRING_UNITTEST, Find) {
+TEST(HCSTRING_UNITTEST, Find) { // NOLINT
     EXPECT_TRUE(hhhstring::find("abcdefg", "cd"));
     EXPECT_FALSE(hhhstring::find("abcdefg", "123"));
     EXPECT_FALSE(hhhstring::find("ABC", "abcdefg"));
 }
 
-TEST(HCSTRING_UNITTEST, Trim) {
+TEST(HCSTRING_UNITTEST, Trim) { // NOLINT
     EXPECT_STREQ("abc", hhhstring::trim(" abc", " ").c_str());
     EXPECT_STREQ("abc", hhhstring::trim("abc ", " ").c_str());
     EXPECT_STREQ("abc", hhhstring::trim("abc", " ").c_str());
@@ -46,18 +45,18 @@ TEST(HCSTRING_UNITTEST, Trim) {
     EXPECT_STREQ("abc", hhhstring::trim(" \tabc \t", " \t").c_str());
 }
 
-TEST(HCSTRING_UNITTEST, ToLower) {
+TEST(HCSTRING_UNITTEST, ToLower) { // NOLINT
     EXPECT_STREQ("abc", hhhstring::toLower("abc").c_str());
     EXPECT_STREQ("abc", hhhstring::toLower("ABC").c_str());
 }
 
-TEST(HCSTRING_UNITTEST, ToUpper) {
+TEST(HCSTRING_UNITTEST, ToUpper) { // NOLINT
     EXPECT_STREQ("ABC", hhhstring::toUpper("abc").c_str());
     EXPECT_STREQ("ABC", hhhstring::toUpper("ABC").c_str());
     EXPECT_STREQ(" ABC ", hhhstring::toUpper(" abc ").c_str());
 }
 
-TEST(HCSTRING_UNITTEST, Replace) {
+TEST(HCSTRING_UNITTEST, Replace) { // NOLINT
     EXPECT_STREQ("1a111b1113c",
                  hhhstring::replace("1a2b23c", "2", "111").c_str());
     EXPECT_STREQ("", hhhstring::replace("", "abc", "111").c_str());
@@ -66,18 +65,18 @@ TEST(HCSTRING_UNITTEST, Replace) {
     EXPECT_STREQ("1ab3c", hhhstring::replace("1a111b1113c", "111", "").c_str());
 }
 
-TEST(HCSTRING_UNITTEST, Erase) {
+TEST(HCSTRING_UNITTEST, Erase) { // NOLINT
     EXPECT_STREQ("1ab3c", hhhstring::erase("1a22b223c", "2").c_str());
     EXPECT_STREQ("1a22b223c", hhhstring::erase("1a22b223c", "").c_str());
     EXPECT_STREQ("", hhhstring::erase("", "abc").c_str());
 }
 
-TEST(HCSTRING_UNITTEST, IsDigit) {
+TEST(HCSTRING_UNITTEST, IsDigit) { // NOLINT
     EXPECT_TRUE(hhhstring::isDigit("123"));
     EXPECT_FALSE(hhhstring::isDigit("12a3"));
 }
 
-TEST(HCSTRING_UNITTEST, IsVersion) {
+TEST(HCSTRING_UNITTEST, IsVersion) { // NOLINT
     EXPECT_TRUE(hhhstring::isVersion("1.2.3"));
     EXPECT_FALSE(hhhstring::isVersion(""));
     EXPECT_FALSE(hhhstring::isVersion("1.a.3"));
@@ -85,21 +84,21 @@ TEST(HCSTRING_UNITTEST, IsVersion) {
     EXPECT_FALSE(hhhstring::isVersion("123."));
 }
 
-TEST(HCSTRING_UNITTEST, IsAlnum) {
+TEST(HCSTRING_UNITTEST, IsAlnum) { // NOLINT
     EXPECT_TRUE(hhhstring::isAlnum("12a3"));
     EXPECT_TRUE(hhhstring::isAlnum("123"));
     EXPECT_FALSE(hhhstring::isAlnum(""));
     EXPECT_FALSE(hhhstring::isAlnum("12+3"));
 }
 
-TEST(HCSTRING_UNITTEST, IsAlpha) {
+TEST(HCSTRING_UNITTEST, IsAlpha) { // NOLINT
     EXPECT_TRUE(hhhstring::isAlpha("abc"));
     EXPECT_FALSE(hhhstring::isAlpha(""));
     EXPECT_FALSE(hhhstring::isAlpha("123abc"));
 }
 
 // c++11 标准函数测试
-TEST(HCSTRING_UNITTEST, StringCast) {
+TEST(HCSTRING_UNITTEST, StringCast) { // NOLINT
     const float expected1 = std::stof("2.1");
     const float actual1 = 2.1f;
     EXPECT_DOUBLE_EQ(actual1, expected1);
@@ -134,7 +133,7 @@ TEST(HCSTRING_UNITTEST, StringCast) {
 }
 
 // c++11 标准函数测试
-TEST(HCSTRING_UNITTEST, ToString) {
+TEST(HCSTRING_UNITTEST, ToString) { // NOLINT
     const std::string expected1 = std::to_string(2.1f);
     const std::string actual1 = "2.100000";
     EXPECT_STREQ(actual1.c_str(), expected1.c_str());
@@ -168,7 +167,7 @@ TEST(HCSTRING_UNITTEST, ToString) {
     EXPECT_STREQ(actual8.c_str(), expected8.c_str());
 }
 
-TEST(HCSTRING_UNITTEST, Split) {
+TEST(HCSTRING_UNITTEST, Split) { // NOLINT
     std::vector<std::string> v1;
     const std::string s1("a\nb+c");
 
@@ -203,13 +202,13 @@ TEST(HCSTRING_UNITTEST, Split) {
     EXPECT_EQ(1U, v4.size());
 
     std::vector<std::string> v5;
-    const std::string s5("");
+    const std::string s5;
 
     hhhstring::split(s5, &v5, "\n");
     EXPECT_EQ(0U, v5.size());
 }
 
-TEST(HCSTRING_UNITTEST, ToMap1) {
+TEST(HCSTRING_UNITTEST, ToMap1) { // NOLINT
     std::vector<std::string> v{"a", "b", "c"};
     std::map<std::string, std::string> m;
 
@@ -221,7 +220,7 @@ TEST(HCSTRING_UNITTEST, ToMap1) {
     EXPECT_STREQ("", m["c"].c_str());
 }
 
-TEST(HCSTRING_UNITTEST, ToMap2) {
+TEST(HCSTRING_UNITTEST, ToMap2) { // NOLINT
     std::map<std::string, std::string> m1;
     const std::string s1("a\n"
                          "b\n"
@@ -248,10 +247,16 @@ TEST(HCSTRING_UNITTEST, ToMap2) {
     EXPECT_EQ(0U, m3.size());
 }
 
-TEST(HCSTRING_UNITTEST, ToLong) {
+TEST(HCSTRING_UNITTEST, ToLong) { // NOLINT
     const long result1 = hhhstring::toLong("123456789");
     EXPECT_EQ(123456789L, result1);
 
     const long result2 = hhhstring::toLong("-123456789");
     EXPECT_EQ(-123456789L, result2);
+}
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
 }

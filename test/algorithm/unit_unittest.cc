@@ -23,7 +23,7 @@
 
 namespace hhhunit = happycpp::hcalgorithm::hcunit;
 
-TEST(HCUNIT_UNITTEST, ToStr) {
+TEST(HCUNIT_UNITTEST, ToStr) { // NOLINT
     EXPECT_STREQ("byte", hhhunit::toStr(kUnitByte).c_str());
     EXPECT_STREQ("KiB", hhhunit::toStr(kUnitKiB).c_str());
     EXPECT_STREQ("MiB", hhhunit::toStr(kUnitMiB).c_str());
@@ -37,7 +37,7 @@ TEST(HCUNIT_UNITTEST, ToStr) {
     EXPECT_STREQ("PB", hhhunit::toStr(kUnitPB).c_str());
 }
 
-TEST(HCUNIT_UNITTEST, ToByte1) {
+TEST(HCUNIT_UNITTEST, ToByte1) { // NOLINT
     EXPECT_EQ(1UL, hhhunit::toByte(kUnitByte));
 
     EXPECT_EQ(1024UL, hhhunit::toByte(kUnitKiB));
@@ -53,13 +53,13 @@ TEST(HCUNIT_UNITTEST, ToByte1) {
     EXPECT_EQ(1000000000000000UL, hhhunit::toByte(kUnitPB));
 }
 
-TEST(HCUNIT_UNITTEST, ToByte2) {
+TEST(HCUNIT_UNITTEST, ToByte2) { // NOLINT
     const ssize_t s = 3;
 
     EXPECT_EQ(3U, hhhunit::toByte(kUnitByte, s));
 }
 
-TEST(HCUNIT_UNITTEST, Convert) {
+TEST(HCUNIT_UNITTEST, Convert) { // NOLINT
     // 1024 PiB
     const byteSize_t b1 = 1152921504606846976UL;
 
@@ -93,4 +93,10 @@ TEST(HCUNIT_UNITTEST, Convert) {
     EXPECT_DOUBLE_EQ(1000000000.0, hhhunit::convert(kUnitGB, b2, 0));
     EXPECT_DOUBLE_EQ(1000000.0, hhhunit::convert(kUnitTB, b2, 0));
     EXPECT_DOUBLE_EQ(1000.0, hhhunit::convert(kUnitPB, b2, 0));
+}
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
 }

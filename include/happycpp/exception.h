@@ -43,7 +43,7 @@ namespace happycpp {
 
         ~HappyException() noexcept override;
 
-        const char *what() const noexcept override;
+        [[nodiscard]] const char *what() const noexcept override;
     };
 
 } /* namespace happycpp */

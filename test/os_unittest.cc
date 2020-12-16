@@ -44,30 +44,30 @@ TEST(HCOS_UNITTEST, GetOsInfo_XP) {
 
   uint64_t variant_id = VER_SUITE_PERSONAL;
 
-  ASSERT_FALSE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
+  EXPECT_FALSE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
                           reinterpret_cast<void *>(&os), variant_id, 0,
                           &osi));
 
   os.dwMinorVersion = 2;
-  ASSERT_FALSE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
+  EXPECT_FALSE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
                           reinterpret_cast<void *>(&os), variant_id, 0,
                           &osi));
 
   os.dwMinorVersion = 1;
   os.wSuiteMask = 0;
   variant_id = 0;
-  ASSERT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
+  EXPECT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
                          reinterpret_cast<void *>(&os), variant_id, 0,
                          &osi));
-  ASSERT_EQ(hhos::kWindowsWorkStation, osi.id);
-  ASSERT_EQ(hhos::kWindowsXP, osi.version);
-  ASSERT_EQ(5U, osi.major_version);
-  ASSERT_EQ(1U, osi.minor_version);
-  ASSERT_EQ(64U, osi.arch_id);
-  ASSERT_EQ(hhos::kSp3, osi.sp_version);
-  ASSERT_EQ(hhos::kProfessional, osi.variant_id);
-  ASSERT_EQ(0U, osi.build_id);
-  ASSERT_EQ("Windows XP Professional Edition Service Pack 3", osi.pretty_name);
+  EXPECT_EQ(hhos::kWindowsWorkStation, osi.id);
+  EXPECT_EQ(hhos::kWindowsXP, osi.version);
+  EXPECT_EQ(5U, osi.major_version);
+  EXPECT_EQ(1U, osi.minor_version);
+  EXPECT_EQ(64U, osi.arch_id);
+  EXPECT_EQ(hhos::kSp3, osi.sp_version);
+  EXPECT_EQ(hhos::kProfessional, osi.variant_id);
+  EXPECT_EQ(0U, osi.build_id);
+  EXPECT_EQ("Windows XP Professional Edition Service Pack 3", osi.pretty_name);
 }
 
 TEST(HCOS_UNITTEST, GetOsInfo_2003) {
@@ -85,29 +85,29 @@ TEST(HCOS_UNITTEST, GetOsInfo_2003) {
   os.wProductType = VER_NT_SERVER;
 
   uint64_t variant_id = VER_SUITE_WH_SERVER;
-  ASSERT_FALSE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
+  EXPECT_FALSE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
                           reinterpret_cast<void *>(&os), variant_id, 0,
                           &osi));
 
   variant_id = VER_SUITE_DATACENTER;
-  ASSERT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
+  EXPECT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
                          reinterpret_cast<void *>(&os), variant_id, 0,
                          &osi));
-  ASSERT_EQ(hhos::kWindowsServer, osi.id);
-  ASSERT_EQ(hhos::kWindowsServer2003, osi.version);
-  ASSERT_EQ(5U, osi.major_version);
-  ASSERT_EQ(2U, osi.minor_version);
-  ASSERT_EQ(64U, osi.arch_id);
-  ASSERT_EQ(hhos::kSp2, osi.sp_version);
-  ASSERT_EQ(hhos::kDataCenter, osi.variant_id);
-  ASSERT_EQ(0U, osi.build_id);
-  ASSERT_EQ("Windows Server 2003 Datacenter Edition Service Pack 2",
+  EXPECT_EQ(hhos::kWindowsServer, osi.id);
+  EXPECT_EQ(hhos::kWindowsServer2003, osi.version);
+  EXPECT_EQ(5U, osi.major_version);
+  EXPECT_EQ(2U, osi.minor_version);
+  EXPECT_EQ(64U, osi.arch_id);
+  EXPECT_EQ(hhos::kSp2, osi.sp_version);
+  EXPECT_EQ(hhos::kDataCenter, osi.variant_id);
+  EXPECT_EQ(0U, osi.build_id);
+  EXPECT_EQ("Windows Server 2003 Datacenter Edition Service Pack 2",
             osi.pretty_name);
 
-  ASSERT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
+  EXPECT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
                          reinterpret_cast<void *>(&os), variant_id, 1,
                          &osi));
-  ASSERT_EQ(hhos::kWindowsServer2003R2, osi.version);
+  EXPECT_EQ(hhos::kWindowsServer2003R2, osi.version);
 }
 
 TEST(HCOS_UNITTEST, GetOsInfo_Vista) {
@@ -124,18 +124,18 @@ TEST(HCOS_UNITTEST, GetOsInfo_Vista) {
   os.wProductType = VER_NT_WORKSTATION;
 
   uint64_t variant_id = PRODUCT_ULTIMATE;
-  ASSERT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
+  EXPECT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
                          reinterpret_cast<void *>(&os), variant_id, 0,
                          &osi));
-  ASSERT_EQ(hhos::kWindowsWorkStation, osi.id);
-  ASSERT_EQ(hhos::kWindowsVista, osi.version);
-  ASSERT_EQ(6U, osi.major_version);
-  ASSERT_EQ(0U, osi.minor_version);
-  ASSERT_EQ(64U, osi.arch_id);
-  ASSERT_EQ(0U, osi.sp_version);
-  ASSERT_EQ(hhos::kUltimate, osi.variant_id);
-  ASSERT_EQ(0U, osi.build_id);
-  ASSERT_EQ("Windows Vista Ultimate Edition", osi.pretty_name);
+  EXPECT_EQ(hhos::kWindowsWorkStation, osi.id);
+  EXPECT_EQ(hhos::kWindowsVista, osi.version);
+  EXPECT_EQ(6U, osi.major_version);
+  EXPECT_EQ(0U, osi.minor_version);
+  EXPECT_EQ(64U, osi.arch_id);
+  EXPECT_EQ(0U, osi.sp_version);
+  EXPECT_EQ(hhos::kUltimate, osi.variant_id);
+  EXPECT_EQ(0U, osi.build_id);
+  EXPECT_EQ("Windows Vista Ultimate Edition", osi.pretty_name);
 }
 
 TEST(HCOS_UNITTEST, GetOsInfo_2008) {
@@ -152,18 +152,18 @@ TEST(HCOS_UNITTEST, GetOsInfo_2008) {
   os.wProductType = VER_NT_SERVER;
 
   uint64_t variant_id = PRODUCT_DATACENTER_SERVER;
-  ASSERT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
+  EXPECT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
                          reinterpret_cast<void *>(&os), variant_id, 0,
                          &osi));
-  ASSERT_EQ(hhos::kWindowsServer, osi.id);
-  ASSERT_EQ(hhos::kWindowsServer2008, osi.version);
-  ASSERT_EQ(6U, osi.major_version);
-  ASSERT_EQ(0U, osi.minor_version);
-  ASSERT_EQ(64U, osi.arch_id);
-  ASSERT_EQ(0U, osi.sp_version);
-  ASSERT_EQ(hhos::kDataCenter, osi.variant_id);
-  ASSERT_EQ(0U, osi.build_id);
-  ASSERT_EQ("Windows Server 2008 Datacenter Edition", osi.pretty_name);
+  EXPECT_EQ(hhos::kWindowsServer, osi.id);
+  EXPECT_EQ(hhos::kWindowsServer2008, osi.version);
+  EXPECT_EQ(6U, osi.major_version);
+  EXPECT_EQ(0U, osi.minor_version);
+  EXPECT_EQ(64U, osi.arch_id);
+  EXPECT_EQ(0U, osi.sp_version);
+  EXPECT_EQ(hhos::kDataCenter, osi.variant_id);
+  EXPECT_EQ(0U, osi.build_id);
+  EXPECT_EQ("Windows Server 2008 Datacenter Edition", osi.pretty_name);
 }
 
 TEST(HCOS_UNITTEST, GetOsInfo_7) {
@@ -180,18 +180,18 @@ TEST(HCOS_UNITTEST, GetOsInfo_7) {
   os.wProductType = VER_NT_WORKSTATION;
 
   uint64_t variant_id = PRODUCT_ULTIMATE;
-  ASSERT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
+  EXPECT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
                          reinterpret_cast<void *>(&os), variant_id, 0,
                          &osi));
-  ASSERT_EQ(hhos::kWindowsWorkStation, osi.id);
-  ASSERT_EQ(hhos::kWindows7, osi.version);
-  ASSERT_EQ(6U, osi.major_version);
-  ASSERT_EQ(1U, osi.minor_version);
-  ASSERT_EQ(64U, osi.arch_id);
-  ASSERT_EQ(hhos::kSp1, osi.sp_version);
-  ASSERT_EQ(hhos::kUltimate, osi.variant_id);
-  ASSERT_EQ(0U, osi.build_id);
-  ASSERT_EQ("Windows 7 Ultimate Edition Service Pack 1", osi.pretty_name);
+  EXPECT_EQ(hhos::kWindowsWorkStation, osi.id);
+  EXPECT_EQ(hhos::kWindows7, osi.version);
+  EXPECT_EQ(6U, osi.major_version);
+  EXPECT_EQ(1U, osi.minor_version);
+  EXPECT_EQ(64U, osi.arch_id);
+  EXPECT_EQ(hhos::kSp1, osi.sp_version);
+  EXPECT_EQ(hhos::kUltimate, osi.variant_id);
+  EXPECT_EQ(0U, osi.build_id);
+  EXPECT_EQ("Windows 7 Ultimate Edition Service Pack 1", osi.pretty_name);
 }
 
 TEST(HCOS_UNITTEST, GetOsInfo_2008R2) {
@@ -208,18 +208,18 @@ TEST(HCOS_UNITTEST, GetOsInfo_2008R2) {
   os.wProductType = VER_NT_SERVER;
 
   uint64_t variant_id = PRODUCT_DATACENTER_SERVER;
-  ASSERT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
+  EXPECT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
                          reinterpret_cast<void *>(&os), variant_id, 0,
                          &osi));
-  ASSERT_EQ(hhos::kWindowsServer, osi.id);
-  ASSERT_EQ(hhos::kWindowsServer2008R2, osi.version);
-  ASSERT_EQ(6U, osi.major_version);
-  ASSERT_EQ(1U, osi.minor_version);
-  ASSERT_EQ(64U, osi.arch_id);
-  ASSERT_EQ(0U, osi.sp_version);
-  ASSERT_EQ(hhos::kDataCenter, osi.variant_id);
-  ASSERT_EQ(0U, osi.build_id);
-  ASSERT_EQ("Windows Server 2008 R2 Datacenter Edition", osi.pretty_name);
+  EXPECT_EQ(hhos::kWindowsServer, osi.id);
+  EXPECT_EQ(hhos::kWindowsServer2008R2, osi.version);
+  EXPECT_EQ(6U, osi.major_version);
+  EXPECT_EQ(1U, osi.minor_version);
+  EXPECT_EQ(64U, osi.arch_id);
+  EXPECT_EQ(0U, osi.sp_version);
+  EXPECT_EQ(hhos::kDataCenter, osi.variant_id);
+  EXPECT_EQ(0U, osi.build_id);
+  EXPECT_EQ("Windows Server 2008 R2 Datacenter Edition", osi.pretty_name);
 }
 
 TEST(HCOS_UNITTEST, GetOsInfo_8) {
@@ -236,18 +236,18 @@ TEST(HCOS_UNITTEST, GetOsInfo_8) {
   os.wProductType = VER_NT_WORKSTATION;
 
   uint64_t variant_id = PRODUCT_ENTERPRISE;
-  ASSERT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
+  EXPECT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
                          reinterpret_cast<void *>(&os), variant_id, 0,
                          &osi));
-  ASSERT_EQ(hhos::kWindowsWorkStation, osi.id);
-  ASSERT_EQ(hhos::kWindows8, osi.version);
-  ASSERT_EQ(6U, osi.major_version);
-  ASSERT_EQ(2U, osi.minor_version);
-  ASSERT_EQ(64U, osi.arch_id);
-  ASSERT_EQ(0U, osi.sp_version);
-  ASSERT_EQ(hhos::kEnterprise, osi.variant_id);
-  ASSERT_EQ(0U, osi.build_id);
-  ASSERT_EQ("Windows 8 Enterprise Edition", osi.pretty_name);
+  EXPECT_EQ(hhos::kWindowsWorkStation, osi.id);
+  EXPECT_EQ(hhos::kWindows8, osi.version);
+  EXPECT_EQ(6U, osi.major_version);
+  EXPECT_EQ(2U, osi.minor_version);
+  EXPECT_EQ(64U, osi.arch_id);
+  EXPECT_EQ(0U, osi.sp_version);
+  EXPECT_EQ(hhos::kEnterprise, osi.variant_id);
+  EXPECT_EQ(0U, osi.build_id);
+  EXPECT_EQ("Windows 8 Enterprise Edition", osi.pretty_name);
 }
 
 TEST(HCOS_UNITTEST, GetOsInfo_2012) {
@@ -264,18 +264,18 @@ TEST(HCOS_UNITTEST, GetOsInfo_2012) {
   os.wProductType = VER_NT_SERVER;
 
   uint64_t variant_id = PRODUCT_STANDARD_SERVER;
-  ASSERT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
+  EXPECT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
                          reinterpret_cast<void *>(&os), variant_id, 0,
                          &osi));
-  ASSERT_EQ(hhos::kWindowsServer, osi.id);
-  ASSERT_EQ(hhos::kWindowsServer2012, osi.version);
-  ASSERT_EQ(6U, osi.major_version);
-  ASSERT_EQ(2U, osi.minor_version);
-  ASSERT_EQ(64U, osi.arch_id);
-  ASSERT_EQ(0U, osi.sp_version);
-  ASSERT_EQ(hhos::kStandard, osi.variant_id);
-  ASSERT_EQ(0U, osi.build_id);
-  ASSERT_EQ("Windows Server 2012 Standard Edition", osi.pretty_name);
+  EXPECT_EQ(hhos::kWindowsServer, osi.id);
+  EXPECT_EQ(hhos::kWindowsServer2012, osi.version);
+  EXPECT_EQ(6U, osi.major_version);
+  EXPECT_EQ(2U, osi.minor_version);
+  EXPECT_EQ(64U, osi.arch_id);
+  EXPECT_EQ(0U, osi.sp_version);
+  EXPECT_EQ(hhos::kStandard, osi.variant_id);
+  EXPECT_EQ(0U, osi.build_id);
+  EXPECT_EQ("Windows Server 2012 Standard Edition", osi.pretty_name);
 }
 
 TEST(HCOS_UNITTEST, GetOsInfo_8_1) {
@@ -292,18 +292,18 @@ TEST(HCOS_UNITTEST, GetOsInfo_8_1) {
   os.wProductType = VER_NT_WORKSTATION;
 
   uint64_t variant_id = PRODUCT_ENTERPRISE;
-  ASSERT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
+  EXPECT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
                          reinterpret_cast<void *>(&os), variant_id, 0,
                          &osi));
-  ASSERT_EQ(hhos::kWindowsWorkStation, osi.id);
-  ASSERT_EQ(hhos::kWindows8_1, osi.version);
-  ASSERT_EQ(6U, osi.major_version);
-  ASSERT_EQ(3U, osi.minor_version);
-  ASSERT_EQ(64U, osi.arch_id);
-  ASSERT_EQ(0U, osi.sp_version);
-  ASSERT_EQ(hhos::kEnterprise, osi.variant_id);
-  ASSERT_EQ(0U, osi.build_id);
-  ASSERT_EQ("Windows 8.1 Enterprise Edition", osi.pretty_name);
+  EXPECT_EQ(hhos::kWindowsWorkStation, osi.id);
+  EXPECT_EQ(hhos::kWindows8_1, osi.version);
+  EXPECT_EQ(6U, osi.major_version);
+  EXPECT_EQ(3U, osi.minor_version);
+  EXPECT_EQ(64U, osi.arch_id);
+  EXPECT_EQ(0U, osi.sp_version);
+  EXPECT_EQ(hhos::kEnterprise, osi.variant_id);
+  EXPECT_EQ(0U, osi.build_id);
+  EXPECT_EQ("Windows 8.1 Enterprise Edition", osi.pretty_name);
 }
 
 TEST(HCOS_UNITTEST, GetOsInfo_2012R2) {
@@ -320,18 +320,18 @@ TEST(HCOS_UNITTEST, GetOsInfo_2012R2) {
   os.wProductType = VER_NT_SERVER;
 
   uint64_t variant_id = PRODUCT_STANDARD_SERVER;
-  ASSERT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
+  EXPECT_TRUE(_GetOsInfo(reinterpret_cast<void *>(&sys_info),
                          reinterpret_cast<void *>(&os), variant_id, 0,
                          &osi));
-  ASSERT_EQ(hhos::kWindowsServer, osi.id);
-  ASSERT_EQ(hhos::kWindowsServer2012R2, osi.version);
-  ASSERT_EQ(6U, osi.major_version);
-  ASSERT_EQ(3U, osi.minor_version);
-  ASSERT_EQ(64U, osi.arch_id);
-  ASSERT_EQ(0U, osi.sp_version);
-  ASSERT_EQ(hhos::kStandard, osi.variant_id);
-  ASSERT_EQ(9200U, osi.build_id);
-  ASSERT_EQ("Windows Server 2012 R2 Standard Edition", osi.pretty_name);
+  EXPECT_EQ(hhos::kWindowsServer, osi.id);
+  EXPECT_EQ(hhos::kWindowsServer2012R2, osi.version);
+  EXPECT_EQ(6U, osi.major_version);
+  EXPECT_EQ(3U, osi.minor_version);
+  EXPECT_EQ(64U, osi.arch_id);
+  EXPECT_EQ(0U, osi.sp_version);
+  EXPECT_EQ(hhos::kStandard, osi.variant_id);
+  EXPECT_EQ(9200U, osi.build_id);
+  EXPECT_EQ("Windows Server 2012 R2 Standard Edition", osi.pretty_name);
 }
 #else
 #ifdef PLATFORM_64
@@ -342,53 +342,53 @@ TEST(HCOS_UNITTEST, GetOsInfo_2012R2) {
 #define OS_ARCH_DESC "32"
 #endif
 
-TEST(HCOS_UNITTEST, CentOS5) {
+TEST(HCOS_UNITTEST, CentOS5) { // NOLINT
     const std::string centos5_redhat_release("CentOS release 5.11 (Final)");
 
     hhos::OsIdentification osi;
-    ASSERT_TRUE(_getOsInfo(centos5_redhat_release.c_str(), &osi));
-    ASSERT_EQ(hhos::kCentOS, osi.id);
-    ASSERT_EQ(hhos::kCentOS5, osi.version);
-    ASSERT_EQ(5U, osi.major_version);
-    ASSERT_EQ(11U, osi.minor_version);
-    ASSERT_EQ("", osi.build_id);
-    ASSERT_EQ("final", osi.code_id);
-    ASSERT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
-    ASSERT_EQ(centos5_redhat_release, osi.pretty_name);
+    EXPECT_TRUE(_getOsInfo(centos5_redhat_release.c_str(), &osi));
+    EXPECT_EQ(hhos::kCentOS, osi.id);
+    EXPECT_EQ(hhos::kCentOS5, osi.version);
+    EXPECT_EQ(5U, osi.major_version);
+    EXPECT_EQ(11U, osi.minor_version);
+    EXPECT_EQ("", osi.build_id);
+    EXPECT_EQ("final", osi.code_id);
+    EXPECT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
+    EXPECT_EQ(centos5_redhat_release, osi.pretty_name);
 }
 
-TEST(HCOS_UNITTEST, CentOS6) {
+TEST(HCOS_UNITTEST, CentOS6) { // NOLINT
     const std::string centos6_redhat_release("CentOS release 6.7 (Final)");
 
     hhos::OsIdentification osi;
-    ASSERT_TRUE(_getOsInfo(centos6_redhat_release.c_str(), &osi));
-    ASSERT_EQ(hhos::kCentOS, osi.id);
-    ASSERT_EQ(hhos::kCentOS6, osi.version);
-    ASSERT_EQ(6U, osi.major_version);
-    ASSERT_EQ(7U, osi.minor_version);
-    ASSERT_EQ("", osi.build_id);
-    ASSERT_EQ("final", osi.code_id);
-    ASSERT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
-    ASSERT_EQ(centos6_redhat_release, osi.pretty_name);
+    EXPECT_TRUE(_getOsInfo(centos6_redhat_release.c_str(), &osi));
+    EXPECT_EQ(hhos::kCentOS, osi.id);
+    EXPECT_EQ(hhos::kCentOS6, osi.version);
+    EXPECT_EQ(6U, osi.major_version);
+    EXPECT_EQ(7U, osi.minor_version);
+    EXPECT_EQ("", osi.build_id);
+    EXPECT_EQ("final", osi.code_id);
+    EXPECT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
+    EXPECT_EQ(centos6_redhat_release, osi.pretty_name);
 }
 
-TEST(HCOS_UNITTEST, CentOS7) {
+TEST(HCOS_UNITTEST, CentOS7) { // NOLINT
     const std::string centos7_redhat_release(
             "CentOS Linux release 7.2.1511 (Core)");
 
     hhos::OsIdentification osi;
-    ASSERT_TRUE(_getOsInfo(centos7_redhat_release.c_str(), &osi));
-    ASSERT_EQ(hhos::kCentOS, osi.id);
-    ASSERT_EQ(hhos::kCentOS7, osi.version);
-    ASSERT_EQ(7U, osi.major_version);
-    ASSERT_EQ(2U, osi.minor_version);
-    ASSERT_EQ("1511", osi.build_id);
-    ASSERT_EQ("core", osi.code_id);
-    ASSERT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
-    ASSERT_EQ(centos7_redhat_release, osi.pretty_name);
+    EXPECT_TRUE(_getOsInfo(centos7_redhat_release.c_str(), &osi));
+    EXPECT_EQ(hhos::kCentOS, osi.id);
+    EXPECT_EQ(hhos::kCentOS7, osi.version);
+    EXPECT_EQ(7U, osi.major_version);
+    EXPECT_EQ(2U, osi.minor_version);
+    EXPECT_EQ("1511", osi.build_id);
+    EXPECT_EQ("core", osi.code_id);
+    EXPECT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
+    EXPECT_EQ(centos7_redhat_release, osi.pretty_name);
 }
 
-TEST(HCOS_UNITTEST, CentOS6_LSB) {
+TEST(HCOS_UNITTEST, CentOS6LSB) { // NOLINT
     const std::string lsb_release(
             "LSB_VERSION=base-4.0-amd64"
             ":base-4.0-noarch:core-4.0-amd64"
@@ -398,10 +398,10 @@ TEST(HCOS_UNITTEST, CentOS6_LSB) {
             ":printing-4.0-noarch");
 
     hhos::OsIdentification osi;
-    ASSERT_FALSE(_getOsInfo(lsb_release.c_str(), &osi));
+    EXPECT_FALSE(_getOsInfo(lsb_release.c_str(), &osi));
 }
 
-TEST(HCOS_UNITTEST, Ubuntu_12_04) {
+TEST(HCOS_UNITTEST, Ubuntu1204) { // NOLINT
     const std::string lsb_release(
             "DISTRIB_ID=Ubuntu\n"
             "DISTRIB_RELEASE=12.04\n"
@@ -409,10 +409,10 @@ TEST(HCOS_UNITTEST, Ubuntu_12_04) {
             "DISTRIB_DESCRIPTION=\"Ubuntu 12.04 LTS\"");
 
     hhos::OsIdentification osi;
-    ASSERT_TRUE(_getOsInfo(lsb_release.c_str(), &osi));
+    EXPECT_TRUE(_getOsInfo(lsb_release.c_str(), &osi));
 
-    ASSERT_EQ(hhos::kUbuntu, osi.id);
-    ASSERT_EQ(hhos::kUbuntu12_04, osi.version);
+    EXPECT_EQ(hhos::kUbuntu, osi.id);
+    EXPECT_EQ(hhos::kUbuntu12_04, osi.version);
     EXPECT_EQ(12U, osi.major_version);
     EXPECT_EQ(4U, osi.minor_version);
     EXPECT_EQ("", osi.build_id);
@@ -421,7 +421,7 @@ TEST(HCOS_UNITTEST, Ubuntu_12_04) {
     EXPECT_EQ("Ubuntu 12.04 LTS", osi.pretty_name);
 }
 
-TEST(HCOS_UNITTEST, CentOS7_OS) {
+TEST(HCOS_UNITTEST, CentOS7OS) { // NOLINT
     const std::string centos7_os_release(
             "NAME=\"CentOS Linux\"\n"
             "VERSION=\"7 (Core)\"\n"
@@ -440,20 +440,20 @@ TEST(HCOS_UNITTEST, CentOS7_OS) {
             "REDHAT_SUPPORT_PRODUCT_VERSION=\"7\"");
 
     hhos::OsIdentification osi;
-    ASSERT_TRUE(_getOsInfo(centos7_os_release.c_str(), &osi));
+    EXPECT_TRUE(_getOsInfo(centos7_os_release.c_str(), &osi));
 
-    ASSERT_EQ(hhos::kCentOS, osi.id);
-    ASSERT_EQ(hhos::kCentOS7, osi.version);
-    ASSERT_EQ(7U, osi.major_version);
-    ASSERT_EQ(0U, osi.minor_version);
-    ASSERT_EQ("", osi.build_id);
-    ASSERT_EQ("", osi.code_id);
-    ASSERT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
-    ASSERT_EQ("CentOS Linux 7 (Core)", osi.pretty_name);
+    EXPECT_EQ(hhos::kCentOS, osi.id);
+    EXPECT_EQ(hhos::kCentOS7, osi.version);
+    EXPECT_EQ(7U, osi.major_version);
+    EXPECT_EQ(0U, osi.minor_version);
+    EXPECT_EQ("", osi.build_id);
+    EXPECT_EQ("", osi.code_id);
+    EXPECT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
+    EXPECT_EQ("CentOS Linux 7 (Core)", osi.pretty_name);
 }
 
 
-TEST(HCOS_UNITTEST, Ubuntu_14_04) {
+TEST(HCOS_UNITTEST, Ubuntu1404) { // NOLINT
     const std::string ubuntu_os_release(
             "NAME=\"Ubuntu\"\n"
             "VERSION=\"14.04.4 LTS, Trusty Tahr\"\n"
@@ -465,16 +465,22 @@ TEST(HCOS_UNITTEST, Ubuntu_14_04) {
             "SUPPORT_URL=\"http://help.ubuntu.com/\"\n"
             "BUG_REPORT_URL=\"http://bugs.launchpad.net/ubuntu/\"");
     hhos::OsIdentification osi;
-    ASSERT_TRUE(_getOsInfo(ubuntu_os_release.c_str(), &osi));
+    EXPECT_TRUE(_getOsInfo(ubuntu_os_release.c_str(), &osi));
 
-    ASSERT_EQ(hhos::kUbuntu, osi.id);
-    ASSERT_EQ(hhos::kUbuntu14_04, osi.version);
-    ASSERT_EQ(14U, osi.major_version);
-    ASSERT_EQ(04U, osi.minor_version);
-    ASSERT_EQ("", osi.build_id);
-    ASSERT_EQ("", osi.code_id);
-    ASSERT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
-    ASSERT_EQ("Ubuntu 14.04.4 LTS", osi.pretty_name);
+    EXPECT_EQ(hhos::kUbuntu, osi.id);
+    EXPECT_EQ(hhos::kUbuntu14_04, osi.version);
+    EXPECT_EQ(14U, osi.major_version);
+    EXPECT_EQ(04U, osi.minor_version);
+    EXPECT_EQ("", osi.build_id);
+    EXPECT_EQ("", osi.code_id);
+    EXPECT_EQ(static_cast<uint32_t>(OS_ARCH), osi.arch_id);
+    EXPECT_EQ("Ubuntu 14.04.4 LTS", osi.pretty_name);
 }
 
 #endif
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
+}

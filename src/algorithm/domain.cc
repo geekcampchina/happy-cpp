@@ -24,11 +24,7 @@
 
 using std::vector;
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcdomain {
+namespace happycpp::hcalgorithm::hcdomain {
 
             // 判断域名块是否是有字母、数字以及不在首尾的连字符(中横线)组成，
             // 比如abc.com中的abc
@@ -41,7 +37,7 @@ namespace happycpp {
                     return false;
 
                 // 判断是否是有字母、数字以及连字符(中横线)组成
-                for (const auto x : b) {
+                for (const auto x : b) { // NOLINT
                     if (!isalnum(x) && x != '-')
                         return false;
                 }
@@ -80,7 +76,7 @@ namespace happycpp {
                     return false;
 
                 //  除域名最后的国家代码以外
-                for (const auto& x : v_domain_block) {
+                for (const auto& x : v_domain_block) { // NOLINT
                     if (!isDomainBlock(x))
                         return false;
                 }
@@ -88,8 +84,4 @@ namespace happycpp {
                 return true;
             }
 
-        } /* namespace hcdomain */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */

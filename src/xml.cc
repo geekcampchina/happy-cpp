@@ -24,9 +24,7 @@ using pugi::xml_parse_result;
 using pugi::xpath_node_set;
 using std::ostringstream;
 
-namespace happycpp {
-
-    namespace hcxml {
+namespace happycpp::hcxml {
 
         /* 在源xml中查找指定的节点，返回匹配的节点数量
          * xpath表示指定的节点路径 */
@@ -127,7 +125,7 @@ namespace happycpp {
         }
 
         std::string getTxtValue(const pugi::xml_node &node, value_mode_t mode) {
-            const std::string v(node.text().as_string());
+            std::string v(node.text().as_string());
 
             if (mode == VM_STRICT && v.empty())
                 ThrowHappyException("Can not get the value of xml node.");
@@ -135,6 +133,4 @@ namespace happycpp {
             return v;
         }
 
-    } /* namespace hcxml */
-
-} /* namespace happycpp */
+    } /* namespace happycpp */

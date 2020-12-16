@@ -25,7 +25,7 @@
 namespace hhxml = happycpp::hcxml;
 namespace hhfilesys = happycpp::hcfilesys;
 
-const std::string xml("<books>"
+const std::string xml("<books>" // NOLINT
                       "<book>"
                       "<name>Codebook1</name>"
                       "<price>13.02</price>"
@@ -43,7 +43,7 @@ const std::string xml("<books>"
                       "</book>"
                       "</books>");
 
-const std::string pretty_xml("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+const std::string pretty_xml("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" // NOLINT
                              "<books>\n"
                              "\t<book>\n"
                              "\t\t<name>Codebook1</name>\n"
@@ -62,34 +62,34 @@ const std::string pretty_xml("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                              "\t</book>\n"
                              "</books>\n");
 
-TEST(HCXML_UNITTEST, SpecNodeSize) {
-    ASSERT_EQ(2U, hhxml::specNodeSize(xml, "/books/book"));
+TEST(HCXML_UNITTEST, SpecNodeSize) { // NOLINT
+    EXPECT_EQ(2U, hhxml::specNodeSize(xml, "/books/book"));
 }
 
-TEST(HCXML_UNITTEST, Validate) {
-    ASSERT_FALSE(hhxml::validate("test"));
-    ASSERT_TRUE(hhxml::validate(xml));
+TEST(HCXML_UNITTEST, Validate) { // NOLINT
+    EXPECT_FALSE(hhxml::validate("test"));
+    EXPECT_TRUE(hhxml::validate(xml));
 }
 
-TEST(HCXML_UNITTEST, ToStr) {
+TEST(HCXML_UNITTEST, ToStr) { // NOLINT
     pugi::xml_document doc;
 
-    ASSERT_TRUE(doc.load_string(xml.c_str()));
-    ASSERT_EQ(pretty_xml, hhxml::toStr(&doc));
+    EXPECT_TRUE(doc.load_string(xml.c_str()));
+    EXPECT_EQ(pretty_xml, hhxml::toStr(&doc));
 }
 
-TEST(HCXML_UNITTEST, Format) {
-    ASSERT_EQ(pretty_xml, hhxml::format(xml));
+TEST(HCXML_UNITTEST, Format) { // NOLINT
+    EXPECT_EQ(pretty_xml, hhxml::format(xml));
 }
 
-TEST(HCXML_UNITTEST, LoadFromFile) {
+TEST(HCXML_UNITTEST, LoadFromFile) { // NOLINT
     const std::string xml_file("test.xml");
-    ASSERT_NO_THROW(hhfilesys::writeFile(xml_file, xml));
-    ASSERT_EQ(pretty_xml, hhxml::loadFromFile(xml_file));
+    EXPECT_NO_THROW(hhfilesys::writeFile(xml_file, xml));
+    EXPECT_EQ(pretty_xml, hhxml::loadFromFile(xml_file));
     bfs::remove(xml_file);
 }
 
-TEST(HCXML_UNITTEST, GetValue_string) {
+TEST(HCXML_UNITTEST, GetValueString) { // NOLINT
     const std::string name1(hhxml::getValue(xml, "name"));
     EXPECT_STREQ("Codebook1", name1.c_str());
 
@@ -104,7 +104,7 @@ TEST(HCXML_UNITTEST, GetValue_string) {
     EXPECT_FALSE(hhxml::getValueAsBool(xml, "sale2"));
 }
 
-TEST(HCXML_UNITTEST, GetValue_node) {
+TEST(HCXML_UNITTEST, GetValueNode) { // NOLINT
     pugi::xml_document doc;
     doc.load(xml.c_str());
     pugi::xml_node books = doc.child("books");
@@ -140,7 +140,7 @@ TEST(HCXML_UNITTEST, GetValue_node) {
     EXPECT_TRUE(hhxml::getValueAsBool(book2, "sale2"));
 }
 
-TEST(HCXML_UNITTEST, GetTxtValue) {
+TEST(HCXML_UNITTEST, GetTxtValue) { // NOLINT
     pugi::xml_document doc;
     doc.load(xml.c_str());
     pugi::xml_node name_node = doc.child("books").first_child().child("name");
@@ -148,3 +148,8 @@ TEST(HCXML_UNITTEST, GetTxtValue) {
     EXPECT_EQ("Codebook1", hhxml::getTxtValue(name_node));
 }
 
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
+}

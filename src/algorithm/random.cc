@@ -22,11 +22,7 @@
 #include <cctype>
 #include <random>
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcrandom {
+namespace happycpp::hcalgorithm::hcrandom {
             HAPPYCPP_SHARED_LIB_API uint64_t getRandom() {
                 std::random_device rd;
                 return rd();
@@ -38,7 +34,7 @@ namespace happycpp {
                 size_t len = 0;
 
                 do {
-                    int c = getRandom() % 126;
+                    int64_t c = getRandom() % 126;
                     bool ret_val = false;
 
                     switch (cc) {
@@ -67,8 +63,4 @@ namespace happycpp {
                 return str;
             }
 
-        } /* namespace hcrandom */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */

@@ -20,12 +20,11 @@
 
 #include <gtest/gtest.h>
 #include "happycpp/algorithm/hctime.h"
-#include "happycpp/algorithm/hcstring.h"
 #include <sys/timeb.h>
 
 namespace hhhtime = happycpp::hcalgorithm::hctime;
 
-TEST(HCTIME_UNITTEST, HappyWait) {
+TEST(HCTIME_UNITTEST, HappyWait) { // NOLINT
     const time_t sec = 1;
     time_t start;
     time_t end;
@@ -40,10 +39,10 @@ TEST(HCTIME_UNITTEST, HappyWait) {
     EXPECT_GE(diff, sec);
 }
 
-TEST(HCTIME_UNITTEST, HappySleep) {
+TEST(HCTIME_UNITTEST, HappySleep) { // NOLINT
 #ifdef PLATFORM_LINUX
     typedef struct timeb _timeb;
-#define _ftime(timebuf) ftime(timebuf);
+#define _ftime(timebuf) ftime(timebuf)
 #endif
 
     const time_t milli_sec = 2100;
@@ -61,13 +60,18 @@ TEST(HCTIME_UNITTEST, HappySleep) {
     EXPECT_GE(diff, static_cast<time_t>(1200));
 }
 
-TEST(HCTIME_UNITTEST, CmpDate) {
+TEST(HCTIME_UNITTEST, CmpDate) { // NOLINT
     CmpResult ret = hhhtime::cmpDate("2015-11-16 14:06:36",
                                      "2015-04-09 00:11:36");
     EXPECT_EQ(kGreater, ret);
 }
 
-TEST(HCTIME_UNITTEST, GetFormatTime) {
-    ASSERT_EQ("20160325", hhhtime::getFormatTime(1458893661, "%Y%m%d"));
+TEST(HCTIME_UNITTEST, GetFormatTime) { // NOLINT
+    EXPECT_EQ("20160325", hhhtime::getFormatTime(1458893661, "%Y%m%d"));
 }
 
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
+}

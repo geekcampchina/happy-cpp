@@ -20,8 +20,10 @@
 
 #include <gtest/gtest.h>
 #include "happycpp/cmd.h"
+#ifdef PLATFORM_WIN32
 #include "happycpp/filesys.h"
 #include "happycpp/algorithm/hctime.h"
+#endif
 
 namespace hhcmd = happycpp::hccmd;
 
@@ -29,7 +31,7 @@ namespace hhcmd = happycpp::hccmd;
 namespace hhtime = happycpp::hcalgorithm::hctime;
 #endif
 
-TEST(HCCMD_UNITTEST, GetExitStatusOfCmd) {
+TEST(HCCMD_UNITTEST, GetExitStatusOfCmd) { // NOLINT
     std::string cmd;
     bool ret;
 
@@ -48,7 +50,7 @@ TEST(HCCMD_UNITTEST, GetExitStatusOfCmd) {
     EXPECT_TRUE(ret);
 }
 
-TEST(HCCMD_UNITTEST, GetOutputOfCmd) {
+TEST(HCCMD_UNITTEST, GetOutputOfCmd) { // NOLINT
     std::string cmd("echo testing");
     std::string ret(hhcmd::getOutputOfCmd(cmd));
     const std::string expected("testing");
@@ -79,3 +81,9 @@ TEST(HCCMD_UNITTEST, ExecuteCmdWithSubProc) {
   bfs::remove_all(dir);
 }
 #endif
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
+}

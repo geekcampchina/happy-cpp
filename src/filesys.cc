@@ -36,7 +36,6 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <dirent.h>
-#include <errno.h>
 
 #endif
 
@@ -56,9 +55,7 @@ using std::ofstream;
 using happycpp::hcerrno::errorToStr;
 using happycpp::hcalgorithm::hcstring::toLower;
 
-namespace happycpp {
-
-    namespace hcfilesys {
+namespace happycpp::hcfilesys {
 
         HAPPYCPP_SHARED_LIB_API bool happyCreateFile(const std::string &file) {
             if (bfs::exists(file))
@@ -137,7 +134,7 @@ namespace happycpp {
                                                const bool &append) {
             std::string content;
 
-            for (const auto& x : lines)
+            for (const auto &x : lines)
                 content += x + EOL;
 
             return writeFile(file, content, append);
@@ -207,7 +204,10 @@ namespace happycpp {
                 if (name == "." || name == "..")
                     continue;
 
-                _path = path + OsSeparator + name;
+                _path = "";
+                _path.append(path);
+                _path.append(OsSeparator);
+                _path.append(name);
 
                 // 检测能否获取文件信息
                 if (stat(_path.c_str(), &_stat) != 0)
@@ -256,8 +256,6 @@ namespace happycpp {
 #else
             closedir(dir);
 #endif
-        }
-
-    } /* namespace hcfilesys */
+    }
 
 } /* namespace happycpp */

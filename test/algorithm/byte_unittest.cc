@@ -25,70 +25,70 @@
 using namespace std;
 namespace hcbyte = happycpp::hcalgorithm::hcbyte;
 
-TEST(HCBYTE_UNITTEST, toHexStringWithDelimiterTest) {
-    ASSERT_EQ("68|65|6C|6C|6F",
-              hcbyte::toHexStringWithDelimiter({'h', 'e', 'l','l', 'o'}, "|"));
+TEST(HCBYTE_UNITTEST, ToHexStringWithDelimiter) { // NOLINT
+    EXPECT_EQ("68|65|6C|6C|6F",
+              hcbyte::toHexStringWithDelimiter({'h', 'e', 'l', 'l', 'o'}, "|"));
 }
 
-TEST(HCBYTE_UNITTEST, toHexStringTest) {
-    ASSERT_EQ("68656C6C6F",
-              hcbyte::toHexString({'h', 'e', 'l','l', 'o'}));
+TEST(HCBYTE_UNITTEST, ToHexString) { // NOLINT
+    EXPECT_EQ("68656C6C6F",
+              hcbyte::toHexString({'h', 'e', 'l', 'l', 'o'}));
 }
 
-TEST(HCBYTE_UNITTEST, toHexStringWithSpaceTest) {
-    ASSERT_EQ("68 65 6C 6C 6F",
-              hcbyte::toHexStringWithSpace({'h', 'e', 'l','l', 'o'}));
+TEST(HCBYTE_UNITTEST, toHexStringWithSpace) { // NOLINT
+    EXPECT_EQ("68 65 6C 6C 6F",
+              hcbyte::toHexStringWithSpace({'h', 'e', 'l', 'l', 'o'}));
 }
 
-TEST(HCBYTE_UNITTEST, toHexStringForPrintTest) {
-    ASSERT_EQ("[68, 65, 6C, 6C, 6F]",
-              hcbyte::toHexStringForPrint({'h', 'e', 'l','l', 'o'}));
+TEST(HCBYTE_UNITTEST, ToHexStringForPrint) { // NOLINT
+    EXPECT_EQ("[68, 65, 6C, 6C, 6F]",
+              hcbyte::toHexStringForPrint({'h', 'e', 'l', 'l', 'o'}));
 }
 
-TEST(HCBYTE_UNITTEST, hexStringToBytesTest) {
-    const vector<byte_t> bb = {'h', 'e', 'l','l', 'o'};
+TEST(HCBYTE_UNITTEST, HexStringToBytes) { // NOLINT
+    const vector<byte_t> bb = {'h', 'e', 'l', 'l', 'o'};
     const string hexString = hcbyte::toHexString(bb);
     const vector<byte_t> expectBytes = {0x68, 0x65, 0x6C, 0x6C, 0x6F};
-    ASSERT_EQ(expectBytes,hcbyte::hexStringToBytes(hexString));
+    EXPECT_EQ(expectBytes, hcbyte::hexStringToBytes(hexString));
 
     const string hexString2 = "12 34";
     const vector<byte_t> expectBytes2 = {0x12, 0x34};
-    ASSERT_EQ(expectBytes2,hcbyte::hexStringToBytes(hexString2, " "));
+    EXPECT_EQ(expectBytes2, hcbyte::hexStringToBytes(hexString2, " "));
 }
 
-TEST(HCBYTE_UNITTEST, to4ByteArrayTest) {
+TEST(HCBYTE_UNITTEST, To4ByteArray) { // NOLINT
     const vector<byte_t> expectBytes = {0x00, 0x00, 0x00, 0x0A};
     const vector<byte_t> bb = hcbyte::to4ByteArray(10);
 
-    ASSERT_EQ(bb, expectBytes);
+    EXPECT_EQ(bb, expectBytes);
 }
 
-TEST(HCBYTE_UNITTEST, from4ByteArrayTest) {
+TEST(HCBYTE_UNITTEST, From4ByteArray) { // NOLINT
     const int expectResult = 10;
     const vector<byte_t> bb = {0x00, 0x00, 0x00, 0x0A};
     const int result = hcbyte::from4ByteArray(bb);
 
-    ASSERT_EQ(result, expectResult);
+    EXPECT_EQ(result, expectResult);
 
     const vector<byte_t> bb2 = {0x00, 0x0A};
-    ASSERT_THROW(hcbyte::from4ByteArray(bb2), happycpp::HappyException);
+    EXPECT_THROW(hcbyte::from4ByteArray(bb2), happycpp::HappyException);
 }
 
-TEST(HCBYTE_UNITTEST, to2ByteArrayTest) {
+TEST(HCBYTE_UNITTEST, To2ByteArray) { // NOLINT
     const vector<byte_t> expectBytes = {0x00, 0x0A};
-    const vector<byte_t> bb = hcbyte::to2ByteArray( 10U);
-    ASSERT_EQ(bb, expectBytes);
+    const vector<byte_t> bb = hcbyte::to2ByteArray(10U);
+    EXPECT_EQ(bb, expectBytes);
 }
 
-TEST(HCBYTE_UNITTEST, from2ByteArrayTest) {
+TEST(HCBYTE_UNITTEST, From2ByteArray) { // NOLINT
     const int expectResult = 10;
     const vector<byte_t> bb = {0x00, 0x0A};
     const int result = hcbyte::from2ByteArray(bb);
 
-    ASSERT_EQ(result, expectResult);
+    EXPECT_EQ(result, expectResult);
 
     const vector<byte_t> bb2 = {0x00};
-    ASSERT_THROW(hcbyte::from2ByteArray(bb2), happycpp::HappyException);
+    EXPECT_THROW(hcbyte::from2ByteArray(bb2), happycpp::HappyException);
 }
 
 

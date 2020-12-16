@@ -23,13 +23,13 @@
 
 namespace hhhip = happycpp::hcalgorithm::hcip;
 
-TEST(HCIP_UNITTEST, IsIpAddr) {
+TEST(HCIP_UNITTEST, IsIpAddr) { // NOLINT
     EXPECT_TRUE(hhhip::isIpAddr("1.1.1.1"));
     EXPECT_FALSE(hhhip::isIpAddr("1.1.1.266"));
     EXPECT_FALSE(hhhip::isIpAddr("abc"));
 }
 
-TEST(HCIP_UNITTEST, IsReserveIpAddr) {
+TEST(HCIP_UNITTEST, IsReserveIpAddr) { // NOLINT
     EXPECT_TRUE(hhhip::isReserveIpAddr("0.0.0.0"));
     EXPECT_TRUE(hhhip::isReserveIpAddr("192.168.1.1"));
     EXPECT_TRUE(hhhip::isReserveIpAddr("255.255.255.255"));
@@ -37,9 +37,15 @@ TEST(HCIP_UNITTEST, IsReserveIpAddr) {
     EXPECT_FALSE(hhhip::isReserveIpAddr("abc"));
 }
 
-TEST(HCIP_UNITTEST, IsIpCidr) {
+TEST(HCIP_UNITTEST, IsIpCidr) { // NOLINT
     EXPECT_FALSE(hhhip::isIpCidr("1.1.1.1"));
     EXPECT_TRUE(hhhip::isIpCidr("1.1.1.1/8"));
     EXPECT_TRUE(hhhip::isIpCidr("1.1.1.1/32"));
     EXPECT_FALSE(hhhip::isIpCidr("1.1.1.1/33"));
+}
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
 }

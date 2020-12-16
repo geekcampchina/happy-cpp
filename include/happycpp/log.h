@@ -32,8 +32,7 @@
 
 #define DEFAULT_LOG_PROFILE_NAME "log4cplus.properties"
 
-namespace happycpp {
-    namespace log {
+namespace happycpp::log {
         /*
          * 示例代码：
         #include "happycpp/happylog.h"
@@ -95,7 +94,6 @@ namespace happycpp {
         };
 
         typedef std::shared_ptr<HappyLog> HappyLogPtr;
-    } /* namespace log */
-} /* namespace happycpp */
+    } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_LOG_H_

@@ -27,11 +27,7 @@
 
 using namespace std;
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcbyte {
+namespace happycpp::hcalgorithm::hcbyte {
             string byteToHex(byte_t i) {
                 stringstream stream;
                 stream << setfill('0') << setw(sizeof(byte_t) * 2)
@@ -150,8 +146,4 @@ namespace happycpp {
                 );
             }
 
-        } /* namespace hcbyte */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */

@@ -26,11 +26,7 @@
 
 #include "happycpp/common.h"
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcbyte {
+namespace happycpp::hcalgorithm::hcbyte {
 
             // 生成byte数组对应的十六进制字符串
             std::string toHexStringWithDelimiter(const std::vector<byte_t> &bytes, const std::string &delimiter);
@@ -52,11 +48,7 @@ namespace happycpp {
             uint32_t from4ByteArray(const std::vector<byte_t> &bytes);
             uint16_t from2ByteArray(const std::vector<byte_t> &bytes);
 
-        } /* namespace hcbyte */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */
 
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_BYTE_H_

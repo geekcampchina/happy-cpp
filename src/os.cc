@@ -452,7 +452,7 @@ namespace happycpp {
 
                     _osi.major_version = 0;
                     _osi.minor_version = 0;
-                    sscanf(it.second.c_str(),
+                    sscanf(it.second.c_str(), // NOLINT
                            "%u.%u",
                            &_osi.major_version, &_osi.minor_version);
                 } else if (it.first == "DISTRIB_CODENAME") {
@@ -529,7 +529,7 @@ namespace happycpp {
 
                     _osi.major_version = 0;
                     _osi.minor_version = 0;
-                    sscanf(it.second.c_str(),
+                    sscanf(it.second.c_str(), // NOLINT
                            "%u.%u",
                            &_osi.major_version, &_osi.minor_version);
                 } else if (it.first == "PRETTY_NAME") {
@@ -551,7 +551,7 @@ namespace happycpp {
 
         bool _getOsInfo(const char *info, OsIdentification *osi) {
             if (getOsRelease(info, osi))
-                return true;
+                return true; // NOLINT
             else if (getLsbRelease(info, osi))
                 return true;
             else if (getRedHatRelease(info, osi))

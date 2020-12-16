@@ -27,19 +27,11 @@
 #include "happycpp/common.h"
 #include <string>
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcdomain {
+namespace happycpp::hcalgorithm::hcdomain {
 
             // 判断字符串是否是合法域名
             HAPPYCPP_SHARED_LIB_API bool isDomain(const std::string &s);
 
-        } /* namespace hcdomain */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_DOMAIN_H_

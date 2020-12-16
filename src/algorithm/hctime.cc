@@ -37,11 +37,7 @@
 
 using std::stringstream;
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hctime {
+namespace happycpp::hcalgorithm::hctime {
             HAPPYCPP_SHARED_LIB_API void happyWait(const time_t &sec) {
                 clock_t end_wait = clock() + sec * CLOCKS_PER_SEC;
 
@@ -98,8 +94,4 @@ namespace happycpp {
                 return ret_val == 0 ? "" : buffer;
             }
 
-        } /* namespace hctime */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */

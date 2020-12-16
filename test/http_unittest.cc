@@ -23,17 +23,17 @@
 
 namespace hhhttp = happycpp::hchttp;
 
-TEST(HCHTTP_UNITTEST, hcurl_decode) {
-    ASSERT_EQ("1234%^&5345+- =abc",
+TEST(HCHTTP_UNITTEST, HcurlDecode) { // NOLINT
+    EXPECT_EQ("1234%^&5345+- =abc",
               hhhttp::hcurl::decode("1234%25%5E%265345%2B-+%3Dabc"));
 }
 
-TEST(HCHTTP_UNITTEST, hcurl_encode) {
-    ASSERT_EQ("1234%25%5E%265345%2B-+%3Dabc",
+TEST(HCHTTP_UNITTEST, HcurlEncode) { // NOLINT
+    EXPECT_EQ("1234%25%5E%265345%2B-+%3Dabc",
               hhhttp::hcurl::encode("1234%^&5345+- =abc"));
 }
 
-TEST(HCHTTP_UNITTEST, parse_http_msg_request) {
+TEST(HCHTTP_UNITTEST, ParseHttpMsgRequest) { // NOLINT
     const std::string http("POST /index?arg=test HTTP/1.0\r\n"
                            "Host: www.example.com\r\n"
                            "Accept: */*\r\n"
@@ -46,25 +46,25 @@ TEST(HCHTTP_UNITTEST, parse_http_msg_request) {
     hhhttp::HttpRequestMsgPtr hm =
             std::dynamic_pointer_cast<hhhttp::HttpRequestMsg>(ctx.parse(http));
 
-    ASSERT_NE(nullptr, hm);
-    ASSERT_EQ(hhhttp::HTTP_MSG_REQUEST, hm->type());
-    ASSERT_EQ(hhhttp::HTTP_METHOD_POST, hm->method());
-    ASSERT_EQ("/index?arg=test", hm->requestUrl());
-    ASSERT_EQ("/index", hm->url());
-    ASSERT_EQ("arg=test", hm->args());
-    ASSERT_EQ("HTTP/1.0", hm->version());
+    EXPECT_NE(nullptr, hm);
+    EXPECT_EQ(hhhttp::HTTP_MSG_REQUEST, hm->type());
+    EXPECT_EQ(hhhttp::HTTP_METHOD_POST, hm->method());
+    EXPECT_EQ("/index?arg=test", hm->requestUrl());
+    EXPECT_EQ("/index", hm->url());
+    EXPECT_EQ("arg=test", hm->args());
+    EXPECT_EQ("HTTP/1.0", hm->version());
 
-    ASSERT_EQ("www.example.com", hm->header(hhhttp::HTTP_MREQF_HOST));
-    ASSERT_EQ("*/*", hm->header(hhhttp::HTTP_MREQF_ACCEPT));
-    ASSERT_EQ("12", hm->header(hhhttp::HTTP_MCOMF_CONTENT_LENGTH));
-    ASSERT_EQ("application/x-www-form-urlencoded",
+    EXPECT_EQ("www.example.com", hm->header(hhhttp::HTTP_MREQF_HOST));
+    EXPECT_EQ("*/*", hm->header(hhhttp::HTTP_MREQF_ACCEPT));
+    EXPECT_EQ("12", hm->header(hhhttp::HTTP_MCOMF_CONTENT_LENGTH));
+    EXPECT_EQ("application/x-www-form-urlencoded",
               hm->header(hhhttp::HTTP_MCOMF_CONTENT_TYPE));
-    ASSERT_EQ("", hm->header(hhhttp::HTTP_MREQF_COOKIE));
+    EXPECT_EQ("", hm->header(hhhttp::HTTP_MREQF_COOKIE));
 
-    ASSERT_EQ("hello world\n", hm->body());
+    EXPECT_EQ("hello world\n", hm->body());
 }
 
-TEST(HCHTTP_UNITTEST, parse_http_msg_response) {
+TEST(HCHTTP_UNITTEST, ParseHttpMsgResponse) { // NOLINT
     const std::string http("HTTP/1.1 416 Requested Range Not Satisfiable\r\n"
                            "Server: nginx/1.8.0\r\n"
                            "Date: Sat, 26 Dec 2015 03:36:50 GMT\r\n"
@@ -77,32 +77,39 @@ TEST(HCHTTP_UNITTEST, parse_http_msg_response) {
     hhhttp::HttpResponseMsgPtr hm =
             std::dynamic_pointer_cast<hhhttp::HttpResponseMsg>(ctx.parse(http));
 
-    ASSERT_EQ(1, hm.use_count());
-    ASSERT_EQ(hhhttp::HTTP_MSG_RESPONSE, hm->type());
-    ASSERT_EQ("HTTP/1.1", hm->version());
-    ASSERT_EQ(416U, hm->status());
-    ASSERT_EQ("Requested Range Not Satisfiable", hm->reasonPhrase());
+    EXPECT_EQ(1, hm.use_count());
+    EXPECT_EQ(hhhttp::HTTP_MSG_RESPONSE, hm->type());
+    EXPECT_EQ("HTTP/1.1", hm->version());
+    EXPECT_EQ(416U, hm->status());
+    EXPECT_EQ("Requested Range Not Satisfiable", hm->reasonPhrase());
 
-    ASSERT_EQ("nginx/1.8.0", hm->header(hhhttp::HTTP_MRESF_SERVER));
-    ASSERT_EQ("Sat, 26 Dec 2015 03:36:50 GMT",
+    EXPECT_EQ("nginx/1.8.0", hm->header(hhhttp::HTTP_MRESF_SERVER));
+    EXPECT_EQ("Sat, 26 Dec 2015 03:36:50 GMT",
               hm->header(hhhttp::HTTP_MCOMF_DATE));
-    ASSERT_EQ("text/html", hm->header(hhhttp::HTTP_MCOMF_CONTENT_TYPE));
-    ASSERT_EQ("212", hm->header(hhhttp::HTTP_MCOMF_CONTENT_LENGTH));
-    ASSERT_EQ("keep-alive", hm->header(hhhttp::HTTP_MCOMF_CONNECTION));
-    ASSERT_EQ("", hm->header(hhhttp::HTTP_MCOMF_CACHE_CONTROL));
+    EXPECT_EQ("text/html", hm->header(hhhttp::HTTP_MCOMF_CONTENT_TYPE));
+    EXPECT_EQ("212", hm->header(hhhttp::HTTP_MCOMF_CONTENT_LENGTH));
+    EXPECT_EQ("keep-alive", hm->header(hhhttp::HTTP_MCOMF_CONNECTION));
+    EXPECT_EQ("", hm->header(hhhttp::HTTP_MCOMF_CACHE_CONTROL));
 
-    ASSERT_EQ("", hm->body());
+    EXPECT_EQ("", hm->body());
 }
 
-TEST(HCHTTP_UNITTEST, get_header_info) {
+TEST(HCHTTP_UNITTEST, GetHeaderInfo) { // NOLINT
     hhhttp::HttpResponseMsgPtr hm =
             hhhttp::getHeaderInfo("http://127.0.0.1:8887");
 
-    ASSERT_EQ(1, hm.use_count());
-    ASSERT_EQ(hhhttp::HTTP_MSG_RESPONSE, hm->type());
-    ASSERT_EQ("HTTP/1.0", hm->version());
-    ASSERT_EQ(200U, hm->status());
+    EXPECT_EQ(1, hm.use_count());
+    EXPECT_EQ(hhhttp::HTTP_MSG_RESPONSE, hm->type());
+    EXPECT_EQ("HTTP/1.0", hm->version());
+    EXPECT_EQ(200U, hm->status());
     EXPECT_EQ("OK", hm->reasonPhrase());
     EXPECT_EQ("text/plain", hm->header(hhhttp::HTTP_MCOMF_CONTENT_TYPE));
     EXPECT_EQ("100", hm->header(hhhttp::HTTP_MCOMF_CONTENT_LENGTH));
 }
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
+}
+

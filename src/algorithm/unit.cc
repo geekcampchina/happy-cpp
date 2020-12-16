@@ -24,11 +24,7 @@
 
 using std::map;
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcunit {
+namespace happycpp::hcalgorithm::hcunit {
 
             HAPPYCPP_SHARED_LIB_API std::string toStr(UnitType ut) {
                 static std::map<UnitType, std::string> m;
@@ -85,8 +81,4 @@ namespace happycpp {
                 return size;
             }
 
-        } /* namespace hcunit */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */

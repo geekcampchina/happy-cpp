@@ -24,7 +24,7 @@
 #ifndef INCLUDE_HAPPYCPP_TYPE_H_
 #define INCLUDE_HAPPYCPP_TYPE_H_
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 
 // for size_t, ssize_t

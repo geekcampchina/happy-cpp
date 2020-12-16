@@ -27,11 +27,7 @@
 #include "happycpp/common.h"
 #include <string>
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcrandom {
+namespace happycpp::hcalgorithm::hcrandom {
 
             /* 获取随机数
              * 由于是根据时间(单位：纳秒)来生成，所以重复的几率非常小。
@@ -48,10 +44,6 @@ namespace happycpp {
             HAPPYCPP_SHARED_LIB_API std::string genRandom(const size_t &size,
                                                           CharClassification = kPrint);
 
-        } /* namespace hcrandom */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_RANDOM_H_

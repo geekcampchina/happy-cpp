@@ -28,9 +28,7 @@
 #include <string>
 #include <map>
 
-namespace happycpp {
-
-    namespace hcos {
+namespace happycpp::hcos {
 
         // 操作系统发行版类型列表
         enum OsIdType {
@@ -128,8 +126,6 @@ namespace happycpp {
 
         bool getOsInfo(OsIdentification *osi);
 
-    } /* namespace hcos */
-
-} /* namespace happycpp */
+    } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_OS_H_

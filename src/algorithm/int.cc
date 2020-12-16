@@ -25,11 +25,7 @@ using std::ostringstream;
 using std::stringstream;
 using std::hex;
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcint {
+namespace happycpp::hcalgorithm::hcint {
 
             HAPPYCPP_SHARED_LIB_API std::string decToHex(const int32_t &n) {
                 std::stringstream ss;
@@ -43,8 +39,4 @@ namespace happycpp {
                 return (n & 1) != 0;
             }
 
-        } /* namespace hcint */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */

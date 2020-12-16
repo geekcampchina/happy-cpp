@@ -28,15 +28,13 @@
 
 #ifndef PLATFORM_WIN32
 
-#include <stdint.h>
+#include <cstdint>
 #include "happycpp/algorithm.h"
 #include <string>
 #include <vector>
 #include <list>
 
-namespace happycpp {
-
-    namespace hclinux {
+namespace happycpp::hclinux {
 
         // 判断是否是超级用户运行程序
         bool isRunSuperUser();
@@ -86,7 +84,7 @@ namespace happycpp {
                 ~Iface();
 
                 /*验证Iface信息*/
-                bool verify();
+                [[nodiscard]] bool verify() const;
             };
 
             typedef std::vector<Iface> IfaceList;
@@ -127,11 +125,11 @@ namespace happycpp {
 
                 std::string findByName(const std::string &ifaceName);
 
-                const bool getIface(const IfaceListIt &ifaceListIt,
+                bool getIface(const IfaceListIt &ifaceListIt,
                                     const IFACE_FIELD &findField, const std::string &keyword,
                                     Iface *iface);
 
-                std::string getIfaceFieldValue(const IFACE_FIELD &field, const Iface &iface);
+                static std::string getIfaceFieldValue(const IFACE_FIELD &field, const Iface &iface);
             };
 
             // 获取网卡名称列表
@@ -370,9 +368,7 @@ namespace happycpp {
 
         } /*namespace hclock*/
 
-    } /*namespace hclinux*/
-
-} /*namespace happycpp*/
+    } /*namespace happycpp*/
 
 #endif  // PLATFORM_WIN32
 

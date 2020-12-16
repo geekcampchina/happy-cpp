@@ -24,7 +24,7 @@
 
 namespace hhharray = happycpp::hcalgorithm::hcarray;
 
-TEST(HCARRAY_UNITTEST, Exists) {
+TEST(HCARRAY_UNITTEST, Exists) { // NOLINT
     std::vector<std::string> v1{"abc", "def", "ghi"};
 
     EXPECT_TRUE(hhharray::exists(v1, std::string("def")));
@@ -42,7 +42,7 @@ TEST(HCARRAY_UNITTEST, Exists) {
     EXPECT_TRUE(hhharray::exists(v4, static_cast<uint64_t>(789)));
 }
 
-TEST(HCARRAY_UNITTEST, Find) {
+TEST(HCARRAY_UNITTEST, Find) { // NOLINT
     std::vector<std::string>::iterator it1;
     std::vector<std::string> v1{"abc", "def", "ghi"};
 
@@ -68,7 +68,7 @@ TEST(HCARRAY_UNITTEST, Find) {
     EXPECT_EQ(333U, *it4);
 }
 
-TEST(HCARRAY_UNITTEST, Unique) {
+TEST(HCARRAY_UNITTEST, Unique) { // NOLINT
     std::vector<int> v1{1, 2, 3, 1, 5, 3, 4, 6, 4, 7};
     std::vector<int> v2{1, 2, 3, 4, 5, 6, 7};
 
@@ -77,7 +77,7 @@ TEST(HCARRAY_UNITTEST, Unique) {
     EXPECT_TRUE(v1 == v2);
 }
 
-TEST(HCARRAY_UNITTEST, toString) {
+TEST(HCARRAY_UNITTEST, toString) { // NOLINT
     std::vector<int> v{1, 2, 3, 4, 5, 6, 7};
 
     const std::string expectResult1 = "1234567";

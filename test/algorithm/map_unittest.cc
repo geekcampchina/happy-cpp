@@ -23,7 +23,7 @@
 
 namespace hhhmap = happycpp::hcalgorithm::hcmap;
 
-TEST(HCMAP_UNITTEST, FindByValue) {
+TEST(HCMAP_UNITTEST, FindByValue) { // NOLINT
     std::map<std::string, int> log_level_map{
             {"trace", 0},
             {"debug", 1},
@@ -34,20 +34,20 @@ TEST(HCMAP_UNITTEST, FindByValue) {
             {"off",   6}
     };
 
-    std::map<std::string, int>::const_iterator it1 =
+    auto it1 =
             hhhmap::findByValue(log_level_map, 4);
 
-    ASSERT_EQ("error", it1->first);
-    ASSERT_EQ(4, it1->second);
+    EXPECT_EQ("error", it1->first);
+    EXPECT_EQ(4, it1->second);
 
-    std::map<std::string, int>::const_iterator it2 =
+    auto it2 =
             hhhmap::findByValue(log_level_map, 10);
 
-    ASSERT_EQ(log_level_map.end(), it2);
+    EXPECT_EQ(log_level_map.end(), it2);
 }
 
 
-TEST(HCMAP_UNITTEST, SwapKeyValue) {
+TEST(HCMAP_UNITTEST, SwapKeyValue) { // NOLINT
     std::map<std::string, int> log_level_map1{
             {"trace", 0},
             {"debug", 1},
@@ -62,13 +62,19 @@ TEST(HCMAP_UNITTEST, SwapKeyValue) {
     std::map<int, std::string> log_level_map2;
     hhhmap::swapKeyValue(log_level_map1, &log_level_map2);
 
-    ASSERT_EQ(ele_size, log_level_map2.size());
+    EXPECT_EQ(ele_size, log_level_map2.size());
 
-    for (auto it : log_level_map1) {
-        std::map<int, std::string>::const_iterator find_it =
+    for (const auto &it : log_level_map1) {
+        auto find_it =
                 hhhmap::findByValue(log_level_map2, it.first);
 
-        ASSERT_NE(log_level_map2.end(), find_it);
-        ASSERT_EQ(it.first, find_it->second);
+        EXPECT_NE(log_level_map2.end(), find_it);
+        EXPECT_EQ(it.first, find_it->second);
     }
+}
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
 }

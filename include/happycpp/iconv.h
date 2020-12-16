@@ -32,9 +32,7 @@
 
 #ifdef PLATFORM_LINUX
 
-namespace happycpp {
-
-    namespace hciconv {
+namespace happycpp::hciconv {
 
         typedef enum {
             GB2312,
@@ -47,9 +45,7 @@ namespace happycpp {
 
         std::string iconvConvert(StandardCharsets fromCode, StandardCharsets toCode, const std::string &s);
 
-    } /* namespace hciconv */
-
-} /* namespace happycpp */
+    } /* namespace happycpp */
 
 #endif
 

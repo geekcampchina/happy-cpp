@@ -23,8 +23,14 @@
 
 namespace hhhdomain = happycpp::hcalgorithm::hcdomain;
 
-TEST(HCDOMAIN_UNITTEST, IsDomain) {
+TEST(HCDOMAIN_UNITTEST, IsDomain) { // NOLINT
     EXPECT_TRUE(hhhdomain::isDomain("abc.com"));
     EXPECT_TRUE(hhhdomain::isDomain("www.abc.com"));
     EXPECT_FALSE(hhhdomain::isDomain("www.abc..com"));
+}
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
 }

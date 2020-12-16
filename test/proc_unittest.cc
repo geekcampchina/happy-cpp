@@ -30,7 +30,7 @@ std::string format_path(const std::string &path) {
     return hhhstring::replace(path, "/", OsSeparator);
 }
 
-TEST(HCPROC_UNITTEST, current_work_dir) {
+TEST(HCPROC_UNITTEST, CurrentWorkDir) { // NOLINT
     std::string expected;
     EXPECT_TRUE(hhproc::currentWorkDir(&expected));
 
@@ -40,7 +40,7 @@ TEST(HCPROC_UNITTEST, current_work_dir) {
 #endif
 }
 
-TEST(HCPROC_UNITTEST, CurrentExe_path) {
+TEST(HCPROC_UNITTEST, CurrentExePath) { // NOLINT
     std::string expected;
     EXPECT_TRUE(hhproc::currentExePath(&expected));
 
@@ -50,7 +50,7 @@ TEST(HCPROC_UNITTEST, CurrentExe_path) {
 #endif
 }
 
-TEST(HCPROC_UNITTEST, CurrentExe_dir) {
+TEST(HCPROC_UNITTEST, CurrentExeDir) { // NOLINT
     std::string expected;
     EXPECT_TRUE(hhproc::currentExeDir(&expected));
 
@@ -60,7 +60,7 @@ TEST(HCPROC_UNITTEST, CurrentExe_dir) {
 #endif
 }
 
-TEST(HCPROC_UNITTEST, LockProc_and_UnLockProc) {
+TEST(HCPROC_UNITTEST, LockProcAndUnLockProc) { // NOLINT
 #ifdef PLATFORM_WIN32
     EXPECT_FALSE(hhproc::UnLockProc("test.lock"));
     EXPECT_TRUE(hhproc::LockProc("test.lock"));
@@ -74,4 +74,10 @@ TEST(HCPROC_UNITTEST, LockProc_and_UnLockProc) {
     EXPECT_FALSE(hhproc::lockProc("test.lock", getppid(), "/tmp"));
     EXPECT_TRUE(hhproc::unLockProc("test.lock", "/tmp"));
 #endif
+}
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
 }

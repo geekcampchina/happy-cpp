@@ -93,60 +93,52 @@ namespace happycpp {
         }
 
         namespace hcnet {
-
-            Iface::Iface()
-                    : gateway_(""),
-                      ip_addr_(""),
-                      mac_(""),
-                      name_(""),
-                      netmask_("") {
-            }
-
-            Iface::~Iface() {
-            }
-
             // 验证Iface信息
-            bool Iface::verify() {
+            bool Iface::verify() const {
                 // 必要的信息，不能为空
                 const bool ret = !(name_.empty() || ip_addr_.empty() || netmask_.empty());
 
                 return ret;
             }
 
+            Iface::~Iface() = default;
+
+            Iface::Iface() = default;
+
             /*获取网卡信息，并将信息填充到IfaceList*/
             class IfaceFiller {
             public:
                 explicit IfaceFiller(IfaceList *ifaceList);
 
-                ~IfaceFiller();
+                ~IfaceFiller() = default;
 
             private:
                 void getIfaceNum();
 
-                void createSocket(int32_t *sock);
+                static void createSocket(int32_t *sock);
 
-                const int32_t getIfaceList(struct ifconf *ifconf);
+                static int32_t getIfaceList(struct ifconf *ifconf);
 
-                const std::string formatMac(unsigned char *mac_p);
+                static std::string formatMac(unsigned char *mac_p);
 
-                const std::string getMac(char *name);
+                static std::string getMac(char *name);
 
-                std::string getGateway();
+                static std::string getGateway();
 
-                std::string getNetmask(char *name);
+                static std::string getNetmask(char *name);
 
-                const std::string getIpAddr(const ifreq &i);
+                static std::string getIpAddr(const ifreq &i);
 
-                void getDns(Iface *iface);
+                static void getDns(Iface *iface);
 
                 void fill(IfaceList *ifaceList);
 
             private:
-                int32_t ifaces_num_;
+                int32_t ifaces_num_{};
                 static int32_t kLoopIfaces_;
                 static size_t kMacSize_;
-                struct ifreq ifreqs_[20];
-                struct ifconf ifconf_;
+                struct ifreq ifreqs_[20]{};
+                struct ifconf ifconf_{};
             };
 
             int32_t IfaceFiller::kLoopIfaces_ = 1;
@@ -156,8 +148,7 @@ namespace happycpp {
                 fill(ifaceList);
             }
 
-            IfaceFiller::~IfaceFiller() {
-            }
+
 
             void IfaceFiller::fill(IfaceList *ifaceList) {
                 Iface iface;
@@ -208,7 +199,7 @@ namespace happycpp {
                 HAPPY_ASSERT(*sock >= 0);
             }
 
-            const int32_t IfaceFiller::getIfaceList(struct ifconf *ifconf) {
+            int32_t IfaceFiller::getIfaceList(struct ifconf *ifconf) {
                 int32_t sock, rval;
 
                 createSocket(&sock);
@@ -220,7 +211,7 @@ namespace happycpp {
                 return rval;
             }
 
-            const std::string IfaceFiller::formatMac(unsigned char *mac_p) {
+            std::string IfaceFiller::formatMac(unsigned char *mac_p) {
                 char macBlock[10];
                 std::string mac;
                 const size_t hex_num_size = sizeof(char) * 2 + 1;
@@ -237,7 +228,7 @@ namespace happycpp {
                 return mac;
             }
 
-            const std::string IfaceFiller::getMac(char *name) {
+            std::string IfaceFiller::getMac(char *name) {
                 struct ifreq ifr{};
                 int32_t sock;
                 unsigned char mac[kMacSize_];
@@ -255,7 +246,7 @@ namespace happycpp {
                 return (formatMac(mac));
             }
 
-            const std::string IfaceFiller::getIpAddr(const ifreq &i) {
+            std::string IfaceFiller::getIpAddr(const ifreq &i) {
                 auto *sin = (struct sockaddr_in *) &i.ifr_addr;
                 char *ret = inet_ntoa(sin->sin_addr);
                 std::string ip;
@@ -303,7 +294,7 @@ namespace happycpp {
                         uint64_t hex_flag = 0;
                         uint64_t hex_gateway = 0;
 
-                        sscanf(line.c_str(), "%*s%lx%lx%lx", &hex_dest, &hex_gateway, &hex_flag);
+                        sscanf(line.c_str(), "%*s%lx%lx%lx", &hex_dest, &hex_gateway, &hex_flag); // NOLINT
 
                         if (hex_flag == 3 && hex_dest == 0 && hex_gateway != 0) {
                             const char *ret = inet_ntop(AF_INET, &hex_gateway, gateway, 16);
@@ -348,13 +339,10 @@ namespace happycpp {
                 IfaceFiller ifaceFiller(&ifaceList);
             }
 
-            IfaceFinder::~IfaceFinder() {
-            }
-
-            const bool IfaceFinder::getIface(const IfaceListIt &ifaceListIt,
-                                             const IFACE_FIELD &findField,
-                                             const std::string &keyword,
-                                             Iface *iface) {
+            bool IfaceFinder::getIface(const IfaceListIt &ifaceListIt,
+                                       const IFACE_FIELD &findField,
+                                       const std::string &keyword,
+                                       Iface *iface) {
                 std::string value;
 
                 switch (findField) {
@@ -505,6 +493,8 @@ namespace happycpp {
                 *iface_list = ifaceList;
             }
 
+            IfaceFinder::~IfaceFinder() = default;
+
             // 注意：
             //    使用 NetworkManager 单网卡绑定多IP，不会有类似eth0:0 之类的虚拟网卡，
             //    全部是eth0，这种情况无法支持。
@@ -598,10 +588,9 @@ namespace happycpp {
                     std::string node;
 
                     node = "auto " + iface->name_ + "\n"
-                                                    "iface " + iface->name_ + " inet static\n"
-                                                                              "    address " + iface->ip_addr_ + "\n"
-                                                                                                                 "    netmask " +
-                           iface->netmask_ + "\n";
+                           "iface " + iface->name_ + " inet static\n"
+                           "    address " + iface->ip_addr_ + "\n"
+                           "    netmask " + iface->netmask_ + "\n";
 
                     if (is_primary_ip)
                         node += "    gateway " + iface->gateway_ + "\n";
@@ -624,7 +613,7 @@ namespace happycpp {
                     std::string dns1;
                     std::string dns2;
 
-                    for (auto & iface : *ifaces) {
+                    for (auto &iface : *ifaces) {
                         if (dns1.empty())
                             dns1 = iface.dns1_;
                         if (dns2.empty())
@@ -653,7 +642,7 @@ namespace happycpp {
                     IfaceFinder finder;
                     finder.getIfaceList(&ifaces);
 
-                    for (auto & it : ifaces) {
+                    for (auto &it : ifaces) {
                         if (it.name_ == iface->name_) {
                             it.ip_addr_ = iface->ip_addr_;
                             it.netmask_ = iface->netmask_;
@@ -738,7 +727,7 @@ namespace happycpp {
                     finder.getIfaceList(&ifaces);
 
                     if (is_exist) {
-                        for (auto & it : ifaces) {
+                        for (auto &it : ifaces) {
                             if (it.name_ != iface->name_)
                                 continue;
 
@@ -863,7 +852,7 @@ namespace happycpp {
                     split(ret, &files);
 
                     // 删除找到的文件
-                    for (auto & file : files)
+                    for (auto &file : files)
                         bfs::remove(file);
                 }
 
@@ -939,8 +928,8 @@ namespace happycpp {
             /*获取cpu使用率和空闲率*/
             void getCpuUtil(CpuUtil *cpu_util) {
                 int32_t precision = 1;  // 保留一位小数
-                CpuTime cpu_time_1;
-                CpuTime cpu_time_2;
+                CpuTime cpu_time_1{};
+                CpuTime cpu_time_2{};
 
                 /*为防止失败时，返回空值，所以初始化为0*/
                 cpu_util->used = 0;

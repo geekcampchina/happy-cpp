@@ -30,11 +30,7 @@
 #include <algorithm>
 #include <sstream>
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcarray {
+namespace happycpp::hcalgorithm::hcarray {
 
             template<class T>
             inline bool exists(const std::vector<T> &v, const T &e) {
@@ -88,10 +84,6 @@ namespace happycpp {
                 return ss.str();
             }
 
-        } /* namespace hcarray */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_ARRAY_H_

@@ -43,9 +43,7 @@
 using std::to_string;
 using happycpp::hcalgorithm::hcstring::trim;
 
-namespace happycpp {
-
-    namespace hccmd {
+namespace happycpp::hccmd {
 
         HAPPYCPP_SHARED_LIB_API bool getExitStatusOfCmd(const std::string &cmd) {
             happycpp::log::HappyLogPtr hlog = happycpp::log::HappyLog::getInstance();
@@ -135,6 +133,4 @@ namespace happycpp {
 
 #endif
 
-    } /* namespace hccmd */
-
-} /* namespace happycpp */
+    } /* namespace happycpp */

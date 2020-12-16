@@ -25,14 +25,14 @@ TEST(HAPPYCPP_UNITTEST, WcsToMbs) {
     const std::string s("Hello world!");
     const std::wstring ws(L"Hello world!");
 
-    ASSERT_EQ(s, happycpp::wcsToMbs(ws));
+    EXPECT_EQ(s, happycpp::wcsToMbs(ws));
 }
 
 TEST(HAPPYCPP_UNITTEST, MbsToWcs) {
     const std::string s("Hello world!");
     const std::wstring ws(L"Hello world!");
 
-    ASSERT_EQ(ws, happycpp::mbsToWcs(s));
+    EXPECT_EQ(ws, happycpp::mbsToWcs(s));
 }
 
 #ifdef PLATFORM_WIN32
@@ -52,13 +52,19 @@ TEST(HAPPYCPP_UNITTEST, AnsiToUtf8) {
   const std::string s("你好，世界！");
   const std::string utf8_s(happycpp::AnsiToUtf8(s));
 
-  ASSERT_EQ("e4bda0e5a5bdefbc8ce4b896e7958cefbc81", ToRawString(utf8_s));
+  EXPECT_EQ("e4bda0e5a5bdefbc8ce4b896e7958cefbc81", ToRawString(utf8_s));
 }
 
 TEST(HAPPYCPP_UNITTEST, Utf8ToAnsi) {
   const std::string s("你好，世界！");
   const std::string utf8_s(happycpp::AnsiToUtf8(s));
 
-  ASSERT_EQ(s, happycpp::Utf8ToAnsi(utf8_s));
+  EXPECT_EQ(s, happycpp::Utf8ToAnsi(utf8_s));
 }
 #endif
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
+}

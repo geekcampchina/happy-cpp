@@ -28,11 +28,7 @@
 #include <algorithm>
 #include <map>
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcmap {
+namespace happycpp::hcalgorithm::hcmap {
 
             template<class T, class V>
             typename T::const_iterator findByValue(const T &m, const V &value) {
@@ -48,10 +44,6 @@ namespace happycpp {
                     (*m2)[it->second] = it->first;
             }
 
-        } /* namespace hcmap */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_MAP_H_

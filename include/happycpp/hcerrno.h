@@ -27,14 +27,10 @@
 #include "happycpp/common.h"
 #include <string>
 
-namespace happycpp {
-
-    namespace hcerrno {
+namespace happycpp::hcerrno {
 
         HAPPYCPP_SHARED_LIB_API std::string errorToStr();
 
-    } /* namespace hcerrno */
-
-} /* namespace happycpp */
+    } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ERRNO_H_

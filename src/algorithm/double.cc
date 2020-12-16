@@ -23,11 +23,7 @@
 
 using std::stringstream;
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcdouble {
+namespace happycpp::hcalgorithm::hcdouble {
 
             HAPPYCPP_SHARED_LIB_API double round(const double &d,
                                                  const int32_t &precision) {
@@ -40,7 +36,7 @@ namespace happycpp {
                 i = d * pow(10.00, static_cast<double>(precision));
 
                 if (d > 0)
-                    i = static_cast<int64_t>(i + 0.5);
+                    i = static_cast<int64_t>(i + 0.5); // NOLINT
                 else if (d < 0)
                     i = static_cast<int64_t>(i - 0.5);
 
@@ -49,8 +45,4 @@ namespace happycpp {
                 return y;
             }
 
-        } /* namespace hcdouble */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */

@@ -34,11 +34,7 @@
 
 #endif
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcip {
+namespace happycpp::hcalgorithm::hcip {
 #ifdef PLATFORM_WIN32
 # if _WIN32_WINNT >= 0x0600  // 0x0600 = Vista
 
@@ -164,9 +160,5 @@ namespace happycpp {
                 return (cidr >= kMinCidr && cidr <= kMaxCidr);
             }
 
-        } /* namespace hcip */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */
 

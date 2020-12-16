@@ -27,11 +27,7 @@
 #include "happycpp/common.h"
 #include <string>
 
-namespace happycpp {
-
-    namespace hcalgorithm {
-
-        namespace hcip {
+namespace happycpp::hcalgorithm::hcip {
 
             HAPPYCPP_SHARED_LIB_API bool isIpAddr(const std::string &ip);
 
@@ -67,10 +63,6 @@ namespace happycpp {
             /* 验证ip/cidr，比如 125.65.110.0/24，cidr有效范围是8到32 */
             bool isIpCidr(const std::string &s);
 
-        } /* namespace hcip */
-
-    } /* namespace hcalgorithm */
-
-} /* namespace happycpp */
+        } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_IP_H_

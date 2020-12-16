@@ -25,13 +25,7 @@
 #include <Windows.h>
 #else
 
-#include <linux/limits.h>
-
 #endif
-
-#include <boost/filesystem.hpp>
-
-namespace bfs = boost::filesystem;
 
 namespace happycpp {
 
