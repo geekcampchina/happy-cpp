@@ -76,3 +76,21 @@ TEST(HCARRAY_UNITTEST, Unique) {
 
     EXPECT_TRUE(v1 == v2);
 }
+
+TEST(HCARRAY_UNITTEST, toString) {
+    std::vector<int> v{1, 2, 3, 4, 5, 6, 7};
+
+    const std::string expectResult1 = "1234567";
+    const std::string result1 = hhharray::toString(v);
+    EXPECT_EQ(expectResult1, result1);
+
+    const std::string expectResult2 = "1, 2, 3, 4, 5, 6, 7";
+    const std::string result2 = hhharray::toString(v, ", ");
+    EXPECT_EQ(expectResult2, result2);
+}
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
+}

@@ -28,6 +28,7 @@
 #include <vector>
 #include <list>
 #include <algorithm>
+#include <sstream>
 
 namespace happycpp {
 
@@ -67,6 +68,24 @@ namespace happycpp {
 
                 if (it != v->end())
                     v->erase(it, v->end());
+            }
+
+            // 将数组转为字符串，可带分隔符
+            template<class T>
+            inline std::string toString(std::vector<T> &v, const std::string &delimiter = "") {
+                std::stringstream ss;
+
+                const size_t length = v.size();
+
+                for (size_t i = 0; i < length; i++) {
+                    ss << v[i];
+
+                    if (i != length - 1) {
+                        ss << delimiter;
+                    }
+                }
+
+                return ss.str();
             }
 
         } /* namespace hcarray */
