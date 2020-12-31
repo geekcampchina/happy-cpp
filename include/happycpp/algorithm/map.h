@@ -24,9 +24,11 @@
 #ifndef INCLUDE_HAPPYCPP_ALGORITHM_MAP_H_
 #define INCLUDE_HAPPYCPP_ALGORITHM_MAP_H_
 
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <algorithm>
 #include <map>
+
+using namespace boost::placeholders;
 
 namespace happycpp::hcalgorithm::hcmap {
 
