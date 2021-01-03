@@ -28,122 +28,122 @@
 using namespace std;
 
 namespace happycpp::hcalgorithm::hcbyte {
-            string byteToHex(byte_t i) {
-                stringstream stream;
-                stream << setfill('0') << setw(sizeof(byte_t) * 2)
-                       << hex << static_cast<uint16_t>(i);
-                return stream.str();
+    HAPPYCPP_SHARED_LIB_API string byteToHex(byte_t i) {
+        stringstream stream;
+        stream << setfill('0') << setw(sizeof(byte_t) * 2)
+               << hex << static_cast<uint16_t>(i);
+        return stream.str();
+    }
+
+    // 生成byte数组对应的十六进制字符串
+    HAPPYCPP_SHARED_LIB_API string toHexStringWithDelimiter(const vector<byte_t> &bytes, const string &delimiter) {
+        string hexStr;
+        string hexTmpStr;
+
+        for (byte_t b : bytes) {
+            hexTmpStr = byteToHex(b);
+
+            boost::to_upper(hexTmpStr);
+            hexStr.append(hexTmpStr);
+
+            if (!delimiter.empty()) {
+                hexStr.append(delimiter);
             }
+        }
 
-            // 生成byte数组对应的十六进制字符串
-            string toHexStringWithDelimiter(const vector<byte_t> &bytes, const string &delimiter) {
-                string hexStr;
-                string hexTmpStr;
+        if (!hexStr.empty() && !delimiter.empty()) {
+            const size_t delimiterLen = delimiter.size();
+            // 移除最后一个分隔符
+            hexStr.erase(hexStr.size() - delimiterLen, delimiterLen);
+        }
 
-                for (byte_t b : bytes) {
-                    hexTmpStr = byteToHex(b);
+        return hexStr;
+    }
 
-                    boost::to_upper(hexTmpStr);
-                    hexStr.append(hexTmpStr);
+    // 生成byte数组对应的十六进制字符串（没有分隔符）
+    HAPPYCPP_SHARED_LIB_API string toHexString(const vector<byte_t> &bytes) {
+        return toHexStringWithDelimiter(bytes, "");
+    }
 
-                    if (!delimiter.empty()) {
-                        hexStr.append(delimiter);
-                    }
-                }
+    // 生成byte数组对应的十六进制字符串（以空格为分隔符）
+    HAPPYCPP_SHARED_LIB_API string toHexStringWithSpace(const vector<byte_t> &bytes) {
+        return toHexStringWithDelimiter(bytes, " ");
+    }
 
-                if (!hexStr.empty() && !delimiter.empty()) {
-                    const size_t delimiterLen = delimiter.size();
-                    // 移除最后一个分隔符
-                    hexStr.erase(hexStr.size() - delimiterLen, delimiterLen);
-                }
+    // 生成byte数组对应的十六进制字符串（以空格为分隔符），用于日志打印
+    HAPPYCPP_SHARED_LIB_API string toHexStringForPrint(const vector<byte_t> &bytes) {
+        return "[" + toHexStringWithDelimiter(bytes, ", ") + "]";
+    }
 
-                return hexStr;
-            }
+    // 十六进制字符串转换为byte数组，十六进制字符串中的指定的分隔符（默认空格）会被自动删除
+    HAPPYCPP_SHARED_LIB_API vector<byte_t> hexStringToBytes(const string &s, const std::string &delimiter) {
+        const string _s = hcstring::replace(s, delimiter, "");
+        const int hexStrLen = _s.length();
 
-            // 生成byte数组对应的十六进制字符串（没有分隔符）
-            string toHexString(const vector<byte_t> &bytes) {
-                return toHexStringWithDelimiter(bytes, "");
-            }
+        vector<byte_t> bytes(0);
 
-            // 生成byte数组对应的十六进制字符串（以空格为分隔符）
-            string toHexStringWithSpace(const vector<byte_t> &bytes) {
-                return toHexStringWithDelimiter(bytes, " ");
-            }
+        if (hexStrLen < 2) {
+            return bytes;
+        }
 
-            // 生成byte数组对应的十六进制字符串（以空格为分隔符），用于日志打印
-            string toHexStringForPrint(const vector<byte_t> &bytes) {
-                return "[" + toHexStringWithDelimiter(bytes, ", ") + "]";
-            }
+        if ((hexStrLen % 2) != 0) {
+            // 长度不是偶数
+            return bytes;
+        }
 
-            // 十六进制字符串转换为byte数组，十六进制字符串中的指定的分隔符（默认空格）会被自动删除
-            vector<byte_t> hexStringToBytes(const string &s, const std::string &delimiter) {
-                const string _s = hcstring::replace(s, delimiter, "");
-                const int hexStrLen = _s.length();
+        bytes.resize(hexStrLen / 2);
 
-                vector<byte_t> bytes(0);
+        for (size_t i = 0; i < bytes.size(); i++) {
+            const size_t index = i * 2;
+            const string subStr = _s.substr(index, 2);
+            const uint32_t j = stoul(subStr, nullptr, 16);
+            bytes[i] = j;
+        }
 
-                if (hexStrLen < 2) {
-                    return bytes;
-                }
+        return bytes;
+    }
 
-                if ((hexStrLen % 2) != 0) {
-                    // 长度不是偶数
-                    return bytes;
-                }
+    HAPPYCPP_SHARED_LIB_API vector<byte_t> to4ByteArray(uint32_t i) {
+        vector<byte_t> bytes(4);
 
-                bytes.resize(hexStrLen / 2);
+        bytes[0] = (i >> 24) & 0xFF;
+        bytes[1] = (i >> 16) & 0xFF;
+        bytes[2] = (i >> 8) & 0xFF;
+        bytes[3] = i & 0xFF;
 
-                for (size_t i = 0; i < bytes.size(); i++) {
-                    const size_t index = i * 2;
-                    const string subStr = _s.substr(index, 2);
-                    const uint32_t j = stoul(subStr, nullptr, 16);
-                    bytes[i] = j;
-                }
+        return bytes;
+    }
 
-                return bytes;
-            }
+    HAPPYCPP_SHARED_LIB_API vector<byte_t> to2ByteArray(uint16_t i) {
+        vector<byte_t> bytes(2);
 
-            vector<byte_t> to4ByteArray(uint32_t i) {
-                vector<byte_t> bytes(4);
+        bytes[0] = (i >> 8) & 0xFF;
+        bytes[1] = i & 0xFF;
 
-                bytes[0] = (i >> 24) & 0xFF;
-                bytes[1] = (i >> 16) & 0xFF;
-                bytes[2] = (i >> 8) & 0xFF;
-                bytes[3] = i & 0xFF;
+        return bytes;
+    }
 
-                return bytes;
-            }
-            
-            vector<byte_t> to2ByteArray(uint16_t i) {
-                vector<byte_t> bytes(2);
+    HAPPYCPP_SHARED_LIB_API uint32_t from4ByteArray(const vector<byte_t> &bytes) {
+        if (bytes.size() != 4U) {
+            ThrowHappyException("byte数组转为uint32_t时，长度必须为4");
+        }
 
-                bytes[0] = (i >> 8) & 0xFF;
-                bytes[1] = i & 0xFF;
+        return ((bytes[0] & 0xFF) << 24) |
+               ((bytes[1] & 0xFF) << 16) |
+               ((bytes[2] & 0xFF) << 8) |
+               ((bytes[3] & 0xFF)
+               );
+    }
 
-                return bytes;
-            }
-            
-            uint32_t from4ByteArray(const vector<byte_t> &bytes) {
-                if (bytes.size() != 4U) {
-                    ThrowHappyException("byte数组转为uint32_t时，长度必须为4");
-                }
+    HAPPYCPP_SHARED_LIB_API HAPPYCPP_SHARED_LIB_API uint16_t from2ByteArray(const vector<byte_t> &bytes) {
+        if (bytes.size() != 2U) {
+            ThrowHappyException("byte数组转为uint16_t时，长度必须为2");
+        }
 
-                return ((bytes[0] & 0xFF) << 24) |
-                       ((bytes[1] & 0xFF) << 16) |
-                       ((bytes[2] & 0xFF) << 8) |
-                       ((bytes[3] & 0xFF)
-                       );
-            }
-            
-            uint16_t from2ByteArray(const vector<byte_t> &bytes) {
-                if (bytes.size() != 2U) {
-                    ThrowHappyException("byte数组转为uint16_t时，长度必须为2");
-                }
+        return static_cast<uint16_t> (
+                ((bytes[0] & 0xFF) << 8) |
+                ((bytes[1] & 0xFF))
+        );
+    }
 
-                return static_cast<uint16_t> (
-                        ((bytes[0] & 0xFF) << 8) |
-                        ((bytes[1] & 0xFF))
-                );
-            }
-
-        } /* namespace happycpp */
+} /* namespace happycpp */

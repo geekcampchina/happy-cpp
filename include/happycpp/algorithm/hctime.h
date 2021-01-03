@@ -29,29 +29,29 @@
 #include <ctime>
 
 namespace happycpp::hcalgorithm::hctime {
-            // 延迟指定的时间，单位:秒。警告：消耗的CPU时间，用于特殊用途
-            HAPPYCPP_SHARED_LIB_API void happyWait(const time_t &sec);
+    // 延迟指定的时间，单位:秒。警告：消耗的CPU时间，用于特殊用途
+    HAPPYCPP_SHARED_LIB_API void happyWait(const time_t &sec);
 
-            // 延迟指定的时间，单位:毫秒
-            HAPPYCPP_SHARED_LIB_API void happySleep(const time_t &milli_sec);
+    // 延迟指定的时间，单位:毫秒
+    HAPPYCPP_SHARED_LIB_API void happySleep(const time_t &milli_sec);
 
-            /*
-             比较格式相同的日期字符串
-             第一个日期比第二个日期早，返回值小于0
-             第一个日期和第二个日期相等，返回值等于0
-             第一个日期比第二个日期晚，返回值大于0
-             */
-            HAPPYCPP_SHARED_LIB_API CmpResult cmpDate(const std::string &d1,
-                                                      const std::string &d2);
+    /*
+     比较格式相同的日期字符串
+     第一个日期比第二个日期早，返回值小于0
+     第一个日期和第二个日期相等，返回值等于0
+     第一个日期比第二个日期晚，返回值大于0
+     */
+    HAPPYCPP_SHARED_LIB_API CmpResult cmpDate(const std::string &d1,
+                                              const std::string &d2);
 
-            /**
-             * @brief 按照制定样式格式化时间
-             * @param t 时间
-             * @param format 样式
-             * @return 字符串
-             */
-            std::string getFormatTime(time_t t, const std::string &format);
+    /**
+     * @brief 按照制定样式格式化时间
+     * @param t 时间
+     * @param format 样式
+     * @return 字符串
+     */
+    std::string getFormatTime(time_t t, const std::string &format);
 
-        } /* namespace happycpp */
+} /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_TIME_H_

@@ -31,7 +31,7 @@
 
 namespace happycpp {
 
-    std::string wcsToMbs(const std::wstring &ws) {
+    HAPPYCPP_SHARED_LIB_API std::string wcsToMbs(const std::wstring &ws) {
         const std::string locale = setlocale(LC_ALL, "");
         const wchar_t *wch_src = ws.c_str();
         const size_t dest_size = wcstombs(nullptr, wch_src, 0);
@@ -48,7 +48,7 @@ namespace happycpp {
         return s;
     }
 
-    std::wstring mbsToWcs(const std::string &s) {
+    HAPPYCPP_SHARED_LIB_API std::wstring mbsToWcs(const std::string &s) {
         const std::string locale = setlocale(LC_ALL, "");
         const char *ch_src = s.c_str();
 
@@ -125,7 +125,7 @@ namespace happycpp {
     }
 #endif
 
-    std::string _gettext(const std::string &s) {
+    HAPPYCPP_SHARED_LIB_API std::string _gettext(const std::string &s) {
         return std::string(gettext(s.c_str()));
     }
 
@@ -134,7 +134,7 @@ namespace happycpp {
  * 如果指定了空值、不存在或者不支持的locale，则使用系统变量定义的locale
  * locale 为空，则使用当前系统设置的locale值
  * dir_name 为空则使用默认值 locale，比如 locale/zh_CN/LC_MESSAGES/domainname.mo */
-    void initGettext(const std::string &locale, const std::string &domain_name,
+    HAPPYCPP_SHARED_LIB_API void initGettext(const std::string &locale, const std::string &domain_name,
                      const std::string &dir_name) {
         /* 为空则使用默认值 locale */
         const std::string _dir_name(dir_name.empty() ? "locale" : dir_name);

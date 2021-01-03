@@ -57,204 +57,204 @@ using happycpp::hcalgorithm::hcstring::toLower;
 
 namespace happycpp::hcfilesys {
 
-        HAPPYCPP_SHARED_LIB_API bool happyCreateFile(const std::string &file) {
-            if (bfs::exists(file))
-                return true;
+    HAPPYCPP_SHARED_LIB_API bool happyCreateFile(const std::string &file) {
+        if (bfs::exists(file))
+            return true;
 
 #ifdef PLATFORM_WIN32
-            HANDLE h = CreateFile(file.c_str(),  // file name
-                                  GENERIC_WRITE,  // open for write
-                                  0,  // do not share
-                                  NULL,  // default security
-                                  CREATE_ALWAYS,  // overwrite existing
-                                  FILE_ATTRIBUTE_NORMAL,  // normal file
-                                  NULL);  // no template
+        HANDLE h = CreateFile(file.c_str(),  // file name
+                              GENERIC_WRITE,  // open for write
+                              0,  // do not share
+                              NULL,  // default security
+                              CREATE_ALWAYS,  // overwrite existing
+                              FILE_ATTRIBUTE_NORMAL,  // normal file
+                              NULL);  // no template
 
-            if (h) {
-              CloseHandle(h);
-              return true;
-            }
+        if (h) {
+          CloseHandle(h);
+          return true;
+        }
 #else
-            mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-            int fd = creat(file.c_str(), mode);
+        mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+        int fd = creat(file.c_str(), mode);
 
-            if (fd) {
-                close(fd);
-                return true;
-            }
+        if (fd) {
+            close(fd);
+            return true;
+        }
 #endif
 
+        return false;
+    }
+
+    HAPPYCPP_SHARED_LIB_API std::string readFile(const std::string &file) {
+        ifstream ifs(file.c_str(), ifstream::binary);
+
+        if (!ifs)
+            ThrowHappyException(errorToStr());
+
+        std::stringstream buffer;
+        buffer << ifs.rdbuf();
+
+        ifs.close();
+
+        return buffer.str();
+    }
+
+    HAPPYCPP_SHARED_LIB_API bool readFile(const std::string &file,
+                                          std::vector<std::string> *lines) {
+        lines->clear();
+        std::string tmp;
+        std::string content;
+        ifstream ifs(file.c_str(), ifstream::binary);
+
+        if (!ifs) {
+            happycpp::log::HappyLogPtr hlog = happycpp::log::HappyLog::getInstance();
+            hlog->error(errorToStr());
             return false;
         }
 
-        HAPPYCPP_SHARED_LIB_API std::string readFile(const std::string &file) {
-            ifstream ifs(file.c_str(), ifstream::binary);
+        // 以 '\n' 作为分行标识
+        while (getline(ifs, tmp)) {
+            const size_t tmp_size = tmp.size();
 
-            if (!ifs)
-                ThrowHappyException(errorToStr());
+            if (tmp_size && tmp[tmp_size - 1] == '\r')
+                tmp.erase(tmp_size - 1);
 
-            std::stringstream buffer;
-            buffer << ifs.rdbuf();
-
-            ifs.close();
-
-            return buffer.str();
+            lines->push_back(tmp);
+            tmp.clear();
         }
 
-        HAPPYCPP_SHARED_LIB_API bool readFile(const std::string &file,
-                                              std::vector<std::string> *lines) {
-            lines->clear();
-            std::string tmp;
-            std::string content;
-            ifstream ifs(file.c_str(), ifstream::binary);
+        ifs.close();
+        return true;
+    }
 
-            if (!ifs) {
-                happycpp::log::HappyLogPtr hlog = happycpp::log::HappyLog::getInstance();
-                hlog->error(errorToStr());
-                return false;
-            }
+    HAPPYCPP_SHARED_LIB_API bool writeFile(const std::string &file,
+                                           const std::vector<std::string> &lines,
+                                           const bool &append) {
+        std::string content;
 
-            // 以 '\n' 作为分行标识
-            while (getline(ifs, tmp)) {
-                const size_t tmp_size = tmp.size();
+        for (const auto &x : lines)
+            content += x + EOL;
 
-                if (tmp_size && tmp[tmp_size - 1] == '\r')
-                    tmp.erase(tmp_size - 1);
+        return writeFile(file, content, append);
+    }
 
-                lines->push_back(tmp);
-                tmp.clear();
-            }
+    HAPPYCPP_SHARED_LIB_API bool writeFile(const std::string &file,
+                                           const std::string &content,
+                                           const bool &append) {
+        ofstream ofs;
 
-            ifs.close();
-            return true;
+        if (append)
+            ofs.open(file.c_str(), ofstream::binary | ofstream::ate | ofstream::app);
+        else
+            ofs.open(file.c_str(), ofstream::binary);
+
+        if (ofs) {
+            ofs << content;
+        } else {
+            happycpp::log::HappyLogPtr hlog = happycpp::log::HappyLog::getInstance();
+            hlog->error(errorToStr());
+            return false;
         }
 
-        HAPPYCPP_SHARED_LIB_API bool writeFile(const std::string &file,
-                                               const std::vector<std::string> &lines,
-                                               const bool &append) {
-            std::string content;
+        return true;
+    }
 
-            for (const auto &x : lines)
-                content += x + EOL;
+    HAPPYCPP_SHARED_LIB_API void getFilesInDir(const std::string &path,
+                                               FileType type,
+                                               std::vector<FileStat> *v,
+                                               uint32_t max_num) {
+        if (path.empty())
+            ThrowHappyException("Invalid directory");
 
-            return writeFile(file, content, append);
-        }
+        v->clear();
 
-        HAPPYCPP_SHARED_LIB_API bool writeFile(const std::string &file,
-                                               const std::string &content,
-                                               const bool &append) {
-            ofstream ofs;
-
-            if (append)
-                ofs.open(file.c_str(), ofstream::binary | ofstream::ate | ofstream::app);
-            else
-                ofs.open(file.c_str(), ofstream::binary);
-
-            if (ofs) {
-                ofs << content;
-            } else {
-                happycpp::log::HappyLogPtr hlog = happycpp::log::HappyLog::getInstance();
-                hlog->error(errorToStr());
-                return false;
-            }
-
-            return true;
-        }
-
-        HAPPYCPP_SHARED_LIB_API void getFilesInDir(const std::string &path,
-                                                   FileType type,
-                                                   std::vector<FileStat> *v,
-                                                   uint32_t max_num) {
-            if (path.empty())
-                ThrowHappyException("Invalid directory");
-
-            v->clear();
-
-            uint32_t num = 0;
-            FileType _type;
-            std::string ext;
-            std::string _path;
-            std::string name;
-            size_t sep_pos;
-            FileStat file_stat;
-            struct stat _stat{};
+        uint32_t num = 0;
+        FileType _type;
+        std::string ext;
+        std::string _path;
+        std::string name;
+        size_t sep_pos;
+        FileStat file_stat;
+        struct stat _stat{};
 #ifdef PLATFORM_WIN32
-            WIN32_FIND_DATA wfd;
-            HANDLE handle = FindFirstFile(std::string(path + "\\*.*").c_str(), &wfd);
+        WIN32_FIND_DATA wfd;
+        HANDLE handle = FindFirstFile(std::string(path + "\\*.*").c_str(), &wfd);
 
-            if (handle == INVALID_HANDLE_VALUE)
-              ThrowHappyException(hcerrno::ErrorToStr());
+        if (handle == INVALID_HANDLE_VALUE)
+          ThrowHappyException(hcerrno::ErrorToStr());
 
-            do {
-              name = wfd.cFileName;
+        do {
+          name = wfd.cFileName;
 #else
-            DIR *dir;
-            struct dirent *d;
+        DIR *dir;
+        struct dirent *d;
 
-            dir = opendir(path.c_str());
+        dir = opendir(path.c_str());
 
-            if (dir == nullptr)
+        if (dir == nullptr)
+            ThrowHappyException(hcerrno::errorToStr());
+
+        // 遍历目录，找出目录和文件
+        while ((d = readdir(dir))) {
+            name = d->d_name;
+#endif
+            // 跳过 . 和 ..
+            if (name == "." || name == "..")
+                continue;
+
+            _path = "";
+            _path.append(path);
+            _path.append(OsSeparator);
+            _path.append(name);
+
+            // 检测能否获取文件信息
+            if (stat(_path.c_str(), &_stat) != 0)
                 ThrowHappyException(hcerrno::errorToStr());
 
-            // 遍历目录，找出目录和文件
-            while ((d = readdir(dir))) {
-                name = d->d_name;
-#endif
-                // 跳过 . 和 ..
-                if (name == "." || name == "..")
-                    continue;
+            if (S_ISDIR(_stat.st_mode)) {
+                _type = kDir;
+            } else if (S_ISREG(_stat.st_mode) || S_ISLNK(_stat.st_mode)) {
+                _type = kFile;
+                // 查找字符串中最后一个点，
+                // 如果有则截取点到字符串末尾之间的子字符串作为扩展名
+                sep_pos = name.find_last_of('.');
 
-                _path = "";
-                _path.append(path);
-                _path.append(OsSeparator);
-                _path.append(name);
-
-                // 检测能否获取文件信息
-                if (stat(_path.c_str(), &_stat) != 0)
-                    ThrowHappyException(hcerrno::errorToStr());
-
-                if (S_ISDIR(_stat.st_mode)) {
-                    _type = kDir;
-                } else if (S_ISREG(_stat.st_mode) || S_ISLNK(_stat.st_mode)) {
-                    _type = kFile;
-                    // 查找字符串中最后一个点，
-                    // 如果有则截取点到字符串末尾之间的子字符串作为扩展名
-                    sep_pos = name.find_last_of('.');
-
-                    if (sep_pos != std::string::npos)
-                        ext = toLower(name.substr(sep_pos));
-                } else {
-                    continue;
-                }
-
-                if (type == kAll || type == _type) {
-                    file_stat.type = _type;
-                    file_stat.name = name;
-                    file_stat.ext = ext;
-                    file_stat.path = _path;
-                    file_stat.bytes = _stat.st_size;
-                    file_stat.atime = _stat.st_atime;
-                    file_stat.ctime = _stat.st_ctime;
-                    file_stat.mtime = _stat.st_mtime;
-                    v->push_back(file_stat);
-                    ++num;
-
-                    if (num == max_num) {
-                        happycpp::log::HappyLogPtr hlog = happycpp::log::HappyLog::getInstance();
-                        hlog->error("Too many files or directorys in \"" + _path + "\".");
-                        break;
-                    }
-                }
-#ifdef PLATFORM_WIN32
-                } while (FindNextFile(handle, &wfd));
-#else
+                if (sep_pos != std::string::npos)
+                    ext = toLower(name.substr(sep_pos));
+            } else {
+                continue;
             }
+
+            if (type == kAll || type == _type) {
+                file_stat.type = _type;
+                file_stat.name = name;
+                file_stat.ext = ext;
+                file_stat.path = _path;
+                file_stat.bytes = _stat.st_size;
+                file_stat.atime = _stat.st_atime;
+                file_stat.ctime = _stat.st_ctime;
+                file_stat.mtime = _stat.st_mtime;
+                v->push_back(file_stat);
+                ++num;
+
+                if (num == max_num) {
+                    happycpp::log::HappyLogPtr hlog = happycpp::log::HappyLog::getInstance();
+                    hlog->error("Too many files or directorys in \"" + _path + "\".");
+                    break;
+                }
+            }
+#ifdef PLATFORM_WIN32
+            } while (FindNextFile(handle, &wfd));
+#else
+        }
 #endif
 
 #ifdef PLATFORM_WIN32
-            FindClose(handle);
+        FindClose(handle);
 #else
-            closedir(dir);
+        closedir(dir);
 #endif
     }
 

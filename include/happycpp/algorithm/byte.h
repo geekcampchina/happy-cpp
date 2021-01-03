@@ -28,27 +28,30 @@
 
 namespace happycpp::hcalgorithm::hcbyte {
 
-            // 生成byte数组对应的十六进制字符串
-            std::string toHexStringWithDelimiter(const std::vector<byte_t> &bytes, const std::string &delimiter);
+    // 生成byte数组对应的十六进制字符串
+    std::string toHexStringWithDelimiter(const std::vector<byte_t> &bytes, const std::string &delimiter);
 
-            // 生成byte数组对应的十六进制字符串（没有分隔符）
-            std::string toHexString(const std::vector<byte_t> &bytes);
+    // 生成byte数组对应的十六进制字符串（没有分隔符）
+    std::string toHexString(const std::vector<byte_t> &bytes);
 
-            // 生成byte数组对应的十六进制字符串（以空格为分隔符）
-            std::string toHexStringWithSpace(const std::vector<byte_t> &bytes);
+    // 生成byte数组对应的十六进制字符串（以空格为分隔符）
+    std::string toHexStringWithSpace(const std::vector<byte_t> &bytes);
 
-            // 生成byte数组对应的十六进制字符串（以空格为分隔符），用于日志打印
-            std::string toHexStringForPrint(const std::vector<byte_t> &bytes);
+    // 生成byte数组对应的十六进制字符串（以空格为分隔符），用于日志打印
+    std::string toHexStringForPrint(const std::vector<byte_t> &bytes);
 
-            // 十六进制字符串转换为byte数组，十六进制字符串中的指定的分隔符（默认空格）会被自动删除
-            std::vector<byte_t> hexStringToBytes(const std::string &s, const std::string &delimiter = " ");
+    // 十六进制字符串转换为byte数组，十六进制字符串中的指定的分隔符（默认空格）会被自动删除
+    std::vector<byte_t> hexStringToBytes(const std::string &s, const std::string &delimiter = " ");
 
-            std::vector<byte_t> to4ByteArray(uint32_t i);
-            std::vector<byte_t> to2ByteArray(uint16_t i);
-            uint32_t from4ByteArray(const std::vector<byte_t> &bytes);
-            uint16_t from2ByteArray(const std::vector<byte_t> &bytes);
+    std::vector<byte_t> to4ByteArray(uint32_t i);
 
-        } /* namespace happycpp */
+    std::vector<byte_t> to2ByteArray(uint16_t i);
+
+    uint32_t from4ByteArray(const std::vector<byte_t> &bytes);
+
+    uint16_t from2ByteArray(const std::vector<byte_t> &bytes);
+
+} /* namespace happycpp */
 
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_BYTE_H_

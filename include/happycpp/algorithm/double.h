@@ -28,18 +28,18 @@
 
 namespace happycpp::hcalgorithm::hcdouble {
 
-            /*
-             四舍五入浮点数
-             d 为原来的值
-             precision 为要保留的小数个数，也就是精度
+    /*
+     四舍五入浮点数
+     d 为原来的值
+     precision 为要保留的小数个数，也就是精度
 
-             返回值：类似
-             传入4.9999，返回5
-             传入4.9778，精度2，返回4.98
-             */
-            HAPPYCPP_SHARED_LIB_API double round(const double &d,
-                                                 const int32_t &precision);
+     返回值：类似
+     传入4.9999，返回5
+     传入4.9778，精度2，返回4.98
+     */
+    HAPPYCPP_SHARED_LIB_API double round(const double &d,
+                                         const int32_t &precision);
 
-        } /* namespace happycpp */
+} /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_DOUBLE_H_

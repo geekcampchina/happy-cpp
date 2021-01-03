@@ -30,32 +30,32 @@
 
 namespace happycpp::hcproc {
 
-        // 返回当前工作目录绝对路径
-        HAPPYCPP_SHARED_LIB_API bool currentWorkDir(std::string *dir);
+    // 返回当前工作目录绝对路径
+    HAPPYCPP_SHARED_LIB_API bool currentWorkDir(std::string *dir);
 
-        // 返回当前进程文件绝对路径
-        HAPPYCPP_SHARED_LIB_API bool currentExePath(std::string *path);
+    // 返回当前进程文件绝对路径
+    HAPPYCPP_SHARED_LIB_API bool currentExePath(std::string *path);
 
-        // 返回当前进程文件所在目录(执行目录)
-        HAPPYCPP_SHARED_LIB_API bool currentExeDir(std::string *dir);
+    // 返回当前进程文件所在目录(执行目录)
+    HAPPYCPP_SHARED_LIB_API bool currentExeDir(std::string *dir);
 
 #ifdef PLATFORM_WIN32
-        // 创建进程锁，防止运行多个进程实例
-        HAPPYCPP_SHARED_LIB_API bool LockProc(const std::string &proc);
+    // 创建进程锁，防止运行多个进程实例
+    HAPPYCPP_SHARED_LIB_API bool LockProc(const std::string &proc);
 
-        // 解锁进程锁
-        HAPPYCPP_SHARED_LIB_API bool UnLockProc(const std::string &proc);
+    // 解锁进程锁
+    HAPPYCPP_SHARED_LIB_API bool UnLockProc(const std::string &proc);
 #else
-        // 创建进程锁，防止运行多个进程实例
-        HAPPYCPP_SHARED_LIB_API bool lockProc(const std::string &proc, pid_t pid,
-                                              const std::string &prefix = "/var/run");
+    // 创建进程锁，防止运行多个进程实例
+    HAPPYCPP_SHARED_LIB_API bool lockProc(const std::string &proc, pid_t pid,
+                                          const std::string &prefix = "/var/run");
 
-        // 解锁进程锁
-        HAPPYCPP_SHARED_LIB_API bool unLockProc(
-                const std::string &proc, const std::string &prefix = "/var/run");
+    // 解锁进程锁
+    HAPPYCPP_SHARED_LIB_API bool unLockProc(
+            const std::string &proc, const std::string &prefix = "/var/run");
 
 #endif
 
-    } /* namespace happycpp */
+} /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_PROC_H_

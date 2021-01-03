@@ -29,21 +29,21 @@
 
 namespace happycpp::hcalgorithm::hcrandom {
 
-            /* 获取随机数
-             * 由于是根据时间(单位：纳秒)来生成，所以重复的几率非常小。
-             * 来源：linux until 中uuid源代码：gen_uuid.c
-             */
-            HAPPYCPP_SHARED_LIB_API uint64_t getRandom();
+    /* 获取随机数
+     * 由于是根据时间(单位：纳秒)来生成，所以重复的几率非常小。
+     * 来源：linux until 中uuid源代码：gen_uuid.c
+     */
+    HAPPYCPP_SHARED_LIB_API uint64_t getRandom();
 
-            // 生成随机字符串
-            // 默认生成不含空格的，由 ASCII 可见字符组成的字符串
-            // kAlnum: 字母以及数字
-            // kAlpha: 字母
-            // kDigit: 数字
-            // kPrint: 可见字符(不包括空格)
-            HAPPYCPP_SHARED_LIB_API std::string genRandom(const size_t &size,
-                                                          CharClassification = kPrint);
+    // 生成随机字符串
+    // 默认生成不含空格的，由 ASCII 可见字符组成的字符串
+    // kAlnum: 字母以及数字
+    // kAlpha: 字母
+    // kDigit: 数字
+    // kPrint: 可见字符(不包括空格)
+    HAPPYCPP_SHARED_LIB_API std::string genRandom(const size_t &size,
+                                                  CharClassification = kPrint);
 
-        } /* namespace happycpp */
+} /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_RANDOM_H_

@@ -38,60 +38,60 @@
 using std::stringstream;
 
 namespace happycpp::hcalgorithm::hctime {
-            HAPPYCPP_SHARED_LIB_API void happyWait(const time_t &sec) {
-                clock_t end_wait = clock() + sec * CLOCKS_PER_SEC;
+    HAPPYCPP_SHARED_LIB_API void happyWait(const time_t &sec) {
+        clock_t end_wait = clock() + sec * CLOCKS_PER_SEC;
 
-                while (clock() < end_wait) {}
-            }
+        while (clock() < end_wait) {}
+    }
 
-            HAPPYCPP_SHARED_LIB_API void happySleep(const time_t &milli_sec) {
+    HAPPYCPP_SHARED_LIB_API void happySleep(const time_t &milli_sec) {
 #ifdef PLATFORM_WIN32
-                Sleep(static_cast<DWORD>(milli_sec));
+        Sleep(static_cast<DWORD>(milli_sec));
 #else
-                struct timespec req = {0, 0};
-                auto sec = static_cast<time_t>(milli_sec / 1000);
+        struct timespec req = {0, 0};
+        auto sec = static_cast<time_t>(milli_sec / 1000);
 
-                const time_t _milli_sec = milli_sec - (sec * 1000);
-                req.tv_sec = sec;
-                req.tv_nsec = _milli_sec * 1000000L;
+        const time_t _milli_sec = milli_sec - (sec * 1000);
+        req.tv_sec = sec;
+        req.tv_nsec = _milli_sec * 1000000L;
 
-                while (nanosleep(&req, &req) == -1)
-                    continue;
+        while (nanosleep(&req, &req) == -1)
+            continue;
 
 #endif
-            }
+    }
 
-            HAPPYCPP_SHARED_LIB_API CmpResult cmpDate(const std::string &d1,
-                                                      const std::string &d2) {
-                /*
-                 格式相同的字符串，可以直接比较
-                 C 代码：
-                 int ret = strcmp(date1, date2)
-                 ret < 0，date1 < date2
-                 ret == 0，date1 == date2
-                 ret > 0，date1 > date2
-                 */
-                if (d1 < d2)
-                    return kLess;
-                else if (d1 == d2)
-                    return kEqual;
-                else
-                    return kGreater;
-            }
+    HAPPYCPP_SHARED_LIB_API CmpResult cmpDate(const std::string &d1,
+                                              const std::string &d2) {
+        /*
+         格式相同的字符串，可以直接比较
+         C 代码：
+         int ret = strcmp(date1, date2)
+         ret < 0，date1 < date2
+         ret == 0，date1 == date2
+         ret > 0，date1 > date2
+         */
+        if (d1 < d2)
+            return kLess;
+        else if (d1 == d2)
+            return kEqual;
+        else
+            return kGreater;
+    }
 
-            std::string getFormatTime(time_t t, const std::string &format) {
-                struct tm _tm = {0};
-                time_t _t = t;
+    HAPPYCPP_SHARED_LIB_API std::string getFormatTime(time_t t, const std::string &format) {
+        struct tm _tm = {0};
+        time_t _t = t;
 #ifdef PLATFORM_WIN32
-                localtime_s(&_tm, &_t);
+        localtime_s(&_tm, &_t);
 #else
-                localtime_r(&_t, &_tm);
+        localtime_r(&_t, &_tm);
 #endif
 
-                char buffer[80];
-                const int ret_val = strftime(buffer, 80, format.c_str(), &_tm);
+        char buffer[80];
+        const int ret_val = strftime(buffer, 80, format.c_str(), &_tm);
 
-                return ret_val == 0 ? "" : buffer;
-            }
+        return ret_val == 0 ? "" : buffer;
+    }
 
-        } /* namespace happycpp */
+} /* namespace happycpp */

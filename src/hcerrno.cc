@@ -39,57 +39,57 @@ using std::to_string;
 
 namespace happycpp::hcerrno {
 
-        HAPPYCPP_SHARED_LIB_API std::string errorToStr() {
+    HAPPYCPP_SHARED_LIB_API std::string errorToStr() {
 #ifdef PLATFORM_WIN32
-            std::string msg("");
-            LPVOID lp_msg_buf = NULL;
-            DWORD msg_id = ::GetLastError();
+        std::string msg("");
+        LPVOID lp_msg_buf = NULL;
+        DWORD msg_id = ::GetLastError();
 
-            // Windows API 没有错误
-            if (msg_id == 0) {
-              // C 运行时没有错误
-              if (errno == 0)
-                return "";
+        // Windows API 没有错误
+        if (msg_id == 0) {
+          // C 运行时没有错误
+          if (errno == 0)
+            return "";
 
-              // C 运行时有错误
-              msg = _strerror(NULL);
-              const size_t size = msg.size();
+          // C 运行时有错误
+          msg = _strerror(NULL);
+          const size_t size = msg.size();
 
-              if (size) msg.erase(size - 1);
+          if (size) msg.erase(size - 1);
 
-              return msg + "(errno: " + std::to_string(errno) + ")";
-            }
-
-            // Windows API 有错误
-            DWORD retval = ::FormatMessageA(
-                FORMAT_MESSAGE_ALLOCATE_BUFFER
-                  | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-                NULL,
-                msg_id,
-                MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US),
-                (LPSTR) &lp_msg_buf,
-                0,
-                NULL);
-
-            msg = (retval == 0 ? "Unknown error" : static_cast<LPCSTR>(lp_msg_buf));
-            LocalFree(lp_msg_buf);
-
-            while (msg.size()
-                   && (msg[msg.size() - 1] == '\n'
-                   || msg[msg.size() - 1] == '\r'))
-            msg.erase(msg.size() - 1);
-
-            if (msg.size() && msg[msg.size() - 1] == '.')
-            msg.erase(msg.size()-1);
-
-            return msg + "(errno: " + std::to_string(msg_id) + ")";
-#else
-            if (errno == 0)
-                return "";
-
-            return std::string(strerror(errno))
-                   + "(errno: " + std::to_string(errno) + ")";
-#endif
+          return msg + "(errno: " + std::to_string(errno) + ")";
         }
 
-    } /* namespace happycpp */
+        // Windows API 有错误
+        DWORD retval = ::FormatMessageA(
+            FORMAT_MESSAGE_ALLOCATE_BUFFER
+              | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+            NULL,
+            msg_id,
+            MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US),
+            (LPSTR) &lp_msg_buf,
+            0,
+            NULL);
+
+        msg = (retval == 0 ? "Unknown error" : static_cast<LPCSTR>(lp_msg_buf));
+        LocalFree(lp_msg_buf);
+
+        while (msg.size()
+               && (msg[msg.size() - 1] == '\n'
+               || msg[msg.size() - 1] == '\r'))
+        msg.erase(msg.size() - 1);
+
+        if (msg.size() && msg[msg.size() - 1] == '.')
+        msg.erase(msg.size()-1);
+
+        return msg + "(errno: " + std::to_string(msg_id) + ")";
+#else
+        if (errno == 0)
+            return "";
+
+        return std::string(strerror(errno))
+               + "(errno: " + std::to_string(errno) + ")";
+#endif
+    }
+
+} /* namespace happycpp */

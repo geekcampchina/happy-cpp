@@ -30,102 +30,102 @@
 
 namespace happycpp::hcos {
 
-        // 操作系统发行版类型列表
-        enum OsIdType {
+    // 操作系统发行版类型列表
+    enum OsIdType {
 #ifdef PLATFORM_WIN32
-            kWindowsWorkStation,
-            kWindowsServer
+        kWindowsWorkStation,
+        kWindowsServer
 #else
-            kCentOS,
-            kRedHat,
-            kUbuntu
+        kCentOS,
+        kRedHat,
+        kUbuntu
 #endif
-        };
+    };
 
-        // Linux 发行版
-        enum OsVersion {
+    // Linux 发行版
+    enum OsVersion {
 #ifdef PLATFORM_WIN32
-            kWindowsXP,
-            kWindowsVista,
-            kWindows7,
-            kWindows8,
-            kWindows8_1,
-            kWindowsServer2003,
-            kWindowsServer2003R2,
-            kWindowsServer2008,
-            kWindowsServer2008R2,
-            kWindowsServer2012,
-            kWindowsServer2012R2
+        kWindowsXP,
+        kWindowsVista,
+        kWindows7,
+        kWindows8,
+        kWindows8_1,
+        kWindowsServer2003,
+        kWindowsServer2003R2,
+        kWindowsServer2008,
+        kWindowsServer2008R2,
+        kWindowsServer2012,
+        kWindowsServer2012R2
 #else
-            kCentOS5,
-            kCentOS6,
-            kCentOS7,
-            kRedHat5,
-            kRedHat6,
-            kRedHat7,
-            kUbuntu12_04,
-            kUbuntu14_04,
-            kUbuntu16_04
+        kCentOS5,
+        kCentOS6,
+        kCentOS7,
+        kRedHat5,
+        kRedHat6,
+        kRedHat7,
+        kUbuntu12_04,
+        kUbuntu14_04,
+        kUbuntu16_04
 #endif
-        };
+    };
 
 #ifdef PLATFORM_WIN32
-        // Windows 发行版变种
-        enum WindowsVariantType {
-          kDataCenter,
-          kEnterprise,
-          kProfessional,
-          kStandard,
-          kUltimate,
-          kWebServer
-        };
+    // Windows 发行版变种
+    enum WindowsVariantType {
+      kDataCenter,
+      kEnterprise,
+      kProfessional,
+      kStandard,
+      kUltimate,
+      kWebServer
+    };
 
-        enum SpVersion{
-          kSp1 = 1,
-          kSp2,
-          kSp3,
-        };
+    enum SpVersion{
+      kSp1 = 1,
+      kSp2,
+      kSp3,
+    };
 #endif
 
-        // 操作系统身份证
-        struct OsIdentification {
-            uint32_t id;
-            uint32_t version;
-            uint32_t major_version;
-            uint32_t minor_version;
-            uint32_t arch_id;
+    // 操作系统身份证
+    struct OsIdentification {
+        uint32_t id;
+        uint32_t version;
+        uint32_t major_version;
+        uint32_t minor_version;
+        uint32_t arch_id;
 #ifdef PLATFORM_WIN32
-            uint32_t sp_version;
-            uint32_t variant_id;
-            uint32_t build_id;
+        uint32_t sp_version;
+        uint32_t variant_id;
+        uint32_t build_id;
 #else
-            std::string build_id;
-            std::string code_id;  // 代号
+        std::string build_id;
+        std::string code_id;  // 代号
 #endif
-            std::string pretty_name;
-        };
+        std::string pretty_name;
+    };
 
 #ifdef PLATFORM_WIN32
-        // 仅内部和单元测试使用
-        bool _GetOsInfo(void *sys_info, void *os, const uint64_t variant_id,
-                        const int testing_level, OsIdentification *osi);
+    // 仅内部和单元测试使用
+    bool _GetOsInfo(void *sys_info, void *os, const uint64_t variant_id,
+                    const int testing_level, OsIdentification *osi);
 
-        std::string GetSpVersionDesc(const uint32_t e);
-        std::string GetWindowsVariantDesc(const uint32_t e);
+    std::string GetSpVersionDesc(const uint32_t e);
+    std::string GetWindowsVariantDesc(const uint32_t e);
 #else
 
-        // 仅内部和单元测试使用
-        // info 为 nullptr 表示从文件读取
-        bool _getOsInfo(const char *info, OsIdentification *osi);
+    // 仅内部和单元测试使用
+    // info 为 nullptr 表示从文件读取
+    HAPPYCPP_SHARED_LIB_API bool _getOsInfo(const char *info, OsIdentification *osi);
 
 #endif
 
-        std::string getOsVersionDesc(uint32_t e);
+    HAPPYCPP_SHARED_LIB_API std::string getOsVersionDesc(uint32_t e);
 
-        std::string getOsIdDesc(uint32_t e);
+    HAPPYCPP_SHARED_LIB_API std::string getOsIdDesc(uint32_t e);
 
-        bool getOsInfo(OsIdentification *osi);
+    HAPPYCPP_SHARED_LIB_API bool getOsInfo(OsIdentification *osi);
 
-    } /* namespace happycpp */
+} /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_OS_H_

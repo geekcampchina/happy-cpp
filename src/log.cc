@@ -30,83 +30,83 @@ using namespace log4cplus;
 using namespace log4cplus::helpers;
 
 namespace happycpp::log {
-        HappyLogPtr HappyLog::_instance = nullptr;
+    HappyLogPtr HappyLog::_instance = nullptr;
 
-        HappyLog::HappyLog(log4cplus::LogLevel level) {
-            log4cplus::SharedAppenderPtr defaultAppend(new log4cplus::ConsoleAppender(false, true));
+    HappyLog::HappyLog(log4cplus::LogLevel level) {
+        log4cplus::SharedAppenderPtr defaultAppend(new log4cplus::ConsoleAppender(false, true));
 
-            defaultAppend->setName(LOG4CPLUS_TEXT("Console"));
+        defaultAppend->setName(LOG4CPLUS_TEXT("Console"));
 
-            log4cplus::tstring pattern = LOG4CPLUS_TEXT("%D{%Y-%m-%d %H:%M:%S.%q} %-5i %-5p %c --- %m%n");
-            defaultAppend->setLayout(std::unique_ptr<Layout>(new PatternLayout(pattern)) );
-            Logger::getRoot().addAppender(defaultAppend);
-            Logger::getRoot().setLogLevel(level);
+        log4cplus::tstring pattern = LOG4CPLUS_TEXT("%D{%Y-%m-%d %H:%M:%S.%q} %-5i %-5p %c --- %m%n");
+        defaultAppend->setLayout(std::unique_ptr<Layout>(new PatternLayout(pattern)));
+        Logger::getRoot().addAppender(defaultAppend);
+        Logger::getRoot().setLogLevel(level);
 
-            _logger = Logger::getRoot();
+        _logger = Logger::getRoot();
 
-            info("HappyLog->未启用日志配置文件，加载默认设置。当前运行在【控制台输出】模式下......");
+        info("HappyLog->未启用日志配置文件，加载默认设置。当前运行在【控制台输出】模式下......");
+    }
+
+    HappyLog::HappyLog(const string &profile) {
+        PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT(profile));
+        _logger = Logger::getRoot();
+
+        info("HappyLog->日志配置文件 '" + profile + "' 加载成功......");
+    }
+
+    HappyLogPtr HappyLog::getInstance(log4cplus::LogLevel level) {
+        if (_instance == nullptr) {
+            shared_ptr<HappyLog> tmpInstance(new HappyLog(level));
+
+            _instance = tmpInstance;
         }
 
-        HappyLog::HappyLog(const string &profile) {
-            PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT(profile));
-            _logger = Logger::getRoot();
+        return _instance;
+    }
 
-            info("HappyLog->日志配置文件 '" + profile + "' 加载成功......");
+    HappyLogPtr HappyLog::getInstance(const string &profile) {
+        if (_instance == nullptr) {
+            shared_ptr<HappyLog> tmpInstance(new HappyLog(profile));
+
+            _instance = tmpInstance;
         }
 
-        HappyLogPtr HappyLog::getInstance(log4cplus::LogLevel level) {
-            if (_instance == nullptr) {
-                shared_ptr<HappyLog> tmpInstance(new HappyLog(level));
+        return _instance;
+    }
 
-                _instance = tmpInstance;
-            }
+    HappyLogPtr HappyLog::getInstance(const boost::filesystem::path &profile) {
+        return getInstance(profile.string());
+    }
 
-            return _instance;
-        }
+    void HappyLog::enterFunc(const std::string &funcName) {
+        LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT("Enter function: ") << funcName);
+    }
 
-        HappyLogPtr HappyLog::getInstance(const string &profile) {
-            if (_instance == nullptr) {
-                shared_ptr<HappyLog> tmpInstance(new HappyLog(profile));
+    void HappyLog::exitFunc(const std::string &funcName) {
+        LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT("Exit function: ") << funcName);
+    }
 
-                _instance = tmpInstance;
-            }
+    void HappyLog::error(const string &s) {
+        LOG4CPLUS_ERROR(_logger, LOG4CPLUS_TEXT(s));
+    }
 
-            return _instance;
-        }
+    void HappyLog::warn(const string &s) {
+        LOG4CPLUS_WARN(_logger, LOG4CPLUS_TEXT(s));
+    }
 
-        HappyLogPtr HappyLog::getInstance(const boost::filesystem::path &profile) {
-            return getInstance(profile.string());
-        }
+    void HappyLog::info(const string &s) {
+        LOG4CPLUS_INFO(_logger, LOG4CPLUS_TEXT(s));
+    }
 
-        void HappyLog::enterFunc(const std::string &funcName) {
-            LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT("Enter function: ") << funcName);
-        }
+    void HappyLog::debug(const string &s) {
+        LOG4CPLUS_DEBUG(_logger, LOG4CPLUS_TEXT(s));
+    }
 
-        void HappyLog::exitFunc(const std::string &funcName) {
-            LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT("Exit function: ") << funcName);
-        }
+    void HappyLog::trace(const string &s) {
+        LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT(s));
+    }
 
-        void HappyLog::error(const string &s) {
-            LOG4CPLUS_ERROR(_logger, LOG4CPLUS_TEXT(s));
-        }
-
-        void HappyLog::warn(const string &s) {
-            LOG4CPLUS_WARN(_logger, LOG4CPLUS_TEXT(s));
-        }
-
-        void HappyLog::info(const string &s) {
-            LOG4CPLUS_INFO(_logger, LOG4CPLUS_TEXT(s));
-        }
-
-        void HappyLog::debug(const string &s) {
-            LOG4CPLUS_DEBUG(_logger, LOG4CPLUS_TEXT(s));
-        }
-
-        void HappyLog::trace(const string &s) {
-            LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT(s));
-        }
-
-        void HappyLog::error(const exception &e) {
-            LOG4CPLUS_ERROR(_logger, LOG4CPLUS_TEXT("Exception Error->" << e.what()));
-        }
-    } /* namespace happycpp */
+    void HappyLog::error(const exception &e) {
+        LOG4CPLUS_ERROR(_logger, LOG4CPLUS_TEXT("Exception Error->" << e.what()));
+    }
+} /* namespace happycpp */

@@ -23,44 +23,44 @@
 #include <random>
 
 namespace happycpp::hcalgorithm::hcrandom {
-            HAPPYCPP_SHARED_LIB_API uint64_t getRandom() {
-                std::random_device rd;
-                return rd();
+    HAPPYCPP_SHARED_LIB_API uint64_t getRandom() {
+        std::random_device rd;
+        return rd();
+    }
+
+    HAPPYCPP_SHARED_LIB_API std::string genRandom(const size_t &size,
+                                                  CharClassification cc) {
+        std::string str;
+        size_t len = 0;
+
+        do {
+            int64_t c = getRandom() % 126;
+            bool ret_val = false;
+
+            switch (cc) {
+                case kAlnum:
+                    ret_val = std::isalnum(c);
+                    break;
+                case kAlpha:
+                    ret_val = std::isalpha(c);
+                    break;
+                case kDigit:
+                    ret_val = std::isdigit(c);
+                    break;
+                case kPrint:
+                    ret_val = (!std::isspace(c) && std::isprint(c));
+                    break;
+                default:
+                    break;
             }
 
-            HAPPYCPP_SHARED_LIB_API std::string genRandom(const size_t &size,
-                                                          CharClassification cc) {
-                std::string str;
-                size_t len = 0;
-
-                do {
-                    int64_t c = getRandom() % 126;
-                    bool ret_val = false;
-
-                    switch (cc) {
-                        case kAlnum:
-                            ret_val = std::isalnum(c);
-                            break;
-                        case kAlpha:
-                            ret_val = std::isalpha(c);
-                            break;
-                        case kDigit:
-                            ret_val = std::isdigit(c);
-                            break;
-                        case kPrint:
-                            ret_val = (!std::isspace(c) && std::isprint(c));
-                            break;
-                        default:
-                            break;
-                    }
-
-                    if (ret_val) {
-                        str.push_back(c);
-                        ++len;
-                    }
-                } while (len < size);
-
-                return str;
+            if (ret_val) {
+                str.push_back(c);
+                ++len;
             }
+        } while (len < size);
 
-        } /* namespace happycpp */
+        return str;
+    }
+
+} /* namespace happycpp */

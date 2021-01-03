@@ -32,58 +32,58 @@
 
 namespace happycpp::hcalgorithm::hcarray {
 
-            template<class T>
-            inline bool exists(const std::vector<T> &v, const T &e) {
-                return (std::find(v.begin(), v.end(), e) != v.end());
+    template<class T>
+    inline bool exists(const std::vector<T> &v, const T &e) {
+        return (std::find(v.begin(), v.end(), e) != v.end());
+    }
+
+    // 检查数组中是否存在指定元素
+    template<class T>
+    inline bool find(std::vector<T> *v, const T &e,
+                     typename std::vector<T>::iterator *it) {
+        typename std::vector<T>::iterator _it = std::find(v->begin(), v->end(), e);
+
+        if (_it == v->end())
+            return false;
+
+        *it = _it;
+        return true;
+    }
+
+    // 删除数组中所有重复的元素
+    template<class T>
+    inline void unique(std::vector<T> *v) {
+        if (v->empty())
+            return;
+
+        // 去重之前必须排序
+        std::sort(v->begin(), v->end());
+
+        // 获取重复元素位置
+        typename std::vector<T>::iterator it = std::unique(v->begin(), v->end());
+
+        if (it != v->end())
+            v->erase(it, v->end());
+    }
+
+    // 将数组转为字符串，可带分隔符
+    template<class T>
+    inline std::string toString(std::vector<T> &v, const std::string &delimiter = "") {
+        std::stringstream ss;
+
+        const size_t length = v.size();
+
+        for (size_t i = 0; i < length; i++) {
+            ss << v[i];
+
+            if (i != length - 1) {
+                ss << delimiter;
             }
+        }
 
-            // 检查数组中是否存在指定元素
-            template<class T>
-            inline bool find(std::vector<T> *v, const T &e,
-                             typename std::vector<T>::iterator *it) {
-                typename std::vector<T>::iterator _it = std::find(v->begin(), v->end(), e);
+        return ss.str();
+    }
 
-                if (_it == v->end())
-                    return false;
-
-                *it = _it;
-                return true;
-            }
-
-            // 删除数组中所有重复的元素
-            template<class T>
-            inline void unique(std::vector<T> *v) {
-                if (v->empty())
-                    return;
-
-                // 去重之前必须排序
-                std::sort(v->begin(), v->end());
-
-                // 获取重复元素位置
-                typename std::vector<T>::iterator it = std::unique(v->begin(), v->end());
-
-                if (it != v->end())
-                    v->erase(it, v->end());
-            }
-
-            // 将数组转为字符串，可带分隔符
-            template<class T>
-            inline std::string toString(std::vector<T> &v, const std::string &delimiter = "") {
-                std::stringstream ss;
-
-                const size_t length = v.size();
-
-                for (size_t i = 0; i < length; i++) {
-                    ss << v[i];
-
-                    if (i != length - 1) {
-                        ss << delimiter;
-                    }
-                }
-
-                return ss.str();
-            }
-
-        } /* namespace happycpp */
+} /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_ARRAY_H_

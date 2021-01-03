@@ -27,16 +27,16 @@ using std::hex;
 
 namespace happycpp::hcalgorithm::hcint {
 
-            HAPPYCPP_SHARED_LIB_API std::string decToHex(const int32_t &n) {
-                std::stringstream ss;
-                ss << hex << n;
-                return ss.str();
-            }
+    HAPPYCPP_SHARED_LIB_API std::string decToHex(const int32_t &n) {
+        std::stringstream ss;
+        ss << hex << n;
+        return ss.str();
+    }
 
-            HAPPYCPP_SHARED_LIB_API bool isOddNum(const int32_t &n) {
-                // 奇数: true
-                // 偶数: false
-                return (n & 1) != 0;
-            }
+    HAPPYCPP_SHARED_LIB_API bool isOddNum(const int32_t &n) {
+        // 奇数: true
+        // 偶数: false
+        return (n & 1) != 0;
+    }
 
-        } /* namespace happycpp */
+} /* namespace happycpp */

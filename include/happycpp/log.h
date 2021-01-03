@@ -33,67 +33,69 @@
 #define DEFAULT_LOG_PROFILE_NAME "log4cplus.properties"
 
 namespace happycpp::log {
-        /*
-         * 示例代码：
-        #include "happycpp/happylog.h"
+    /*
+     * 示例代码：
+    #include "happycpp/happylog.h"
 
-        using namespace happycpp::log;
+    using namespace happycpp::log;
 
-        fs::path p = fs::current_path() / DEFAULT_LOG_PROFILE_NAME;
-        HappyLogPtr hlog = HappyLog::getInstance(p);
-        hlog->info("test message......");
-         */
-        class HappyLog {
-        private:
-            log4cplus::Logger _logger;
-            static std::shared_ptr<HappyLog> _instance;
+    fs::path p = fs::current_path() / DEFAULT_LOG_PROFILE_NAME;
+    HappyLogPtr hlog = HappyLog::getInstance(p);
+    hlog->info("test message......");
+     */
+    class HappyLog {
+    private:
+        log4cplus::Logger _logger;
+        static std::shared_ptr<HappyLog> _instance;
 
-        public:
-            static std::shared_ptr<HappyLog> getInstance(log4cplus::LogLevel level = log4cplus::INFO_LOG_LEVEL);
+    public:
+        static std::shared_ptr<HappyLog> getInstance(log4cplus::LogLevel level = log4cplus::INFO_LOG_LEVEL);
 
-            static std::shared_ptr<HappyLog> getInstance(const std::string &profile);
+        static std::shared_ptr<HappyLog> getInstance(const std::string &profile);
 
-            static std::shared_ptr<HappyLog> getInstance(const boost::filesystem::path &profile);
+        static std::shared_ptr<HappyLog> getInstance(const boost::filesystem::path &profile);
 
-            void enterFunc(const std::string &funcName);
+        void enterFunc(const std::string &funcName);
 
-            void exitFunc(const std::string &funcName);
+        void exitFunc(const std::string &funcName);
 
-            // 泛型被其它动态库调用时，会出现"Undefined symbols error"错误，将函数实现放在头文件中即可
-            template<typename T>
-            void var(const std::string &name, T value) {
-                LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT("var->") << name << LOG4CPLUS_TEXT("=") << value);
-            }
+        // 泛型被其它动态库调用时，会出现"Undefined symbols error"错误，将函数实现放在头文件中即可
+        template<typename T>
+        void var(const std::string &name, T value) {
+            LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT("var->") << name << LOG4CPLUS_TEXT("=") << value);
+        }
 
-            // 泛型被其它动态库调用时，会出现"Undefined symbols error"错误，将函数实现放在头文件中即可
-            template<typename T>
-            void input(const std::string &name, T value) {
-                LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT("input->") << name << LOG4CPLUS_TEXT("=") << value);
-            }
+        // 泛型被其它动态库调用时，会出现"Undefined symbols error"错误，将函数实现放在头文件中即可
+        template<typename T>
+        void input(const std::string &name, T value) {
+            LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT("input->") << name << LOG4CPLUS_TEXT("=") << value);
+        }
 
-            // 泛型被其它动态库调用时，会出现"Undefined symbols error"错误，将函数实现放在头文件中即可
-            template<typename T>
-            void output(const std::string &name, T value) {
-                LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT("output->") << name << LOG4CPLUS_TEXT("=") << value);
-            }
+        // 泛型被其它动态库调用时，会出现"Undefined symbols error"错误，将函数实现放在头文件中即可
+        template<typename T>
+        void output(const std::string &name, T value) {
+            LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT("output->") << name << LOG4CPLUS_TEXT("=") << value);
+        }
 
-            void error(const std::string &s);
-            void error(const std::exception &e);
+        void error(const std::string &s);
 
-            void warn(const std::string &s);
+        void error(const std::exception &e);
 
-            void info(const std::string &s);
+        void warn(const std::string &s);
 
-            void debug(const std::string &s);
+        void info(const std::string &s);
 
-            void trace(const std::string &s);
-        protected:
-            explicit HappyLog(const std::string &profile);
+        void debug(const std::string &s);
 
-            explicit HappyLog(log4cplus::LogLevel level = log4cplus::INFO_LOG_LEVEL);
-        };
+        void trace(const std::string &s);
 
-        typedef std::shared_ptr<HappyLog> HappyLogPtr;
-    } /* namespace happycpp */
+    protected:
+        explicit HappyLog(const std::string &profile);
+
+        explicit HappyLog(log4cplus::LogLevel level = log4cplus::INFO_LOG_LEVEL);
+    };
+
+    typedef std::shared_ptr<HappyLog> HappyLogPtr;
+} /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_LOG_H_

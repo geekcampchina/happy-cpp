@@ -26,52 +26,52 @@
 using namespace std;
 
 namespace happycpp::hciconv {
-        string getCodeName(StandardCharsets code, bool isToCode) {
-            const string suffix = isToCode ? "//TRANSLIT" : "";
+    HAPPYCPP_SHARED_LIB_API string getCodeName(StandardCharsets code, bool isToCode) {
+        const string suffix = isToCode ? "//TRANSLIT" : "";
 
-            switch (code) {
-                case GB18030:
-                    return "GB18030" + suffix;
-                case GB2312:
-                    return "GB2312" + suffix;
-                case GBK:
-                    return "GBK" + suffix;
-                case UTF8:
-                    return "UTF-8" + suffix;
-                default:
-                    return "";
-            }
+        switch (code) {
+            case GB18030:
+                return "GB18030" + suffix;
+            case GB2312:
+                return "GB2312" + suffix;
+            case GBK:
+                return "GBK" + suffix;
+            case UTF8:
+                return "UTF-8" + suffix;
+            default:
+                return "";
+        }
+    }
+
+    HAPPYCPP_SHARED_LIB_API string iconvConvert(StandardCharsets fromCode, StandardCharsets toCode, const string &s) {
+        happycpp::log::HappyLogPtr hlog = happycpp::log::HappyLog::getInstance();
+
+        size_t inSize = s.length();
+        char inStr[inSize];
+        memcpy(inStr, s.c_str(), inSize);
+        char *inStrPtr = inStr;
+
+        size_t outSize = inSize * 4;
+        char outStr[outSize];
+        memset(outStr, 0, outSize);
+        char *outStrPtr = outStr;
+
+        iconv_t conv = iconv_open(getCodeName(toCode, true).c_str(), getCodeName(fromCode).c_str());
+
+        if (conv == (iconv_t) -1) {
+            hlog->error("iconv_open函数执行时出错：" + string(strerror(errno)));
+            return "";
         }
 
-        string iconvConvert(StandardCharsets fromCode, StandardCharsets toCode, const string &s) {
-            happycpp::log::HappyLogPtr hlog = happycpp::log::HappyLog::getInstance();
-
-            size_t inSize = s.length();
-            char inStr[inSize];
-            memcpy(inStr, s.c_str(), inSize);
-            char *inStrPtr = inStr;
-
-            size_t outSize = inSize * 4;
-            char outStr[outSize];
-            memset(outStr, 0, outSize);
-            char *outStrPtr = outStr;
-
-            iconv_t conv = iconv_open(getCodeName(toCode, true).c_str(), getCodeName(fromCode).c_str());
-
-            if (conv == (iconv_t) -1) {
-                hlog->error("iconv_open函数执行时出错：" + string(strerror(errno)));
-                return "";
-            }
-
-            if (iconv(conv, &inStrPtr, &inSize, &outStrPtr, &outSize) == (size_t)-1) {
-                iconv_close(conv);
-                hlog->error("iconv函数执行时出错：" + string(strerror(errno)));
-                return "";
-            }
-
+        if (iconv(conv, &inStrPtr, &inSize, &outStrPtr, &outSize) == (size_t) -1) {
             iconv_close(conv);
-
-            return outStr;
+            hlog->error("iconv函数执行时出错：" + string(strerror(errno)));
+            return "";
         }
 
-    } /* namespace happycpp */
+        iconv_close(conv);
+
+        return outStr;
+    }
+
+} /* namespace happycpp */

@@ -29,9 +29,9 @@
 
 namespace happycpp::hcalgorithm::hcdomain {
 
-            // 判断字符串是否是合法域名
-            HAPPYCPP_SHARED_LIB_API bool isDomain(const std::string &s);
+    // 判断字符串是否是合法域名
+    HAPPYCPP_SHARED_LIB_API bool isDomain(const std::string &s);
 
-        } /* namespace happycpp */
+} /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_DOMAIN_H_

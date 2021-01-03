@@ -29,8 +29,8 @@
 
 namespace happycpp::hcerrno {
 
-        HAPPYCPP_SHARED_LIB_API std::string errorToStr();
+    HAPPYCPP_SHARED_LIB_API std::string errorToStr();
 
-    } /* namespace happycpp */
+} /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ERRNO_H_

@@ -30,7 +30,7 @@ namespace happycpp {
     HappyException::~HappyException() noexcept = default;
 
     const char *HappyException::what() const noexcept {
-        return  _error.what();
+        return _error.what();
     }
 
 } /* namespace happycpp */

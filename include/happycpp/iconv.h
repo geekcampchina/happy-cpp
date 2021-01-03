@@ -34,18 +34,18 @@
 
 namespace happycpp::hciconv {
 
-        typedef enum {
-            GB2312,
-            GBK,
-            GB18030,
-            UTF8,
-        } StandardCharsets;
+    typedef enum {
+        GB2312,
+        GBK,
+        GB18030,
+        UTF8,
+    } StandardCharsets;
 
-        std::string getCodeName(StandardCharsets code, bool isToCode = false);
+    std::string getCodeName(StandardCharsets code, bool isToCode = false);
 
-        std::string iconvConvert(StandardCharsets fromCode, StandardCharsets toCode, const std::string &s);
+    std::string iconvConvert(StandardCharsets fromCode, StandardCharsets toCode, const std::string &s);
 
-    } /* namespace happycpp */
+} /* namespace happycpp */
 
 #endif
 

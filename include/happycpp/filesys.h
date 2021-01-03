@@ -35,36 +35,36 @@
 
 namespace happycpp::hcfilesys {
 
-        HAPPYCPP_SHARED_LIB_API bool happyCreateFile(const std::string &file);
+    HAPPYCPP_SHARED_LIB_API bool happyCreateFile(const std::string &file);
 
-        // 读取文件，返回字符串
-        HAPPYCPP_SHARED_LIB_API std::string readFile(const std::string &file);
+    // 读取文件，返回字符串
+    HAPPYCPP_SHARED_LIB_API std::string readFile(const std::string &file);
 
-        // 读取文件，每行内容为一个元素加入到列表，返回列表，
-        HAPPYCPP_SHARED_LIB_API bool readFile(const std::string &file,
-                                              std::vector<std::string> *lines);
+    // 读取文件，每行内容为一个元素加入到列表，返回列表，
+    HAPPYCPP_SHARED_LIB_API bool readFile(const std::string &file,
+                                          std::vector<std::string> *lines);
 
-        HAPPYCPP_SHARED_LIB_API bool writeFile(const std::string &file,
-                                               const std::string &content,
-                                               const bool &append = false);
+    HAPPYCPP_SHARED_LIB_API bool writeFile(const std::string &file,
+                                           const std::string &content,
+                                           const bool &append = false);
 
-        HAPPYCPP_SHARED_LIB_API bool writeFile(const std::string &file,
-                                               const std::vector<std::string> &lines,
-                                               const bool &append = false);
+    HAPPYCPP_SHARED_LIB_API bool writeFile(const std::string &file,
+                                           const std::vector<std::string> &lines,
+                                           const bool &append = false);
 
-        // 获取指定目录的文件或子目录列表(不会递归)
-        // file_type:
-        //     FT_DIR，表示获取目录
-        //     FT_FILE，表示获取文件
-        //     FT_ALL，表示获取目录和文件
-        //
-        // max_num:
-        //      防止因为超大数量的文件和目录，导致性能问题
-        HAPPYCPP_SHARED_LIB_API void getFilesInDir(const std::string &path,
-                                                   FileType type,
-                                                   std::vector<FileStat> *v,
-                                                   uint32_t max_num = 10000);
+    // 获取指定目录的文件或子目录列表(不会递归)
+    // file_type:
+    //     FT_DIR，表示获取目录
+    //     FT_FILE，表示获取文件
+    //     FT_ALL，表示获取目录和文件
+    //
+    // max_num:
+    //      防止因为超大数量的文件和目录，导致性能问题
+    HAPPYCPP_SHARED_LIB_API void getFilesInDir(const std::string &path,
+                                               FileType type,
+                                               std::vector<FileStat> *v,
+                                               uint32_t max_num = 10000);
 
-    } /* namespace happycpp */
+} /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_FILESYS_H_

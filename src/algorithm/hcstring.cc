@@ -23,172 +23,172 @@
 
 namespace happycpp::hcalgorithm::hcstring {
 
-            HAPPYCPP_SHARED_LIB_API bool find(const std::string &s,
+    HAPPYCPP_SHARED_LIB_API bool find(const std::string &s,
+                                      const std::string &sub) {
+        return (s.size() >= sub.size() && s.find(sub) != std::string::npos);
+    }
+
+    HAPPYCPP_SHARED_LIB_API std::string trim(const std::string &s,
+                                             const std::string &white_space) {
+        const size_t start = s.find_first_not_of(white_space);
+
+        // 字符串只由空白字符组成
+        if (start == std::string::npos)
+            return "";
+
+        const size_t end = s.find_last_not_of(white_space);
+
+        return s.substr(start, end - start + 1);
+    }
+
+    HAPPYCPP_SHARED_LIB_API std::string replace(const std::string &s,
+                                                const std::string &old_sub,
+                                                const std::string &new_sub) {
+        if (s.empty())
+            return "";
+
+        if (old_sub.empty() || old_sub == new_sub)
+            return s;
+
+        size_t pos = 0;
+        std::string str(s);
+
+        // find(old_sub,pos)防止出现man替换为woman之类的情况，出现死循环
+        while ((pos = str.find(old_sub, pos)) != std::string::npos) {
+            str.replace(pos, old_sub.size(), new_sub);
+            pos += new_sub.size();
+        }
+
+        return str;
+    }
+
+    HAPPYCPP_SHARED_LIB_API std::string erase(const std::string &s,
                                               const std::string &sub) {
-                return (s.size() >= sub.size() && s.find(sub) != std::string::npos);
+        std::string str(s);
+
+        if (!s.empty() && !sub.empty() && find(s, sub)) {
+            size_t pos(0);
+            size_t erase_pos(0);
+            size_t sub_size = sub.size();
+
+            // 注意：此代码将防止出现mnmmnn中2次删除mn，剩下第三位的m
+            // 和最后的n时， 多执行了一次删除
+            while ((pos = s.find(sub, pos)) != std::string::npos) {
+                // 在新字符串长度比输入的字符串长度短erase_pos_
+                // 所以，在新字符串中起点向后移动erase_pos_
+                str.erase((pos - erase_pos), sub_size);
+                erase_pos += sub_size;
+                pos += sub.size();
             }
+        }
 
-            HAPPYCPP_SHARED_LIB_API std::string trim(const std::string &s,
-                                                     const std::string &white_space) {
-                const size_t start = s.find_first_not_of(white_space);
+        return str;
+    }
 
-                // 字符串只由空白字符组成
-                if (start == std::string::npos)
-                    return "";
+    HAPPYCPP_SHARED_LIB_API bool isVersion(const std::string &s) {
+        if (s.empty())
+            return false;
 
-                const size_t end = s.find_last_not_of(white_space);
+        //  开头和结尾不能是点
+        if ((s[0] == '.') || (s[s.size() - 1] == '.'))
+            return false;
 
-                return s.substr(start, end - start + 1);
-            }
+        for (const auto x : s) { // NOLINT
+            if (!isdigit(x) && x != '.')
+                return false;
+        }
 
-            HAPPYCPP_SHARED_LIB_API std::string replace(const std::string &s,
-                                                        const std::string &old_sub,
-                                                        const std::string &new_sub) {
-                if (s.empty())
-                    return "";
+        return true;
+    }
 
-                if (old_sub.empty() || old_sub == new_sub)
-                    return s;
+    HAPPYCPP_SHARED_LIB_API bool isDigit(const std::string &s) {
+        if (s.empty())
+            return false;
 
-                size_t pos = 0;
-                std::string str(s);
+        for (const auto x : s) { // NOLINT
+            if (!isdigit(x))
+                return false;
+        }
 
-                // find(old_sub,pos)防止出现man替换为woman之类的情况，出现死循环
-                while ((pos = str.find(old_sub, pos)) != std::string::npos) {
-                    str.replace(pos, old_sub.size(), new_sub);
-                    pos += new_sub.size();
-                }
+        return true;
+    }
 
-                return str;
-            }
+    HAPPYCPP_SHARED_LIB_API bool isAlnum(const std::string &s) {
+        if (s.empty())
+            return false;
 
-            HAPPYCPP_SHARED_LIB_API std::string erase(const std::string &s,
-                                                      const std::string &sub) {
-                std::string str(s);
+        for (const auto x : s) { // NOLINT
+            if (!isalnum(x))
+                return false;
+        }
 
-                if (!s.empty() && !sub.empty() && find(s, sub)) {
-                    size_t pos(0);
-                    size_t erase_pos(0);
-                    size_t sub_size = sub.size();
+        return true;
+    }
 
-                    // 注意：此代码将防止出现mnmmnn中2次删除mn，剩下第三位的m
-                    // 和最后的n时， 多执行了一次删除
-                    while ((pos = s.find(sub, pos)) != std::string::npos) {
-                        // 在新字符串长度比输入的字符串长度短erase_pos_
-                        // 所以，在新字符串中起点向后移动erase_pos_
-                        str.erase((pos - erase_pos), sub_size);
-                        erase_pos += sub_size;
-                        pos += sub.size();
-                    }
-                }
+    HAPPYCPP_SHARED_LIB_API bool isAlpha(const std::string &s) {
+        if (s.empty())
+            return false;
 
-                return str;
-            }
+        for (const auto x : s) { // NOLINT
+            if (!isalpha(x))
+                return false;
+        }
 
-            HAPPYCPP_SHARED_LIB_API bool isVersion(const std::string &s) {
-                if (s.empty())
-                    return false;
+        return true;
+    }
 
-                //  开头和结尾不能是点
-                if ((s[0] == '.') || (s[s.size() - 1] == '.'))
-                    return false;
+    HAPPYCPP_SHARED_LIB_API std::string toLower(const std::string &s) {
+        std::string str;
 
-                for (const auto x : s) { // NOLINT
-                    if (!isdigit(x) && x != '.')
-                        return false;
-                }
+        for (const auto x : s)
+            str.push_back(tolower(x));
 
-                return true;
-            }
+        return str;
+    }
 
-            HAPPYCPP_SHARED_LIB_API bool isDigit(const std::string &s) {
-                if (s.empty())
-                    return false;
+    HAPPYCPP_SHARED_LIB_API std::string toUpper(const std::string &s) {
+        std::string str;
 
-                for (const auto x : s) { // NOLINT
-                    if (!isdigit(x))
-                        return false;
-                }
+        for (const auto x : s)
+            str.push_back(toupper(x));
 
-                return true;
-            }
+        return str;
+    }
 
-            HAPPYCPP_SHARED_LIB_API bool isAlnum(const std::string &s) {
-                if (s.empty())
-                    return false;
+    /* sep可以是多个分隔符，会按照多分隔符同时分隔 */
+    HAPPYCPP_SHARED_LIB_API bool split(const std::string &s, std::vector<std::string> *result,
+                                       const std::string &sep) {
+        boost::split(*result, s, boost::is_any_of(sep));
 
-                for (const auto x : s) { // NOLINT
-                    if (!isalnum(x))
-                        return false;
-                }
+        /* 分隔失败，boost会返回数量为1，元素为空的结果 */
+        if (result->size() == 1 && (*result->begin()).empty()) {
+            result->clear();
+            return false;
+        }
 
-                return true;
-            }
+        return true;
+    }
 
-            HAPPYCPP_SHARED_LIB_API bool isAlpha(const std::string &s) {
-                if (s.empty())
-                    return false;
+    HAPPYCPP_SHARED_LIB_API void toMap(const std::vector<std::string> &v,
+                                       std::map<std::string, std::string> *m) {
+        for (const auto &x : v)
+            m->insert(std::pair<std::string, std::string>(x, ""));
+    }
 
-                for (const auto x : s) { // NOLINT
-                    if (!isalpha(x))
-                        return false;
-                }
+    HAPPYCPP_SHARED_LIB_API void toMap(const std::string &s,
+                                       std::map<std::string, std::string> *m,
+                                       const std::string &sep) {
+        std::vector<std::string> v;
 
-                return true;
-            }
+        split(s, &v);
+        toMap(v, m);
+    }
 
-            HAPPYCPP_SHARED_LIB_API std::string toLower(const std::string &s) {
-                std::string str;
+    HAPPYCPP_SHARED_LIB_API long toLong(const std::string &s) {
+        char *endptr = nullptr;
+        const long result = strtol(s.c_str(), &endptr, 10);
 
-                for (const auto x : s)
-                    str.push_back(tolower(x));
+        return result;
+    }
 
-                return str;
-            }
-
-            HAPPYCPP_SHARED_LIB_API std::string toUpper(const std::string &s) {
-                std::string str;
-
-                for (const auto x : s)
-                    str.push_back(toupper(x));
-
-                return str;
-            }
-
-            /* sep可以是多个分隔符，会按照多分隔符同时分隔 */
-            bool split(const std::string &s, std::vector<std::string> *result,
-                       const std::string &sep) {
-                boost::split(*result, s, boost::is_any_of(sep));
-
-                /* 分隔失败，boost会返回数量为1，元素为空的结果 */
-                if (result->size() == 1 && (*result->begin()).empty()) {
-                    result->clear();
-                    return false;
-                }
-
-                return true;
-            }
-
-            HAPPYCPP_SHARED_LIB_API void toMap(const std::vector<std::string> &v,
-                                               std::map<std::string, std::string> *m) {
-                for (const auto& x : v)
-                    m->insert(std::pair<std::string, std::string>(x, ""));
-            }
-
-            HAPPYCPP_SHARED_LIB_API void toMap(const std::string &s,
-                                               std::map<std::string, std::string> *m,
-                                               const std::string &sep) {
-                std::vector<std::string> v;
-
-                split(s, &v);
-                toMap(v, m);
-            }
-
-            long toLong(const std::string &s) {
-                char *endptr = nullptr;
-                const long result = strtol(s.c_str(), &endptr, 10);
-
-                return result;
-            }
-
-        } /* namespace happycpp */
+} /* namespace happycpp */
