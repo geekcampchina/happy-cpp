@@ -255,6 +255,11 @@ TEST(HCSTRING_UNITTEST, ToLong) { // NOLINT
     EXPECT_EQ(-123456789L, result2);
 }
 
+TEST(HCSTRING_UNITTEST, hcformat) { // NOLINT
+    const std::string result = hhhstring::hcformat("Hello %s%s", "world", "!");
+    EXPECT_EQ("Hello world!", result);
+}
+
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
 
