@@ -109,4 +109,16 @@ namespace happycpp::log {
     void HappyLog::error(const exception &e) {
         LOG4CPLUS_ERROR(_logger, LOG4CPLUS_TEXT("Exception Error->" << e.what()));
     }
+
+    std::shared_ptr<HappyLog> HappyLog::newInstance(const boost::filesystem::path &profile) {
+        return std::shared_ptr<HappyLog>(new HappyLog(profile.string()));
+    }
+
+    std::shared_ptr<HappyLog> HappyLog::newInstance(const string &profile) {
+        return std::shared_ptr<HappyLog>(new HappyLog(profile));
+    }
+
+    std::shared_ptr<HappyLog> HappyLog::newInstance(log4cplus::LogLevel level) {
+        return std::shared_ptr<HappyLog>(new HappyLog(level));
+    }
 } /* namespace happycpp */

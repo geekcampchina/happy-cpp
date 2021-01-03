@@ -49,6 +49,12 @@ namespace happycpp::log {
         static std::shared_ptr<HappyLog> _instance;
 
     public:
+        static std::shared_ptr<HappyLog> newInstance(log4cplus::LogLevel level = log4cplus::INFO_LOG_LEVEL);
+
+        static std::shared_ptr<HappyLog> newInstance(const std::string &profile);
+
+        static std::shared_ptr<HappyLog> newInstance(const boost::filesystem::path &profile);
+
         static std::shared_ptr<HappyLog> getInstance(log4cplus::LogLevel level = log4cplus::INFO_LOG_LEVEL);
 
         static std::shared_ptr<HappyLog> getInstance(const std::string &profile);
