@@ -36,7 +36,7 @@ namespace happycpp::hcalgorithm::hcstring {
     HAPPYCPP_SHARED_LIB_API bool find(const std::string &s,
                                       const std::string &sub);
 
-    // 去除首位的空白字符
+    // 去除首尾的空白字符
     HAPPYCPP_SHARED_LIB_API std::string trim(const std::string &s,
                                              const std::string &white_space = " ");
 
