@@ -20,6 +20,7 @@
 
 #include "happycpp/algorithm/hcstring.h"
 #include <boost/algorithm/string.hpp>
+#include <iomanip>
 
 namespace happycpp::hcalgorithm::hcstring {
 
@@ -190,4 +191,29 @@ namespace happycpp::hcalgorithm::hcstring {
 
         return result;
     }
+
+    HAPPYCPP_SHARED_LIB_API std::string toHexString(const std::string &s,
+                                                    const std::string &delimiter,
+                                                    bool is_upper_case) {
+        std::ostringstream result;
+
+        const size_t sLen = s.size();
+
+        for (size_t i = 0; i < sLen; i++) {
+            result << std::hex
+                   << std::setfill('0')
+                   << std::setw(2)
+                   << (is_upper_case ? std::uppercase : std::nouppercase)
+                   << int(s[i]);
+
+            if (delimiter.empty() || (i+1) == sLen) {
+                continue;
+            }
+
+            result << delimiter;
+        }
+
+        return result.str();
+    }
+
 } /* namespace happycpp */

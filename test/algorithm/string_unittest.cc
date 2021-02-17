@@ -260,6 +260,18 @@ TEST(HCSTRING_UNITTEST, hcformat) { // NOLINT
     EXPECT_EQ("Hello world!", result);
 }
 
+TEST(HCSTRING_UNITTEST, toHexString) { // NOLINT
+    std::string result = hhhstring::toHexString("123", "");
+    EXPECT_EQ("313233", result);
+
+    result = hhhstring::toHexString("123+=", " ");
+    EXPECT_EQ("31 32 33 2B 3D", result);
+
+    result = hhhstring::toHexString("123+=", " ", false);
+    EXPECT_EQ("31 32 33 2b 3d", result);
+}
+
+
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
 

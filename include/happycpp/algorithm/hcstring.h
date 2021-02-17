@@ -109,6 +109,8 @@ namespace happycpp::hcalgorithm::hcstring {
         return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
     }
 
+    std::string toHexString(const std::string &s, const std::string &delimiter="", bool is_upper_case=true);
+
 } /* namespace happycpp */
 
 #endif  // INCLUDE_HAPPYCPP_ALGORITHM_STRING_H_
