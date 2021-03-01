@@ -25,6 +25,8 @@
 #include <log4cplus/helpers/fileinfo.h>
 #include <log4cplus/initializer.h>
 
+#define _LOGGER(loggerName) loggerName == "root" ? _logger : Logger::getInstance(loggerName)
+
 using namespace std;
 using namespace log4cplus;
 using namespace log4cplus::helpers;
@@ -78,35 +80,35 @@ namespace happycpp::log {
         return getInstance(profile.string());
     }
 
-    void HappyLog::enterFunc(const std::string &funcName) {
-        LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT("Enter function: ") << funcName);
+    void HappyLog::enterFunc(const std::string &funcName, const string &loggerName) {
+        LOG4CPLUS_TRACE(_LOGGER(loggerName), LOG4CPLUS_TEXT("Enter function: ") << funcName);
     }
 
-    void HappyLog::exitFunc(const std::string &funcName) {
-        LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT("Exit function: ") << funcName);
+    void HappyLog::exitFunc(const std::string &funcName, const string &loggerName) {
+        LOG4CPLUS_TRACE(_LOGGER(loggerName), LOG4CPLUS_TEXT("Exit function: ") << funcName);
     }
 
-    void HappyLog::error(const string &s) {
-        LOG4CPLUS_ERROR(_logger, LOG4CPLUS_TEXT(s));
+    void HappyLog::error(const string &s, const string &loggerName) {
+        LOG4CPLUS_ERROR(_LOGGER(loggerName), LOG4CPLUS_TEXT(s));
     }
 
-    void HappyLog::warn(const string &s) {
-        LOG4CPLUS_WARN(_logger, LOG4CPLUS_TEXT(s));
+    void HappyLog::warn(const string &s, const string &loggerName) {
+        LOG4CPLUS_WARN(_LOGGER(loggerName), LOG4CPLUS_TEXT(s));
     }
 
-    void HappyLog::info(const string &s) {
-        LOG4CPLUS_INFO(_logger, LOG4CPLUS_TEXT(s));
+    void HappyLog::info(const string &s, const string &loggerName) {
+        LOG4CPLUS_INFO(_LOGGER(loggerName), LOG4CPLUS_TEXT(s));
     }
 
-    void HappyLog::debug(const string &s) {
-        LOG4CPLUS_DEBUG(_logger, LOG4CPLUS_TEXT(s));
+    void HappyLog::debug(const string &s, const string &loggerName) {
+        LOG4CPLUS_DEBUG(_LOGGER(loggerName), LOG4CPLUS_TEXT(s));
     }
 
-    void HappyLog::trace(const string &s) {
-        LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT(s));
+    void HappyLog::trace(const string &s, const string &loggerName) {
+        LOG4CPLUS_TRACE(_LOGGER(loggerName), LOG4CPLUS_TEXT(s));
     }
 
-    void HappyLog::error(const exception &e) {
-        LOG4CPLUS_ERROR(_logger, LOG4CPLUS_TEXT("Exception Error->" << e.what()));
+    void HappyLog::error(const exception &e, const string &loggerName) {
+        LOG4CPLUS_ERROR(_LOGGER(loggerName), LOG4CPLUS_TEXT("Exception Error->" << e.what()));
     }
 } /* namespace happycpp */
