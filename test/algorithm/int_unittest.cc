@@ -25,6 +25,7 @@ namespace hhhint = happycpp::hcalgorithm::hcint;
 
 TEST(HCINT_UNITTEST, DecToHex) { // NOLINT
     EXPECT_EQ("FF", hhhint::decToHex(255));
+    EXPECT_EQ("01", hhhint::decToHex(1));
     EXPECT_EQ("ff", hhhint::decToHex(255, false));
 }
 

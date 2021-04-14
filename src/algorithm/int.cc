@@ -20,6 +20,7 @@
 
 #include "happycpp/algorithm/int.h"
 #include <sstream>
+#include  <iomanip>
 
 using std::ostringstream;
 using std::stringstream;
@@ -29,11 +30,8 @@ namespace happycpp::hcalgorithm::hcint {
 
     HAPPYCPP_SHARED_LIB_API std::string decToHex(const int32_t &n, bool isUppercase) {
         std::stringstream ss;
-        if (isUppercase) {
-            ss << std::uppercase << hex << n;
-        } else {
-            ss << hex << n;
-        }
+
+        ss << (isUppercase ? std::uppercase : std::nouppercase) << std::setfill('0') << std::setw(2) << hex << n;
 
         return ss.str();
     }
