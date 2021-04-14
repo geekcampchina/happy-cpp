@@ -27,9 +27,14 @@ using std::hex;
 
 namespace happycpp::hcalgorithm::hcint {
 
-    HAPPYCPP_SHARED_LIB_API std::string decToHex(const int32_t &n) {
+    HAPPYCPP_SHARED_LIB_API std::string decToHex(const int32_t &n, bool isUppercase) {
         std::stringstream ss;
-        ss << hex << n;
+        if (isUppercase) {
+            ss << std::uppercase << hex << n;
+        } else {
+            ss << hex << n;
+        }
+
         return ss.str();
     }
 

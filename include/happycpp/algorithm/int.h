@@ -30,7 +30,7 @@
 namespace happycpp::hcalgorithm::hcint {
 
     // 十进制数字转换为对应的十六进制字符串
-    HAPPYCPP_SHARED_LIB_API std::string decToHex(const int32_t &n);
+    HAPPYCPP_SHARED_LIB_API std::string decToHex(const int32_t &n, bool isUppercase=true);
 
     // 判断奇数
     HAPPYCPP_SHARED_LIB_API bool isOddNum(const int32_t &n);
