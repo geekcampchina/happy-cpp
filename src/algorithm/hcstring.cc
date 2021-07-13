@@ -216,7 +216,8 @@ namespace happycpp::hcalgorithm::hcstring {
         return result.str();
     }
 
-    HAPPYCPP_SHARED_LIB_API std::string fromHexString(const std::string &hexString, uint8_t delimiterSize) {
+    HAPPYCPP_SHARED_LIB_API std::string fromHexString(
+            const std::string &hexString, uint8_t delimiterSize, bool isShowControlAndSpaceChars) {
         const std::string in = trim(hexString, " ");
         const size_t len = in.length();
         std::string out;
@@ -227,7 +228,8 @@ namespace happycpp::hcalgorithm::hcstring {
 
             iss >> std::hex >> tmp;
 
-            if (tmp < 32 || tmp > 255) {
+            // 如果不显示控制符号和空格，则替换为点
+            if (!isShowControlAndSpaceChars && (tmp < 33 || tmp > 255)) {
                 // 不可见字符或非ASCII范围默认显示一个点
                 tmp = 46;
             }
