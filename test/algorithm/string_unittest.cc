@@ -275,7 +275,7 @@ TEST(HCSTRING_UNITTEST, fromHexString) { // NOLINT
     const std::string result1 = hhhstring::fromHexString("303132");
     EXPECT_EQ("012", result1);
 
-    const std::string result2 = hhhstring::fromHexString("30 31 32 41", 1);
+    const std::string result2 = hhhstring::fromHexString("30 31 32 41 ", 1);
     EXPECT_EQ("012A", result2);
 
     const std::string result3 = hhhstring::fromHexString("30 EE", 1);
