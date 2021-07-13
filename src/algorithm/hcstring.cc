@@ -227,6 +227,11 @@ namespace happycpp::hcalgorithm::hcstring {
 
             iss >> std::hex >> tmp;
 
+            if (tmp < 32 || tmp > 255) {
+                // 不可见字符或非ASCII范围默认显示一个点
+                tmp = 46;
+            }
+
             out.push_back(static_cast<char>(tmp));
         }
 
