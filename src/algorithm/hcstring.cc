@@ -216,4 +216,20 @@ namespace happycpp::hcalgorithm::hcstring {
         return result.str();
     }
 
+    HAPPYCPP_SHARED_LIB_API std::string fromHexString(const std::string &hexString, uint8_t delimiterSize) {
+        const size_t len = hexString.length();
+        std::string s;
+
+        for (size_t i = 0; i < len; i += (2 + delimiterSize)) {
+            size_t tmp;
+            std::istringstream iss(hexString.substr(i, 2));
+
+            iss >> std::hex >> tmp;
+
+            s.push_back(static_cast<char>(tmp));
+        }
+
+        return s;
+    }
+
 } /* namespace happycpp */

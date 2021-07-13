@@ -110,6 +110,7 @@ namespace happycpp::hcalgorithm::hcstring {
     }
 
     std::string toHexString(const std::string &s, const std::string &delimiter="", bool is_upper_case=true);
+    HAPPYCPP_SHARED_LIB_API std::string fromHexString(const std::string &hexString, uint8_t delimiterSize = 0);
 
 } /* namespace happycpp */
 
