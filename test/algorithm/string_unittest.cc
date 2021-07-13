@@ -278,11 +278,11 @@ TEST(HCSTRING_UNITTEST, fromHexString) { // NOLINT
     const std::string result2 = hhhstring::fromHexString("30 31 32 41 ", 1);
     EXPECT_EQ("012A", result2);
 
-    const std::string result3 = hhhstring::fromHexString("30 0A 0D 32", 1, true);
-    EXPECT_EQ("0\n\r2", result3);
+    const std::string result3 = hhhstring::fromHexString("30 20 0A 0D 32 7E", 1, false);
+    EXPECT_EQ("0 \n\r2~", result3);
 
-    const std::string result4 = hhhstring::fromHexString("30 ZZ 0A 0D 32", 1, false);
-    EXPECT_EQ("0...2", result4);
+    const std::string result4 = hhhstring::fromHexString("30 20 ZZ 0A 0D 32 7F", 1, true);
+    EXPECT_EQ("0....2.", result4);
 }
 
 
