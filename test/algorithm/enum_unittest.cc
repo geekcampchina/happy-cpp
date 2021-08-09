@@ -32,7 +32,7 @@ enum Color : std::uint8_t {
 };
 
 TEST(HCENUM_UNITTEST, EnumPlus) { // NOLINT
-    map<Color, string> m = {
+    enum_map<Color> m = {
             DEFINE_ENUM_MAP_ITEM(RED),
             DEFINE_ENUM_MAP_ITEM(GREEN),
             DEFINE_ENUM_MAP_ITEM(WHITE),

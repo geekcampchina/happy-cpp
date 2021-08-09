@@ -31,6 +31,9 @@
 
 #define DEFINE_ENUM_MAP_ITEM(ENUM) {ENUM, #ENUM}
 
+template <typename T>
+using enum_map = std::map<T, std::string>;
+
 namespace happycpp::hcalgorithm::henum {
     // 由于magic_enum无法在enum数量超过255后，编译需要巨量内存。
     // EnumPlus（数据查询表）作为替代方案
