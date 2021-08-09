@@ -48,6 +48,10 @@ TEST(HCENUM_UNITTEST, EnumPlus) { // NOLINT
 
     EXPECT_STREQ(ep.toName(RED).c_str(), "RED");
     EXPECT_STREQ(ep.toName(WHITE).c_str(), "WHITE");
+
+    EXPECT_STREQ(ep.toName(1).c_str(), "RED");
+    EXPECT_STREQ(ep.toName(3).c_str(), "WHITE");
+    EXPECT_THROW(ep.toName(255), happycpp::HappyException);
 }
 
 int main(int argc, char **argv) {

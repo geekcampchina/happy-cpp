@@ -73,6 +73,10 @@ namespace happycpp::hcalgorithm::henum {
 
             return it->second;
         }
+
+        std::string toName(Y value) {
+            return toName(toEnum(value));
+        }
     };
 } /* namespace happycpp */
 
