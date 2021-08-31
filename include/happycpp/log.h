@@ -50,52 +50,54 @@ namespace happycpp::log {
         std::string _logPrefix;
 
     public:
-        static std::shared_ptr<HappyLog> getInstance(log4cplus::LogLevel level = log4cplus::INFO_LOG_LEVEL, const std::string &logPrefix="");
+        static std::shared_ptr<HappyLog>
+        getInstance(log4cplus::LogLevel level = log4cplus::INFO_LOG_LEVEL, const std::string &logPrefix = "");
 
-        static std::shared_ptr<HappyLog> getInstance(const std::string &profile, const std::string &logPrefix="");
+        static std::shared_ptr<HappyLog> getInstance(const std::string &profile, const std::string &logPrefix = "");
 
-        static std::shared_ptr<HappyLog> getInstance(const boost::filesystem::path &profile, const std::string &logPrefix="");
+        static std::shared_ptr<HappyLog>
+        getInstance(const boost::filesystem::path &profile, const std::string &logPrefix = "");
 
-        void enterFunc(const std::string &funcName, const std::string &loggerName="root");
+        void enterFunc(const std::string &funcName, const std::string &loggerName = "root");
 
-        void exitFunc(const std::string &funcName, const std::string &loggerName="root");
+        void exitFunc(const std::string &funcName, const std::string &loggerName = "root");
 
         // 泛型被其它动态库调用时，会出现"Undefined symbols error"错误，将函数实现放在头文件中即可
         template<typename T>
-        void var(const std::string &name, T value, const std::string &loggerName="root") {
+        void var(const std::string &name, T value, const std::string &loggerName = "root") {
             LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT(_logPrefix + "var->") << name << LOG4CPLUS_TEXT("=") << value);
         }
 
         // 泛型被其它动态库调用时，会出现"Undefined symbols error"错误，将函数实现放在头文件中即可
         template<typename T>
-        void input(const std::string &name, T value, const std::string &loggerName="root") {
+        void input(const std::string &name, T value, const std::string &loggerName = "root") {
             LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT(_logPrefix + "input->") << name << LOG4CPLUS_TEXT("=") << value);
         }
 
         // 泛型被其它动态库调用时，会出现"Undefined symbols error"错误，将函数实现放在头文件中即可
         template<typename T>
-        void output(const std::string &name, T value, const std::string &loggerName="root") {
+        void output(const std::string &name, T value, const std::string &loggerName = "root") {
             LOG4CPLUS_TRACE(_logger, LOG4CPLUS_TEXT(_logPrefix + "output->") << name << LOG4CPLUS_TEXT("=") << value);
         }
 
-        void error(const std::string &s, const std::string &loggerName="root");
+        void error(const std::string &s, const std::string &loggerName = "root");
 
-        void error(const std::exception &e, const std::string &loggerName="root");
+        void error(const std::exception &e, const std::string &loggerName = "root");
 
-        void warn(const std::string &s, const std::string &loggerName="root");
+        void warn(const std::string &s, const std::string &loggerName = "root");
 
-        void info(const std::string &s, const std::string &loggerName="root");
+        void info(const std::string &s, const std::string &loggerName = "root");
 
-        void debug(const std::string &s, const std::string &loggerName="root");
+        void debug(const std::string &s, const std::string &loggerName = "root");
 
-        void trace(const std::string &s, const std::string &loggerName="root");
+        void trace(const std::string &s, const std::string &loggerName = "root");
 
         void setLogPrefix(const std::string &logPrefix);
 
     protected:
-        explicit HappyLog(const std::string &profile, const std::string &logPrefix="");
+        explicit HappyLog(const std::string &profile, const std::string &logPrefix = "");
 
-        explicit HappyLog(log4cplus::LogLevel level = log4cplus::INFO_LOG_LEVEL, const std::string &logPrefix="");
+        explicit HappyLog(log4cplus::LogLevel level = log4cplus::INFO_LOG_LEVEL, const std::string &logPrefix = "");
     };
 
     typedef std::shared_ptr<HappyLog> HappyLogPtr;
