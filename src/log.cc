@@ -34,7 +34,7 @@ using namespace log4cplus::helpers;
 namespace happycpp::log {
     HappyLogPtr HappyLog::_instance = nullptr;
 
-    HappyLog::HappyLog(log4cplus::LogLevel level) {
+    HappyLog::HappyLog(log4cplus::LogLevel level, const std::string &logPrefix) {
         log4cplus::SharedAppenderPtr defaultAppend(new log4cplus::ConsoleAppender(false, true));
 
         defaultAppend->setName(LOG4CPLUS_TEXT("Console"));
@@ -45,20 +45,22 @@ namespace happycpp::log {
         Logger::getRoot().setLogLevel(level);
 
         _logger = Logger::getRoot();
+        setLogPrefix(logPrefix);
 
         info("HappyLog->未启用日志配置文件，加载默认设置。当前运行在【控制台输出】模式下......");
     }
 
-    HappyLog::HappyLog(const string &profile) {
+    HappyLog::HappyLog(const string &profile, const std::string &logPrefix) {
         PropertyConfigurator::doConfigure(LOG4CPLUS_TEXT(profile));
         _logger = Logger::getRoot();
+        setLogPrefix(logPrefix);
 
         info("HappyLog->日志配置文件 '" + profile + "' 加载成功......");
     }
 
-    HappyLogPtr HappyLog::getInstance(log4cplus::LogLevel level) {
+    HappyLogPtr HappyLog::getInstance(log4cplus::LogLevel level, const std::string &logPrefix) {
         if (_instance == nullptr) {
-            shared_ptr<HappyLog> tmpInstance(new HappyLog(level));
+            shared_ptr<HappyLog> tmpInstance(new HappyLog(level, logPrefix));
 
             _instance = tmpInstance;
         }
@@ -66,9 +68,9 @@ namespace happycpp::log {
         return _instance;
     }
 
-    HappyLogPtr HappyLog::getInstance(const string &profile) {
+    HappyLogPtr HappyLog::getInstance(const string &profile, const std::string &logPrefix) {
         if (_instance == nullptr) {
-            shared_ptr<HappyLog> tmpInstance(new HappyLog(profile));
+            shared_ptr<HappyLog> tmpInstance(new HappyLog(profile, logPrefix));
 
             _instance = tmpInstance;
         }
@@ -76,39 +78,43 @@ namespace happycpp::log {
         return _instance;
     }
 
-    HappyLogPtr HappyLog::getInstance(const boost::filesystem::path &profile) {
-        return getInstance(profile.string());
+    HappyLogPtr HappyLog::getInstance(const boost::filesystem::path &profile, const std::string &logPrefix) {
+        return getInstance(profile.string(), logPrefix);
     }
 
     void HappyLog::enterFunc(const std::string &funcName, const string &loggerName) {
-        LOG4CPLUS_TRACE(_LOGGER(loggerName), LOG4CPLUS_TEXT("Enter function: ") << funcName);
+        LOG4CPLUS_TRACE(_LOGGER(loggerName), LOG4CPLUS_TEXT(_logPrefix + "Enter function: ") << funcName);
     }
 
     void HappyLog::exitFunc(const std::string &funcName, const string &loggerName) {
-        LOG4CPLUS_TRACE(_LOGGER(loggerName), LOG4CPLUS_TEXT("Exit function: ") << funcName);
+        LOG4CPLUS_TRACE(_LOGGER(loggerName), LOG4CPLUS_TEXT(_logPrefix + "Exit function: ") << funcName);
     }
 
     void HappyLog::error(const string &s, const string &loggerName) {
-        LOG4CPLUS_ERROR(_LOGGER(loggerName), LOG4CPLUS_TEXT(s));
+        LOG4CPLUS_ERROR(_LOGGER(loggerName), LOG4CPLUS_TEXT(_logPrefix + s));
     }
 
     void HappyLog::warn(const string &s, const string &loggerName) {
-        LOG4CPLUS_WARN(_LOGGER(loggerName), LOG4CPLUS_TEXT(s));
+        LOG4CPLUS_WARN(_LOGGER(loggerName), LOG4CPLUS_TEXT(_logPrefix + s));
     }
 
     void HappyLog::info(const string &s, const string &loggerName) {
-        LOG4CPLUS_INFO(_LOGGER(loggerName), LOG4CPLUS_TEXT(s));
+        LOG4CPLUS_INFO(_LOGGER(loggerName), LOG4CPLUS_TEXT(_logPrefix + s));
     }
 
     void HappyLog::debug(const string &s, const string &loggerName) {
-        LOG4CPLUS_DEBUG(_LOGGER(loggerName), LOG4CPLUS_TEXT(s));
+        LOG4CPLUS_DEBUG(_LOGGER(loggerName), LOG4CPLUS_TEXT(_logPrefix + s));
     }
 
     void HappyLog::trace(const string &s, const string &loggerName) {
-        LOG4CPLUS_TRACE(_LOGGER(loggerName), LOG4CPLUS_TEXT(s));
+        LOG4CPLUS_TRACE(_LOGGER(loggerName), LOG4CPLUS_TEXT(_logPrefix + s));
     }
 
     void HappyLog::error(const exception &e, const string &loggerName) {
-        LOG4CPLUS_ERROR(_LOGGER(loggerName), LOG4CPLUS_TEXT("Exception Error->" << e.what()));
+        LOG4CPLUS_ERROR(_LOGGER(loggerName), LOG4CPLUS_TEXT(_logPrefix + "Exception Error->" << e.what()));
+    }
+
+    void HappyLog::setLogPrefix(const string &logPrefix) {
+        _logPrefix = logPrefix.empty() ? logPrefix : logPrefix + " ";
     }
 } /* namespace happycpp */
