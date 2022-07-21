@@ -34,6 +34,7 @@
 #else
 
 #include <cerrno>
+#include <fstream>
 
 #endif
 

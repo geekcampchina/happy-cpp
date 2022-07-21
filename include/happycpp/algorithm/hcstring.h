@@ -29,6 +29,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include <memory>
 
 namespace happycpp::hcalgorithm::hcstring {
 

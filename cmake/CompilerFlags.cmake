@@ -11,7 +11,7 @@ ENDIF ()
 
 
 IF (CMAKE_COMPILER_IS_GNUCXX)
-    SET(CMAKE_CXX_FLAGS "-std=c++11 -fPIC -Wall -Wno-deprecated-declarations")
+    SET(CMAKE_CXX_FLAGS "-fPIC -Wall -Wno-deprecated-declarations")
     SET(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -ggdb")
 ENDIF ()
 
